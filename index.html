@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Clipboard</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Remix Icons for authentic, sharp UI iconography -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
+  <style>
+    :root {
+      --wa-teal: #00a884;
+      --wa-teal-hover: #029072;
+      --wa-bubble-green: #d9fdd3;
+      --wa-bubble-border: #c8eec2;
+      --wa-text-primary: #111b21;
+      --wa-text-secondary: #667781;
+      --wa-bg-panel: #ffffff;
+      --wa-bg-gray: #f0f2f5;
+      --wa-border: #e9edef;
+      --app-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: var(--app-font);
+      background-color: #e5e7eb;
+      height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--wa-text-primary);
+      overflow: hidden;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #app {
+      width: 100%;
+      height: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: #fafbfc;
+      /* Refined Engineering Math/Grid Background with subtle points */
+      background-image: 
+        radial-gradient(circle, rgba(17, 27, 33, 0.08) 1.2px, transparent 1.2px),
+        linear-gradient(to right, rgba(17, 27, 33, 0.025) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(17, 27, 33, 0.025) 1px, transparent 1px);
+      background-size: 24px 24px, 24px 24px, 24px 24px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    /* Top Bar */
+    header {
+      height: 64px;
+      background: var(--wa-bg-panel);
+      border-bottom: 1px solid var(--wa-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      z-index: 10;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .avatar-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--wa-bg-gray);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+    }
+
+    .avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .header-info h1 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-info span {
+      font-size: 12px;
+      color: var(--wa-text-secondary);
+      font-weight: 400;
+      letter-spacing: 0.1px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      outline: none;
+      color: #54656f;
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .icon-btn:hover {
+      background-color: var(--wa-bg-gray);
+      color: var(--wa-text-primary);
+    }
+
+    /* Long-Press Selection Bar */
+    #selection-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: #ffffff;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      border-bottom: 2px solid var(--wa-teal);
+      z-index: 15;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .selection-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .selection-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Expandable Search Input */
+    #search-bar-container {
+      display: none;
+      padding: 10px 14px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--wa-border);
+      z-index: 9;
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    #search-input {
+      width: 100%;
+      padding: 9px 16px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      background: var(--wa-bg-gray);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    #search-input:focus {
+      border-color: var(--wa-teal);
+      background: #ffffff;
+    }
+
+    /* Dropdown Menu */
+    .menu-dropdown {
+      position: absolute;
+      top: 58px;
+      right: 14px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0,0,0,0.04);
+      display: none;
+      flex-direction: column;
+      min-width: 190px;
+      z-index: 25;
+      overflow: hidden;
+      border: 1px solid var(--wa-border);
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    .menu-dropdown button {
+      background: none;
+      border: none;
+      padding: 13px 18px;
+      font-size: 14.5px;
+      text-align: left;
+      font-family: inherit;
+      color: var(--wa-text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: background-color 0.12s ease;
+    }
+
+    .menu-dropdown button i {
+      font-size: 18px;
+      color: var(--wa-text-secondary);
+    }
+
+    .menu-dropdown button:hover {
+      background-color: var(--wa-bg-gray);
+    }
+
+    /* Message Bubbles Area */
+    #messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      scroll-behavior: smooth;
+    }
+
+    .msg-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      width: 100%;
+    }
+
+    .msg-bubble {
+      max-width: 84%;
+      background: var(--wa-bubble-green);
+      border: 1px solid var(--wa-bubble-border);
+      border-radius: 12px 0px 12px 12px;
+      padding: 7px 10px 5px 12px;
+      position: relative;
+      word-wrap: break-word;
+      user-select: text;
+      box-shadow: 0 1px 1px rgba(11, 20, 26, 0.08);
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .msg-bubble:active {
+      transform: scale(0.99);
+    }
+
+    .msg-bubble.selected {
+      background-color: #bbf7d0 !important;
+      border-color: #4ade80 !important;
+      box-shadow: 0 0 0 2px var(--wa-teal);
+    }
+
+    .msg-content {
+      font-size: 14.2px;
+      line-height: 1.45;
+      color: var(--wa-text-primary);
+      user-select: text;
+      white-space: pre-wrap;
+    }
+
+    .msg-content a {
+      color: #0c72ea;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      word-break: break-all;
+    }
+
+    .msg-media {
+      margin-top: 2px;
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 100%;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .msg-media img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+
+    .msg-media video {
+      width: 100%;
+      max-height: 320px;
+      border-radius: 8px;
+      display: block;
+      background: #000;
+    }
+
+    .msg-file {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 10px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--wa-text-primary);
+      border: 1px solid rgba(0,0,0,0.04);
+      margin-top: 4px;
+    }
+
+    .msg-file i {
+      font-size: 26px;
+      color: var(--wa-teal);
+    }
+
+    .msg-file-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .msg-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 4px;
+      margin-top: 3px;
+      font-size: 10.5px;
+      color: var(--wa-text-secondary);
+      font-weight: 500;
+    }
+
+    /* WhatsApp Styled Footer */
+    footer {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 10px 14px 12px;
+      background: transparent;
+      z-index: 10;
+    }
+
+    .input-pill {
+      flex: 1;
+      min-height: 48px;
+      background: #ffffff;
+      border-radius: 26px;
+      display: flex;
+      align-items: flex-end;
+      padding: 4px 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .input-pill textarea {
+      flex: 1;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 10px 4px;
+      font-size: 15px;
+      font-family: inherit;
+      max-height: 120px;
+      overflow-y: auto;
+      line-height: 20px;
+      background: transparent;
+      user-select: text;
+    }
+
+    .input-pill textarea::placeholder {
+      color: #8696a0;
+    }
+
+    .send-fab {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--wa-teal);
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 168, 132, 0.35);
+      transition: all 0.15s ease;
+    }
+
+    .send-fab:hover {
+      background: var(--wa-teal-hover);
+    }
+
+    .send-fab:active {
+      transform: scale(0.94);
+    }
+
+    /* Group Info Full Screen Modal */
+    #group-modal {
+      position: absolute;
+      inset: 0;
+      background: #f0f2f5;
+      z-index: 50;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+      animation: slideInRight 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-nav {
+      height: 60px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 16px;
+      border-bottom: 1px solid var(--wa-border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .info-card {
+      background: #ffffff;
+      padding: 20px 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .profile-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .profile-avatar-wrap {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      background: #e9edef;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 14px;
+    }
+
+    .profile-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-avatar-wrap .camera-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .profile-avatar-wrap:hover .camera-overlay {
+      opacity: 1;
+    }
+
+    .info-editable-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--wa-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .info-editable-title i {
+      font-size: 16px;
+      color: var(--wa-text-secondary);
+      cursor: pointer;
+    }
+
+    /* WhatsApp Description Block */
+    .desc-header {
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--wa-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .desc-content {
+      font-size: 14px;
+      color: var(--wa-text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      line-height: 1.5;
+    }
+
+    /* Media, Links & Docs Card */
+    .media-shelf-card {
+      background: #ffffff;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background-color 0.12s;
+    }
+
+    .media-shelf-card:hover {
+      background-color: #fafafa;
+    }
+
+    .media-shelf-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .media-shelf-count {
+      color: var(--wa-text-secondary);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .media-preview-strip {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      overflow-x: hidden;
+      height: 64px;
+    }
+
+    .preview-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--wa-bg-gray);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Dedicated Media Full Drawer */
+    #media-drawer {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      z-index: 60;
+      display: none;
+      flex-direction: column;
+      animation: slideInRight 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .drawer-tabs {
+      display: flex;
+      background: #ffffff;
+      border-bottom: 1px solid var(--wa-border);
+    }
+
+    .drawer-tab {
+      flex: 1;
+      padding: 14px 0;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--wa-text-secondary);
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .drawer-tab.active {
+      color: var(--wa-teal);
+      border-bottom-color: var(--wa-teal);
+    }
+
+    .drawer-grid {
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .drawer-grid.list-view {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px 14px;
+    }
+
+    .grid-tile {
+      aspect-ratio: 1;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      background: #000;
+    }
+
+    .grid-tile img, .grid-tile video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Settings Group Rows */
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f2f5;
+    }
+
+    .setting-row:last-child {
+      border-bottom: none;
+    }
+
+    .setting-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .setting-title {
+      font-size: 14.5px;
+      font-weight: 500;
+    }
+
+    .setting-sub {
+      font-size: 12px;
+      color: var(--wa-text-secondary);
+    }
+
+    /* Modern Switch */
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: #cbd5e1;
+      transition: .2s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--wa-teal);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    /* Swipeable Lightbox */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: #0b141a;
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .lightbox-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      color: #ffffff;
+      font-size: 15px;
+      background: rgba(0,0,0,0.4);
+    }
+
+    .lightbox-stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      touch-action: pan-y;
+      overflow: hidden;
+    }
+
+    .lightbox-stage img {
+      max-width: 95%;
+      max-height: 82vh;
+      object-fit: contain;
+      user-select: none;
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #fff;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      backdrop-filter: blur(8px);
+    }
+
+    #lb-prev { left: 16px; }
+    #lb-next { right: 16px; }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <!-- Top Header -->
+    <header>
+      <div class="header-left" id="header-open-modal">
+        <div class="avatar-wrap">
+          <img id="chat-header-avatar" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=120" alt="Avatar" />
+        </div>
+        <div class="header-info">
+          <h1 id="chat-header-title">Clipboard</h1>
+          <span id="chat-header-status">Tap here for group info</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="btn-toggle-search" title="Search messages"><i class="ri-search-line"></i></button>
+        <button class="icon-btn" id="btn-open-menu" title="Menu"><i class="ri-more-2-fill"></i></button>
+      </div>
+
+      <!-- Clean 3-Dot Dropdown (Search removed) -->
+      <div class="menu-dropdown" id="dropdown-menu">
+        <button id="menu-info-opt"><i class="ri-information-line"></i> Group info</button>
+        <button id="menu-clear-opt"><i class="ri-delete-bin-line"></i> Clear chat</button>
+      </div>
+    </header>
+
+    <!-- Selection Bar -->
+    <div id="selection-bar">
+      <div class="selection-left">
+        <button class="icon-btn" id="btn-close-selection"><i class="ri-close-line"></i></button>
+        <span id="selection-count">1</span>
+      </div>
+      <div class="selection-actions">
+        <button class="icon-btn" id="btn-copy-selected" title="Copy"><i class="ri-file-copy-line"></i></button>
+        <button class="icon-btn" id="btn-edit-selected" title="Edit"><i class="ri-edit-line"></i></button>
+        <button class="icon-btn" id="btn-delete-selected" title="Delete"><i class="ri-delete-bin-6-line"></i></button>
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div id="search-bar-container">
+      <input type="text" id="search-input" placeholder="Search clipboard messages & links..." />
+    </div>
+
+    <!-- Message Bubble Stream -->
+    <div id="messages-container"></div>
+
+    <!-- Bottom WhatsApp Bar -->
+    <footer>
+      <div class="input-pill">
+        <button class="icon-btn" id="btn-attach" style="margin-right: 4px;" title="Attach photo, video or document">
+          <i class="ri-attachment-2"></i>
+        </button>
+        <textarea id="text-input" rows="1" placeholder="Type a message or paste link..."></textarea>
+      </div>
+      <button class="send-fab" id="btn-send" title="Send message">
+        <i class="ri-send-plane-2-fill"></i>
+      </button>
+    </footer>
+
+    <!-- File Inputs -->
+    <input type="file" id="media-file-input" />
+    <input type="file" id="profile-img-input" accept="image/*" />
+
+    <!-- Full WhatsApp Group Info Modal -->
+    <div id="group-modal">
+      <div class="modal-nav">
+        <button class="icon-btn" id="btn-close-modal"><i class="ri-arrow-left-line"></i></button>
+        <span style="font-size: 17px; font-weight: 600;">Group info</span>
+      </div>
+
+      <!-- Hero Section -->
+      <div class="info-card profile-hero">
+        <div class="profile-avatar-wrap" id="change-profile-btn" title="Tap to change group photo">
+          <img id="modal-profile-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=120" alt="Avatar" />
+          <div class="camera-overlay">
+            <i class="ri-camera-fill" style="font-size: 24px; margin-bottom: 2px;"></i>
+            <span style="font-size: 11px; font-weight: 500;">CHANGE</span>
+          </div>
+        </div>
+        <div class="info-editable-title">
+          <span id="group-title-label">Clipboard</span>
+          <i class="ri-pencil-line" id="edit-title-btn" title="Edit Name"></i>
+        </div>
+        <span style="font-size: 13px; color: var(--wa-text-secondary); margin-top: 4px;">Universal Cross-Device Vault</span>
+      </div>
+
+      <!-- Description Block -->
+      <div class="info-card">
+        <div class="desc-header">Description</div>
+        <div class="desc-content">
+          <span id="group-desc-label">Share text snippets, code, images, and links instantly between your devices.</span>
+          <button class="icon-btn" id="edit-desc-btn" style="width: 28px; height: 28px; font-size: 16px;">
+            <i class="ri-pencil-line"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Media Shelf Button -->
+      <div class="media-shelf-card" id="open-media-drawer-btn">
+        <div class="media-shelf-header">
+          <span>Media, links, and docs</span>
+          <div class="media-shelf-count">
+            <span id="total-media-count">0</span>
+            <i class="ri-arrow-right-s-line" style="font-size: 18px;"></i>
+          </div>
+        </div>
+        <div class="media-preview-strip" id="media-preview-strip"></div>
+      </div>
+
+      <!-- Chat Settings Section -->
+      <div class="info-card">
+        <div class="desc-header" style="margin-bottom: 10px;">Settings</div>
+        
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-title">Auto-copy on tap</span>
+            <span class="setting-sub">Tapping text message automatically copies to clipboard</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="setting-autocopy" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <span class="setting-title">Auto-scroll to latest</span>
+            <span class="setting-sub">Scroll down automatically when new items arrive</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="setting-autoscroll" checked />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Media Full Screen Drawer -->
+    <div id="media-drawer">
+      <div class="modal-nav">
+        <button class="icon-btn" id="btn-close-drawer"><i class="ri-arrow-left-line"></i></button>
+        <span style="font-size: 17px; font-weight: 600;">Media and Docs</span>
+      </div>
+      <div class="drawer-tabs">
+        <button class="drawer-tab active" data-drawer-tab="photos">PHOTOS</button>
+        <button class="drawer-tab" data-drawer-tab="videos">VIDEOS</button>
+        <button class="drawer-tab" data-drawer-tab="files">DOCS</button>
+      </div>
+      <div class="drawer-grid" id="drawer-grid-content"></div>
+    </div>
+
+    <!-- Photo Lightbox -->
+    <div id="lightbox">
+      <div class="lightbox-bar">
+        <button class="icon-btn" style="color: #fff;" id="lb-close"><i class="ri-close-line"></i></button>
+        <span id="lb-counter">1 / 1</span>
+        <button class="icon-btn" style="color: #fff;" id="lb-download"><i class="ri-download-2-line"></i></button>
+      </div>
+      <div class="lightbox-stage" id="lightbox-stage">
+        <button class="lightbox-nav-btn" id="lb-prev"><i class="ri-arrow-left-s-line"></i></button>
+        <img id="lb-img" src="" alt="View" />
+        <button class="lightbox-nav-btn" id="lb-next"><i class="ri-arrow-right-s-line"></i></button>
+      </div>
+      <div style="height: 40px;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1WCOzRfz13BBTGnwMLOcNrdJcTxa5Wrs",
+      authDomain: "meoponly-dev.firebaseapp.com",
+      databaseURL: "https://meoponly-dev-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "meoponly-dev",
+      storageBucket: "meoponly-dev.firebasestorage.app",
+      messagingSenderId: "842770018994",
+      appId: "1:842770018994:web:eb2bdf96a9f135a9220fab",
+      measurementId: "G-FZMGWDHHX1"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const clipRef = db.ref("clipboard/messages");
+    const metaRef = db.ref("clipboard/meta");
+
+    // State Variables
+    let messages = [];
+    let selectedMsgId = null;
+    let pressTimer = null;
+    let photoList = [];
+    let currentPhotoIdx = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // Elements
+    const msgContainer = document.getElementById("messages-container");
+    const textInput = document.getElementById("text-input");
+    const btnSend = document.getElementById("btn-send");
+    const mediaFileInput = document.getElementById("media-file-input");
+    const profileImgInput = document.getElementById("profile-img-input");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    const searchBarContainer = document.getElementById("search-bar-container");
+    const searchInput = document.getElementById("search-input");
+    const selectionBar = document.getElementById("selection-bar");
+    const groupModal = document.getElementById("group-modal");
+    const mediaDrawer = document.getElementById("media-drawer");
+    const drawerGridContent = document.getElementById("drawer-grid-content");
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lb-img");
+    const lbCounter = document.getElementById("lb-counter");
+
+    // Metadata Realtime Sync
+    metaRef.on("value", (snap) => {
+      const data = snap.val() || {};
+      if (data.avatar) {
+        document.getElementById("chat-header-avatar").src = data.avatar;
+        document.getElementById("modal-profile-img").src = data.avatar;
+      }
+      if (data.name) {
+        document.getElementById("chat-header-title").innerText = data.name;
+        document.getElementById("group-title-label").innerText = data.name;
+      }
+      if (data.description) {
+        document.getElementById("group-desc-label").innerText = data.description;
+      }
+    });
+
+    // Realtime Chat Sync
+    clipRef.on("value", (snapshot) => {
+      const data = snapshot.val();
+      messages = [];
+      if (data) {
+        Object.keys(data).forEach((key) => {
+          messages.push({ id: key, ...data[key] });
+        });
+        messages.sort((a, b) => a.timestamp - b.timestamp);
+      }
+      renderMessages();
+      extractPhotos();
+      updateMediaShelfPreview();
+    });
+
+    // Render Messages
+    function renderMessages(filterText = "") {
+      msgContainer.innerHTML = "";
+      const filtered = filterText
+        ? messages.filter((m) => (m.text || "").toLowerCase().includes(filterText.toLowerCase()) || (m.fileName || "").toLowerCase().includes(filterText.toLowerCase()))
+        : messages;
+
+      filtered.forEach((msg) => {
+        const wrap = document.createElement("div");
+        wrap.className = "msg-wrapper";
+
+        const bubble = document.createElement("div");
+        bubble.className = `msg-bubble ${selectedMsgId === msg.id ? "selected" : ""}`;
+        bubble.dataset.id = msg.id;
+
+        // Long Press / Right Click Handlers
+        bubble.addEventListener("touchstart", (e) => handleTouchStart(e, msg.id), { passive: true });
+        bubble.addEventListener("touchend", handleTouchEnd);
+        bubble.addEventListener("touchmove", handleTouchEnd);
+        bubble.addEventListener("contextmenu", (e) => {
+          e.preventDefault();
+          selectMessage(msg.id);
+        });
+
+        // Click Message
+        bubble.addEventListener("click", () => {
+          if (selectedMsgId) {
+            if (selectedMsgId === msg.id) clearSelection();
+            else selectMessage(msg.id);
+          } else if (document.getElementById("setting-autocopy").checked && msg.text) {
+            navigator.clipboard.writeText(msg.text);
+          }
+        });
+
+        let bodyHtml = "";
+
+        if (msg.text) {
+          bodyHtml += `<div class="msg-content">${formatLinks(escapeHtml(msg.text))}</div>`;
+        }
+
+        if (msg.type === "photo") {
+          bodyHtml += `
+            <div class="msg-media">
+              <img src="${msg.fileData}" alt="Photo" onclick="openLightboxByUrl('${msg.fileData}')" />
+            </div>`;
+        } else if (msg.type === "video") {
+          bodyHtml += `
+            <div class="msg-media">
+              <video src="${msg.fileData}" controls playsinline></video>
+            </div>`;
+        } else if (msg.type === "file") {
+          bodyHtml += `
+            <a class="msg-file" href="${msg.fileData}" download="${msg.fileName || 'file'}">
+              <i class="ri-file-text-fill"></i>
+              <div class="msg-file-name">${escapeHtml(msg.fileName || "File")}</div>
+            </a>`;
+        }
+
+        const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        bodyHtml += `
+          <div class="msg-footer">
+            <span>${time}</span>
+            <i class="ri-check-double-line" style="font-size: 13px; color: #53bdeb;"></i>
+          </div>`;
+
+        bubble.innerHTML = bodyHtml;
+        wrap.appendChild(bubble);
+        msgContainer.appendChild(wrap);
+      });
+
+      if (!filterText && document.getElementById("setting-autoscroll").checked) {
+        msgContainer.scrollTop = msgContainer.scrollHeight;
+      }
+    }
+
+    // Auto-expand Textarea
+    textInput.addEventListener("input", function () {
+      this.style.height = "auto";
+      this.style.height = Math.min(this.scrollHeight, 120) + "px";
+    });
+
+    // Send Message
+    function sendMessage() {
+      const text = textInput.value.trim();
+      if (!text) return;
+
+      clipRef.push({
+        text: text,
+        type: "text",
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      });
+
+      textInput.value = "";
+      textInput.style.height = "auto";
+      clearSelection();
+    }
+
+    btnSend.addEventListener("click", sendMessage);
+    textInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Attachment Handler
+    document.getElementById("btn-attach").addEventListener("click", () => mediaFileInput.click());
+
+    mediaFileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (file.size > 10 * 1024 * 1024) {
+        alert("File size exceeds 10MB limit.");
+        mediaFileInput.value = "";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        let type = "file";
+        if (file.type.startsWith("image/")) type = "photo";
+        else if (file.type.startsWith("video/")) type = "video";
+
+        clipRef.push({
+          type: type,
+          fileName: file.name,
+          fileData: evt.target.result,
+          timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+      };
+      reader.readAsDataURL(file);
+      mediaFileInput.value = "";
+    });
+
+    // Profile Avatar Upload
+    document.getElementById("change-profile-btn").addEventListener("click", () => profileImgInput.click());
+    profileImgInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        metaRef.child("avatar").set(evt.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Long Press Handling
+    function handleTouchStart(e, msgId) {
+      pressTimer = setTimeout(() => {
+        selectMessage(msgId);
+        if (navigator.vibrate) navigator.vibrate(35);
+      }, 450);
+    }
+
+    function handleTouchEnd() {
+      clearTimeout(pressTimer);
+    }
+
+    function selectMessage(msgId) {
+      selectedMsgId = msgId;
+      selectionBar.style.display = "flex";
+      renderMessages(searchInput.value);
+    }
+
+    function clearSelection() {
+      selectedMsgId = null;
+      selectionBar.style.display = "none";
+      renderMessages(searchInput.value);
+    }
+
+    document.getElementById("btn-close-selection").addEventListener("click", clearSelection);
+
+    // Selection Bar Actions
+    document.getElementById("btn-copy-selected").addEventListener("click", () => {
+      const target = messages.find((m) => m.id === selectedMsgId);
+      if (target) {
+        const textToCopy = target.text || target.fileData || "";
+        navigator.clipboard.writeText(textToCopy);
+      }
+      clearSelection();
+    });
+
+    document.getElementById("btn-edit-selected").addEventListener("click", () => {
+      const target = messages.find((m) => m.id === selectedMsgId);
+      if (target && target.text) {
+        const updated = prompt("Edit message:", target.text);
+        if (updated !== null && updated.trim()) {
+          clipRef.child(selectedMsgId).update({ text: updated.trim() });
+        }
+      }
+      clearSelection();
+    });
+
+    document.getElementById("btn-delete-selected").addEventListener("click", () => {
+      if (selectedMsgId) {
+        clipRef.child(selectedMsgId).remove();
+        clearSelection();
+      }
+    });
+
+    // 3-Dot Menu Options (Search Removed)
+    document.getElementById("btn-open-menu").addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === "flex" ? "none" : "flex";
+    });
+
+    document.addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+    });
+
+    document.getElementById("menu-info-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      groupModal.style.display = "flex";
+    });
+
+    document.getElementById("menu-clear-opt").addEventListener("click", () => {
+      if (confirm("Clear all items in Clipboard?")) {
+        clipRef.remove();
+      }
+    });
+
+    // Search Toggle
+    document.getElementById("btn-toggle-search").addEventListener("click", () => {
+      const isVisible = searchBarContainer.style.display === "block";
+      searchBarContainer.style.display = isVisible ? "none" : "block";
+      if (!isVisible) searchInput.focus();
+      else {
+        searchInput.value = "";
+        renderMessages();
+      }
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      renderMessages(e.target.value);
+    });
+
+    // Group Modal & Detail Settings
+    document.getElementById("header-open-modal").addEventListener("click", () => {
+      groupModal.style.display = "flex";
+    });
+
+    document.getElementById("btn-close-modal").addEventListener("click", () => {
+      groupModal.style.display = "none";
+    });
+
+    // Edit Name
+    document.getElementById("edit-title-btn").addEventListener("click", () => {
+      const current = document.getElementById("group-title-label").innerText;
+      const val = prompt("Enter new clipboard name:", current);
+      if (val && val.trim()) {
+        metaRef.child("name").set(val.trim());
+      }
+    });
+
+    // Edit Description
+    document.getElementById("edit-desc-btn").addEventListener("click", () => {
+      const current = document.getElementById("group-desc-label").innerText;
+      const val = prompt("Enter group description:", current);
+      if (val && val.trim()) {
+        metaRef.child("description").set(val.trim());
+      }
+    });
+
+    // Media Shelf Preview
+    function updateMediaShelfPreview() {
+      const mediaItems = messages.filter((m) => m.type === "photo" || m.type === "video" || m.type === "file");
+      document.getElementById("total-media-count").innerText = mediaItems.length;
+
+      const strip = document.getElementById("media-preview-strip");
+      strip.innerHTML = "";
+
+      const previewItems = mediaItems.slice(-5).reverse();
+      previewItems.forEach((item) => {
+        const thumb = document.createElement("div");
+        thumb.className = "preview-thumb";
+        if (item.type === "photo") {
+          thumb.innerHTML = `<img src="${item.fileData}" alt="Thumb" />`;
+        } else if (item.type === "video") {
+          thumb.innerHTML = `<video src="${item.fileData}"></video>`;
+        } else {
+          thumb.innerHTML = `<i class="ri-file-text-line" style="font-size: 20px; color: #54656f;"></i>`;
+        }
+        strip.appendChild(thumb);
+      });
+    }
+
+    // Media Full Drawer Navigation
+    document.getElementById("open-media-drawer-btn").addEventListener("click", () => {
+      mediaDrawer.style.display = "flex";
+      loadDrawerMedia("photos");
+    });
+
+    document.getElementById("btn-close-drawer").addEventListener("click", () => {
+      mediaDrawer.style.display = "none";
+    });
+
+    document.querySelectorAll(".drawer-tab").forEach((tab) => {
+      tab.addEventListener("click", function () {
+        document.querySelectorAll(".drawer-tab").forEach((t) => t.classList.remove("active"));
+        this.classList.add("active");
+        loadDrawerMedia(this.dataset.drawerTab);
+      });
+    });
+
+    function loadDrawerMedia(type) {
+      drawerGridContent.innerHTML = "";
+      if (type === "files") drawerGridContent.className = "drawer-grid list-view";
+      else drawerGridContent.className = "drawer-grid";
+
+      const matched = messages.filter((m) => {
+        if (type === "photos") return m.type === "photo";
+        if (type === "videos") return m.type === "video";
+        if (type === "files") return m.type === "file";
+        return false;
+      });
+
+      if (!matched.length) {
+        drawerGridContent.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #8696a0; padding: 40px; font-size: 14px;">No ${type} available</div>`;
+        return;
+      }
+
+      matched.forEach((item) => {
+        if (type === "photos") {
+          const div = document.createElement("div");
+          div.className = "grid-tile";
+          div.innerHTML = `<img src="${item.fileData}" alt="Photo" />`;
+          div.onclick = () => openLightboxByUrl(item.fileData);
+          drawerGridContent.appendChild(div);
+        } else if (type === "videos") {
+          const div = document.createElement("div");
+          div.className = "grid-tile";
+          div.innerHTML = `<video src="${item.fileData}"></video>`;
+          div.onclick = () => window.open(item.fileData, "_blank");
+          drawerGridContent.appendChild(div);
+        } else if (type === "files") {
+          const a = document.createElement("a");
+          a.className = "msg-file";
+          a.href = item.fileData;
+          a.download = item.fileName || "file";
+          a.innerHTML = `<i class="ri-file-text-fill"></i><div class="msg-file-name">${escapeHtml(item.fileName || "File")}</div>`;
+          drawerGridContent.appendChild(a);
+        }
+      });
+    }
+
+    // Photo Lightbox & Gestures
+    function extractPhotos() {
+      photoList = messages.filter((m) => m.type === "photo").map((m) => m.fileData);
+    }
+
+    function openLightboxByUrl(url) {
+      extractPhotos();
+      currentPhotoIdx = photoList.indexOf(url);
+      if (currentPhotoIdx === -1) {
+        photoList.push(url);
+        currentPhotoIdx = photoList.length - 1;
+      }
+      updateLightbox();
+      lightbox.style.display = "flex";
+    }
+
+    function updateLightbox() {
+      if (!photoList.length) return;
+      lbImg.src = photoList[currentPhotoIdx];
+      lbCounter.innerText = `${currentPhotoIdx + 1} / ${photoList.length}`;
+      document.getElementById("lb-download").onclick = () => {
+        const a = document.createElement("a");
+        a.href = photoList[currentPhotoIdx];
+        a.download = `clipboard_${Date.now()}.png`;
+        a.click();
+      };
+    }
+
+    document.getElementById("lb-prev").addEventListener("click", () => {
+      if (currentPhotoIdx > 0) {
+        currentPhotoIdx--;
+        updateLightbox();
+      }
+    });
+
+    document.getElementById("lb-next").addEventListener("click", () => {
+      if (currentPhotoIdx < photoList.length - 1) {
+        currentPhotoIdx++;
+        updateLightbox();
+      }
+    });
+
+    document.getElementById("lb-close").addEventListener("click", () => {
+      lightbox.style.display = "none";
+    });
+
+    // Touch Swipe Gestures
+    const stage = document.getElementById("lightbox-stage");
+    stage.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    stage.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const threshold = 40;
+      if (touchEndX < touchStartX - threshold && currentPhotoIdx < photoList.length - 1) {
+        currentPhotoIdx++;
+        updateLightbox();
+      } else if (touchEndX > touchStartX + threshold && currentPhotoIdx > 0) {
+        currentPhotoIdx--;
+        updateLightbox();
+      }
+    }
+
+    // Keyboard Shortcuts
+    window.addEventListener("keydown", (e) => {
+      if (lightbox.style.display === "flex") {
+        if (e.key === "ArrowLeft" && currentPhotoIdx > 0) {
+          currentPhotoIdx--;
+          updateLightbox();
+        } else if (e.key === "ArrowRight" && currentPhotoIdx < photoList.length - 1) {
+          currentPhotoIdx++;
+          updateLightbox();
+        } else if (e.key === "Escape") {
+          lightbox.style.display = "none";
+        }
+      }
+    });
+
+    // Utilities
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.innerText = text;
+      return div.innerHTML;
+    }
+
+    function formatLinks(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    }
+  </script>
+</body>
+</html>
