@@ -1217,19 +1217,79 @@ html.kb-open footer{padding-bottom:0}
 .lightbox-bar{padding-top:calc(14px + env(safe-area-inset-top,0px))}
 .lightbox-stage img{max-height:80dvh}
 </style>
+<style id="wa-refine2">
+.msg-content a,.msg-media-caption a{color:#027eb5;text-decoration:underline;font-weight:400;pointer-events:auto}
+mark{background:#ffe08a;color:inherit;border-radius:2px}
+.msg-row.flash{animation:rowFlash 1.4s ease-out}
+@keyframes rowFlash{0%,50%{background:rgba(0,168,132,.28)}100%{background:transparent}}
+.msg-reply-quote{display:flex;align-items:center;justify-content:space-between;gap:8px;white-space:normal;padding:5px 5px 5px 8px;min-height:44px;cursor:pointer;overflow:hidden}
+.rq-text{min-width:0;flex:1}.rq-text strong{display:block;color:var(--wa-teal);font-weight:600;font-size:13px}
+.rq-text span{display:flex;align-items:center;gap:3px;font-size:13.5px;color:#54656f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rq-thumb{width:44px;height:44px;object-fit:cover;border-radius:4px;flex-shrink:0;margin:-5px -5px -5px 0;display:block}
+#reply-preview-bar{align-items:center;gap:8px;min-height:56px}
+.rp-body{flex:1;min-width:0}.rp-name{color:var(--wa-teal);font-weight:600;font-size:13.5px}
+.rp-text{display:flex;align-items:center;gap:4px;font-size:14px;color:#54656f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-thumb{width:44px;height:44px;object-fit:cover;border-radius:6px}
+#floating-format-bar{position:static;transform:none;left:auto;bottom:auto;top:auto;background:transparent;border:0;box-shadow:none;border-radius:0;padding:0 8px 8px;gap:6px;max-width:none;animation:none;overflow-x:auto;z-index:auto}
+.tg-format-btn{background:#fff;color:#54656f;min-width:42px;height:36px;border-radius:18px;box-shadow:0 1px 1px rgba(11,20,26,.12);padding:0 10px;flex-shrink:0}
+.tg-format-btn:hover{background:#fff;color:#111b21}.tg-format-btn:active{background:#e9edef}
+.star-icon{color:#667781}
+#unread-badge{display:none;position:absolute;top:-6px;right:-2px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--wa-teal);color:#fff;font-size:12px;font-weight:600;align-items:center;justify-content:center}
+.msg-file{cursor:pointer}.msg-file-info{min-width:0;flex:1}.msg-file-size{font-size:12px;color:#667781}
+#dialog-overlay,#file-sheet{position:absolute;inset:0;background:rgba(11,20,26,.5);z-index:150;display:none;animation:fadeIn .15s}
+#dialog-overlay{align-items:center;justify-content:center}
+.dialog-box{width:calc(100% - 48px);max-width:340px;background:#fff;border-radius:16px;padding:22px 22px 12px;box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.dialog-box h3{font-size:18px;font-weight:600;margin-bottom:8px}.dialog-box p{font-size:15px;color:#54656f;line-height:20px}
+#dlg-input{display:none;width:100%;margin-top:12px;border:0;border-bottom:2px solid var(--wa-teal);padding:8px 2px;font:inherit;font-size:16px;outline:0;background:transparent;user-select:text;-webkit-user-select:text}
+.dialog-box.has-input #dlg-input{display:block}
+.dlg-actions{display:flex;justify-content:flex-end;gap:4px;margin-top:14px}
+.dlg-actions button{background:none;border:0;color:var(--wa-teal);font-weight:600;font-size:15px;padding:10px 14px;border-radius:20px;cursor:pointer}
+.dialog-box.danger #dlg-ok{color:#ea3943}
+#file-sheet{align-items:flex-end}
+.fs-box{width:100%;background:#fff;border-radius:16px 16px 0 0;padding:16px;display:flex;flex-direction:column;gap:12px;animation:slideUp .2s;max-height:85%}
+.fs-head{display:flex;align-items:center;gap:12px}.fs-ico{font-size:40px;color:var(--wa-teal)}
+.fs-meta{flex:1;min-width:0}#fs-name{font-weight:600;font-size:16px;word-break:break-all}#fs-info{font-size:13px;color:#667781}
+#fs-preview{display:none;overflow:auto;max-height:45dvh;background:#f0f2f5;border-radius:8px;padding:10px;font:12.5px/1.45 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;user-select:text;-webkit-user-select:text}
+.fs-actions{display:flex;justify-content:flex-end;gap:10px;padding-bottom:env(safe-area-inset-bottom,0px)}
+#list-sheet{position:absolute;inset:0;background:#fff;z-index:70;display:none;flex-direction:column;overflow-y:auto;animation:slideInRight .2s cubic-bezier(.16,1,.3,1)}
+.list-item{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid #f0f2f5;cursor:pointer}
+.list-item img{width:48px;height:48px;border-radius:6px;object-fit:cover}
+.li-main{flex:1;min-width:0}.li-text{font-size:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+.li-time{font-size:12px;color:#667781;margin-top:2px}.list-empty{padding:48px 24px;text-align:center;color:#667781;font-size:15px}
+.gname-row{display:flex;align-items:center;gap:4px}.gname-row h2{font-size:22px;font-weight:500}.g-sub{font-size:14px;color:#667781;margin-top:2px}
+.quick-actions{display:flex;gap:10px;margin-top:16px;width:100%}
+.qa-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;background:#fff;border:1px solid var(--wa-border);border-radius:12px;color:var(--wa-teal);font-size:13px;font-weight:500;font-family:inherit;cursor:pointer}
+.qa-btn .ic{font-size:24px}.row-left{font-size:16px}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.stat-grid b{display:block;font-size:20px;font-weight:600}.stat-grid span{font-size:12.5px;color:#667781}
+.stat-foot{margin-top:12px;font-size:13px;color:#667781;text-align:center}
+.switch{width:40px;height:22px;border-radius:11px;background:#c5ced3;border:0;position:relative;transition:background .2s;cursor:pointer;flex-shrink:0}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.switch[aria-checked="true"]{background:var(--wa-teal)}.switch[aria-checked="true"]::after{transform:translateX(18px)}
+.splash-logo{width:96px;height:96px}
+.splash-title{margin-top:20px;font-size:22px;font-weight:600;color:#111b21}
+.splash-progress{margin-top:28px;width:160px;height:3px;background:#e9edef;border-radius:2px;overflow:hidden}
+.splash-progress span{display:block;width:40%;height:100%;background:var(--wa-teal);border-radius:2px;animation:splashBar 1.2s infinite ease-in-out}
+@keyframes splashBar{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
+.splash-sub{margin-top:12px;font-size:13.5px;color:#667781}
+.splash-brand{font-weight:700;letter-spacing:3px;font-size:16px}
+</style>
 </head>
 <body>
 
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="ri-more-2-fill" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></symbol><symbol id="ri-search-line" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol><symbol id="ri-image-line" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></symbol><symbol id="ri-pushpin-line" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></symbol><symbol id="ri-download-2-line" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></symbol><symbol id="ri-information-line" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol><symbol id="ri-close-line" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol><symbol id="ri-reply-line" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol><symbol id="ri-file-copy-line" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></symbol><symbol id="ri-edit-line" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol><symbol id="ri-delete-bin-6-line" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol><symbol id="ri-code-line" viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></symbol><symbol id="ri-double-quotes-l" viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></symbol><symbol id="ri-link" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol><symbol id="ri-attachment-2" viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></symbol><symbol id="ri-send-plane-2-fill" viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></symbol><symbol id="ri-arrow-left-line" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol><symbol id="ri-arrow-right-s-line" viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol><symbol id="ri-arrow-left-s-line" viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></symbol><symbol id="ri-file-text-line" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol><symbol id="ri-done-all" viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></symbol><symbol id="ri-down" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></symbol><symbol id="ri-pushpin-fill" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></symbol><symbol id="ri-reply-fill" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol><symbol id="ri-pencil-line" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol><symbol id="ri-delete-bin-line" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol><symbol id="ri-links-line" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol><symbol id="ri-file-text-fill" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol></defs></svg>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="ri-more-2-fill" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></symbol><symbol id="ri-search-line" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol><symbol id="ri-image-line" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></symbol><symbol id="ri-pushpin-line" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></symbol><symbol id="ri-download-2-line" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></symbol><symbol id="ri-information-line" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol><symbol id="ri-close-line" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol><symbol id="ri-reply-line" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol><symbol id="ri-file-copy-line" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></symbol><symbol id="ri-edit-line" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol><symbol id="ri-delete-bin-6-line" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol><symbol id="ri-code-line" viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></symbol><symbol id="ri-double-quotes-l" viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></symbol><symbol id="ri-link" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol><symbol id="ri-attachment-2" viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></symbol><symbol id="ri-send-plane-2-fill" viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></symbol><symbol id="ri-arrow-left-line" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol><symbol id="ri-arrow-right-s-line" viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol><symbol id="ri-arrow-left-s-line" viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></symbol><symbol id="ri-file-text-line" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol><symbol id="ri-done-all" viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></symbol><symbol id="ri-down" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></symbol><symbol id="ri-pushpin-fill" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></symbol><symbol id="ri-reply-fill" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol><symbol id="ri-pencil-line" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol><symbol id="ri-delete-bin-line" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol><symbol id="ri-links-line" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol><symbol id="ri-file-text-fill" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol><symbol id="ri-star" viewBox="0 0 24 24"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></symbol><symbol id="ri-star-fill" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></symbol><symbol id="ri-volume" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></symbol></defs></svg>
   <div id="app">
     <!-- WhatsApp-Style Splash Screen -->
     <div id="splash-screen">
       <div class="splash-center">
         <img class="splash-logo" src="slipboard.png" alt="Slipboard" />
+        <div class="splash-title">Slipboard</div>
+        <div class="splash-progress"><span></span></div>
+        <div class="splash-sub">Loading your clipboard…</div>
       </div>
       <div class="splash-footer">
         <span class="splash-from">from</span>
-        <span class="splash-brand">SLIPBOARD</span>
+        <span class="splash-brand">MEOPONLY</span>
       </div>
     </div>
 
@@ -1253,6 +1313,7 @@ html.kb-open footer{padding-bottom:0}
         <button id="menu-search-opt"><svg class="ic "><use href="#ri-search-line"/></svg> Search</button>
         <button id="menu-media-opt"><svg class="ic "><use href="#ri-image-line"/></svg> Media, links, and docs</button>
         <button id="menu-pinned-opt"><svg class="ic "><use href="#ri-pushpin-line"/></svg> Pinned messages</button>
+        <button id="menu-starred-opt">Starred messages</button>
         <button id="menu-export-opt"><svg class="ic "><use href="#ri-download-2-line"/></svg> Export chat</button>
         <button id="menu-info-opt"><svg class="ic "><use href="#ri-information-line"/></svg> Group info</button>
       </div>
@@ -1268,6 +1329,7 @@ html.kb-open footer{padding-bottom:0}
         <div class="selection-actions">
           <button class="icon-btn" id="btn-reply-selected" title="Reply"><svg class="ic "><use href="#ri-reply-line"/></svg></button>
           <button class="icon-btn" id="btn-pin-selected" title="Pin"><svg class="ic "><use href="#ri-pushpin-line"/></svg></button>
+          <button class="icon-btn" id="btn-star-selected" title="Star"><svg class="ic "><use href="#ri-star"/></svg></button>
           <button class="icon-btn" id="btn-copy-selected" title="Copy"><svg class="ic "><use href="#ri-file-copy-line"/></svg></button>
           <button class="icon-btn" id="btn-edit-selected" title="Edit"><svg class="ic "><use href="#ri-edit-line"/></svg></button>
           <button class="icon-btn" id="btn-delete-selected" title="Delete"><svg class="ic "><use href="#ri-delete-bin-6-line"/></svg></button>
@@ -1310,20 +1372,10 @@ html.kb-open footer{padding-bottom:0}
 
     <!-- Bottom Input Bar Area -->
     <footer>
-      <button id="scroll-down" aria-label="Scroll to bottom"><svg class="ic"><use href="#ri-down"/></svg></button>
+      <button id="scroll-down" aria-label="Scroll to bottom"><svg class="ic"><use href="#ri-down"/></svg><span id="unread-badge"></span></button>
       <!-- Telegram-Style Floating Text Formatting Pill (Above Input Bar to prevent OS callout clash) -->
-      <div id="floating-format-bar">
-        <button class="tg-format-btn" onclick="applyFormat('bold')" title="Bold"><b>B</b></button>
-        <button class="tg-format-btn" onclick="applyFormat('italic')" title="Italic"><i style="font-family:Georgia,serif">I</i></button>
-        <button class="tg-format-btn" onclick="applyFormat('underline')" title="Underline"><u>U</u></button>
-        <button class="tg-format-btn" onclick="applyFormat('strike')" title="Strikethrough"><s>S</s></button>
-        <button class="tg-format-btn" onclick="applyFormat('code')" title="Monospace"><svg class="ic "><use href="#ri-code-line"/></svg></button>
-        <button class="tg-format-btn" onclick="applyFormat('quote')" title="Quote"><svg class="ic "><use href="#ri-double-quotes-l"/></svg></button>
-        <button class="tg-format-btn" onclick="applyFormat('link')" title="Add Link"><svg class="ic "><use href="#ri-link"/></svg></button>
-      </div>
-
       <div id="reply-preview-bar">
-        <div class="reply-preview-content" id="reply-preview-text">Replying...</div>
+        <div class="rp-body"><div class="rp-name">You</div><div class="rp-text" id="reply-preview-text"></div></div><img id="reply-preview-thumb" class="rp-thumb" alt="" style="display:none" />
         <button class="icon-btn" id="btn-cancel-reply" style="width: 28px; height: 28px;"><svg class="ic "><use href="#ri-close-line"/></svg></button>
       </div>
 
@@ -1337,6 +1389,15 @@ html.kb-open footer{padding-bottom:0}
         <button class="send-fab" id="btn-send" title="Send">
           <svg class="ic "><use href="#ri-send-plane-2-fill"/></svg>
         </button>
+      </div>
+      <div id="floating-format-bar">
+        <button class="tg-format-btn" onclick="applyFormat('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
+        <button class="tg-format-btn" onclick="applyFormat('italic')" title="Italic (Ctrl+I)"><i style="font-family:Georgia,serif">I</i></button>
+        <button class="tg-format-btn" onclick="applyFormat('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
+        <button class="tg-format-btn" onclick="applyFormat('strike')" title="Strikethrough"><s>S</s></button>
+        <button class="tg-format-btn" onclick="applyFormat('code')" title="Monospace"><svg class="ic "><use href="#ri-code-line"/></svg></button>
+        <button class="tg-format-btn" onclick="applyFormat('quote')" title="Quote"><svg class="ic "><use href="#ri-double-quotes-l"/></svg></button>
+        <button class="tg-format-btn" onclick="applyFormat('link')" title="Link (Ctrl+K)"><svg class="ic "><use href="#ri-link"/></svg></button>
       </div>
     </footer>
 
@@ -1380,48 +1441,47 @@ html.kb-open footer{padding-bottom:0}
     <div id="group-modal">
       <div class="modal-nav">
         <button class="icon-btn" id="btn-close-modal"><svg class="ic "><use href="#ri-arrow-left-line"/></svg></button>
-        <span style="font-size: 17px; font-weight: 600;">Group info</span>
+        <span style="font-size:19px;font-weight:500;">Group info</span>
       </div>
-
       <div class="info-card profile-hero">
-        <div class="profile-avatar-wrap">
-          <img src="slipboard.png" alt="Slipboard Profile" />
+        <div class="profile-avatar-wrap"><img src="slipboard.png" alt="Slipboard" /></div>
+        <div class="gname-row"><h2 id="group-name-label">Slipboard</h2><button class="icon-btn" id="edit-name-btn" style="width:34px;height:34px;font-size:18px;"><svg class="ic "><use href="#ri-edit-line"/></svg></button></div>
+        <span class="g-sub">Group · <span id="stat-msgs">0</span> messages</span>
+        <div class="quick-actions">
+          <button class="qa-btn" id="qa-search"><svg class="ic "><use href="#ri-search-line"/></svg>Search</button>
+          <button class="qa-btn" id="qa-media"><svg class="ic "><use href="#ri-image-line"/></svg>Media</button>
+          <button class="qa-btn" id="qa-export"><svg class="ic "><use href="#ri-download-2-line"/></svg>Export</button>
         </div>
-        <h2 style="font-size: 19px; font-weight: 600;">Slipboard</h2>
-        <span style="font-size: 12.5px; color: var(--wa-text-secondary); margin-top: 4px;">Universal Cross-Device Workspace</span>
       </div>
-
-      <!-- Description Block -->
       <div class="info-card">
-        <div style="font-size: 12px; font-weight: 600; color: var(--wa-teal); margin-bottom: 6px;">Description</div>
-        <div style="font-size: 14px; color: var(--wa-text-primary); display: flex; justify-content: space-between;">
+        <div style="font-size:14px;color:var(--wa-teal);font-weight:500;margin-bottom:6px;">Description</div>
+        <div style="font-size:15px;color:var(--wa-text-primary);display:flex;justify-content:space-between;gap:8px;">
           <span id="group-desc-label">Share text snippets, code, images, and links instantly across devices.</span>
-          <button class="icon-btn" id="edit-desc-btn" style="width: 30px; height: 30px; font-size: 17px;"><svg class="ic "><use href="#ri-pencil-line"/></svg></button>
+          <button class="icon-btn" id="edit-desc-btn" style="width:30px;height:30px;font-size:18px;"><svg class="ic "><use href="#ri-edit-line"/></svg></button>
         </div>
       </div>
-
-      <!-- Media Shelf Row -->
-      <div class="info-card" style="padding-top: 10px; padding-bottom: 10px;">
+      <div class="info-card" style="padding-top:10px;padding-bottom:10px;">
         <div class="clickable-row" id="open-media-drawer-btn">
-          <div class="row-left">
-            <svg class="ic "><use href="#ri-image-line"/></svg>
-            <span>Media, links, and docs</span>
-          </div>
-          <div class="row-right">
-            <span id="total-media-count">0</span>
-            <svg class="ic " style="font-size: 20px;"><use href="#ri-arrow-right-s-line"/></svg>
-          </div>
+          <div class="row-left"><svg class="ic "><use href="#ri-image-line"/></svg><span>Media, links, and docs</span></div>
+          <div class="row-right"><span id="total-media-count">0</span><svg class="ic "><use href="#ri-arrow-right-s-line"/></svg></div>
         </div>
         <div class="media-preview-strip" id="media-preview-strip"></div>
       </div>
-
-      <!-- WhatsApp Red Clear Chat Button -->
-      <div class="info-card" style="padding-top: 10px; padding-bottom: 10px;">
+      <div class="info-card" style="padding-top:6px;padding-bottom:6px;">
+        <div class="clickable-row" id="open-starred"><div class="row-left"><svg class="ic "><use href="#ri-star"/></svg><span>Starred messages</span></div><div class="row-right"><span id="starred-count">0</span><svg class="ic "><use href="#ri-arrow-right-s-line"/></svg></div></div>
+        <div class="clickable-row" id="open-pinned"><div class="row-left"><svg class="ic "><use href="#ri-pushpin-line"/></svg><span>Pinned messages</span></div><div class="row-right"><span id="pinned-count">0</span><svg class="ic "><use href="#ri-arrow-right-s-line"/></svg></div></div>
+        <div class="clickable-row" id="sound-row"><div class="row-left"><svg class="ic "><use href="#ri-volume"/></svg><span>Message sounds</span></div><button class="switch" id="sound-toggle" role="switch" aria-checked="true" aria-label="Message sounds"></button></div>
+      </div>
+      <div class="info-card">
+        <div class="stat-grid">
+          <div><b id="stat-photos">0</b><span>Photos</span></div><div><b id="stat-videos">0</b><span>Videos</span></div>
+          <div><b id="stat-docs">0</b><span>Docs</span></div><div><b id="stat-links">0</b><span>Links</span></div>
+        </div>
+        <div class="stat-foot" id="stat-storage"></div>
+      </div>
+      <div class="info-card" style="padding-top:10px;padding-bottom:10px;">
         <div class="clickable-row danger-row" id="btn-clear-chat-modal">
-          <div class="row-left">
-            <svg class="ic "><use href="#ri-delete-bin-line"/></svg>
-            <span style="font-weight: 600;">Clear chat</span>
-          </div>
+          <div class="row-left"><svg class="ic "><use href="#ri-delete-bin-line"/></svg><span style="font-weight:600;">Clear chat</span></div>
         </div>
       </div>
     </div>
@@ -1440,6 +1500,22 @@ html.kb-open footer{padding-bottom:0}
       </div>
       <div class="drawer-grid" id="drawer-grid-content"></div>
     </div>
+
+    <div id="list-sheet">
+      <div class="modal-nav"><button class="icon-btn" id="btn-close-list"><svg class="ic "><use href="#ri-arrow-left-line"/></svg></button><span id="list-title" style="font-size:19px;font-weight:500;"></span></div>
+      <div id="list-body"></div>
+    </div>
+
+    <div id="file-sheet"><div class="fs-box">
+      <div class="fs-head"><svg class="ic fs-ico"><use href="#ri-file-text-line"/></svg><div class="fs-meta"><div id="fs-name"></div><div id="fs-info"></div></div><button class="icon-btn" id="fs-close"><svg class="ic "><use href="#ri-close-line"/></svg></button></div>
+      <pre id="fs-preview"></pre>
+      <div class="fs-actions"><button class="btn-secondary" id="fs-preview-btn">Preview</button><button class="btn-primary" id="fs-download">Download</button></div>
+    </div></div>
+
+    <div id="dialog-overlay"><div class="dialog-box" id="dlg-box">
+      <h3 id="dlg-title"></h3><p id="dlg-body"></p><input id="dlg-input" type="text" autocomplete="off" />
+      <div class="dlg-actions"><button id="dlg-cancel">Cancel</button><button id="dlg-ok">OK</button></div>
+    </div></div>
 
     <!-- Photo Lightbox -->
     <div id="lightbox">
@@ -1582,6 +1658,10 @@ html.kb-open footer{padding-bottom:0}
     // Meta Description Listener
     metaRef.on("value", (snap) => {
       const data = snap.val() || {};
+      if (data.name) {
+        document.getElementById("group-name-label").innerText = data.name;
+        document.getElementById("chat-header-title").innerText = data.name;
+      }
       if (data.description) {
         document.getElementById("group-desc-label").innerText = data.description;
       }
@@ -1597,10 +1677,12 @@ html.kb-open footer{padding-bottom:0}
         });
         messages.sort((a, b) => a.timestamp - b.timestamp);
       }
+      onMessagesSynced();
       renderMessages(searchInput.value);
       extractPhotos();
       updateMediaPreviewStrip();
       updatePinnedBanner();
+      updateGroupStats();
       dismissSplashScreen();
     });
 
@@ -1613,7 +1695,14 @@ html.kb-open footer{padding-bottom:0}
       html = html.replace(/```([\s\S]*?)```/g, (m, c) => hold('<pre class="fmt-pre">' + c + '</pre>'));
       html = html.replace(/`([^`\n]+)`/g, (m, c) => hold('<code class="fmt-code">' + c + '</code>'));
       html = html.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, (m, l, u) => hold('<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + l + '</a>'));
-      html = html.replace(/https?:\/\/[^\s<]+/g, (u) => hold('<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + u + '</a>'));
+      const linkTo = (raw, withScheme) => {
+        const m = raw.match(/^(.*?)([.,!?;:)\]]*)$/);
+        const u = m[1], tail = m[2];
+        const href = withScheme ? "https://" + u : u;
+        return hold('<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + u + "</a>") + tail;
+      };
+      html = html.replace(/https?:\/\/(?:(?!&quot;|&#39;|&lt;|&gt;)[^\s<])+/g, (u) => linkTo(u, false));
+      html = html.replace(/(^|[\s(])((?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|io|in|co|app|dev|me|ai|xyz|info|edu|gov|us|uk|ly|gg|tv|to|so|sh|page|site|online)(?:\/(?:(?!&quot;|&#39;|&lt;|&gt;)[^\s<])*)?)/gi, (m, pre, u) => pre + linkTo(u, true));
       html = html.replace(/__([^_\n]+)__/g, "<u>$1</u>")
         .replace(/\*([^*\n]+)\*/g, "<strong>$1</strong>")
         .replace(/_([^_\n]+)_/g, "<em>$1</em>")
@@ -1673,6 +1762,12 @@ html.kb-open footer{padding-bottom:0}
         // Click Handler (Single Click Opens Reaction Pill)
         bubble.addEventListener("click", (e) => {
           if (Date.now() - longPressFiredAt < 500) { e.stopPropagation(); return; }
+          if (!selectedMsgIds.size) {
+            const lnk = e.target.closest && e.target.closest("a[href]");
+            if (lnk) { e.preventDefault(); e.stopPropagation(); window.open(lnk.href, "_blank", "noopener"); return; }
+            if (e.target.closest(".msg-reply-quote")) { e.stopPropagation(); scrollToMessage(msg.replyTo.id); return; }
+            if (e.target.closest(".msg-file")) { e.stopPropagation(); openFileSheet(msg); return; }
+          }
           if (selectedMsgIds.size > 0) {
             toggleSelect(msg.id);
           } else {
@@ -1687,10 +1782,7 @@ html.kb-open footer{padding-bottom:0}
         let bodyHtml = "";
 
         if (msg.replyTo) {
-          bodyHtml += `
-            <div class="msg-reply-quote" onclick="scrollToMessage('${msg.replyTo.id}')">
-              <strong>${escapeHtml(msg.replyTo.sender || "Slipboard")}</strong>${escapeHtml(msg.replyTo.snippet || "")}
-            </div>`;
+          bodyHtml += quoteHtml(msg.replyTo);
         }
 
         // Photos & Videos with zero border gap
@@ -1712,10 +1804,7 @@ html.kb-open footer{padding-bottom:0}
           }
         } else if (msg.type === "file") {
           bodyHtml += `
-            <a class="msg-file" href="${msg.fileData}" download="${escapeHtml(msg.fileName || 'file')}">
-              <svg class="ic "><use href="#ri-file-text-fill"/></svg>
-              <div class="msg-file-name">${escapeHtml(msg.fileName || "File")}</div>
-            </a>`;
+            <div class="msg-file" data-file="1"><svg class="ic" style="font-size:26px;color:var(--wa-teal)"><use href="#ri-file-text-line"/></svg><div class="msg-file-info"><div class="msg-file-name">${escapeHtml(msg.fileName || "File")}</div><div class="msg-file-size">${fmtSize(msg.fileData)} · ${escapeHtml(fileExt(msg.fileName || "").toUpperCase() || "FILE")}</div></div></div>`;
           if (msg.text) {
             bodyHtml += `<div class="msg-content" style="margin-top: 4px;">${parseMessageText(msg.text)}</div>`;
           }
@@ -1734,7 +1823,7 @@ html.kb-open footer{padding-bottom:0}
           <div class="msg-footer">
             ${msg.isPinned ? '<svg class="ic pin-icon"><use href="#ri-pushpin-fill"/></svg>' : ''}
             ${msg.isEdited ? '<span class="edited-badge">edited</span>' : ''}
-            <span>${time}</span>
+            ${msg.isStarred ? '<svg class="ic pin-icon star-icon"><use href="#ri-star-fill"/></svg>' : ''}<span>${time}</span>
             <span class="wa-checks">
               <svg class="ic"><use href="#ri-done-all"/></svg>
             </span>
@@ -1758,6 +1847,7 @@ html.kb-open footer{padding-bottom:0}
       } else {
         msgContainer.scrollTop = prevTop;
       }
+      if (filterText) highlightMatches(filterText);
       forceScrollOnce = false;
     }
 
@@ -1838,21 +1928,10 @@ html.kb-open footer{padding-bottom:0}
     textInput.addEventListener("mouseup", handleTextSelection);
 
     function handleTextSelection() {
-      const start = textInput.selectionStart;
-      const end = textInput.selectionEnd;
-      if (start !== end && textInput.value.substring(start, end).trim().length > 0) {
-        const inputPill = document.querySelector(".input-pill");
-        const appRect = document.getElementById("app").getBoundingClientRect();
-        const pillRect = inputPill.getBoundingClientRect();
-
-        floatingFormatBar.style.display = "flex";
-        const barHeight = floatingFormatBar.offsetHeight || 38;
-
-        // Position 10px above the entire input pill container
-        const topPos = (pillRect.top - appRect.top) - (barHeight + 10);
-        
-      } else {
-        floatingFormatBar.style.display = "none";
+      const on = document.activeElement === textInput;
+      if ((floatingFormatBar.style.display === "flex") !== on) {
+        floatingFormatBar.style.display = on ? "flex" : "none";
+        syncViewport();
       }
     }
 
@@ -1862,33 +1941,28 @@ html.kb-open footer{padding-bottom:0}
     });
 
     function applyFormat(type) {
-      const start = textInput.selectionStart;
-      const end = textInput.selectionEnd;
-      const text = textInput.value;
-      const selected = text.substring(start, end);
-      if (!selected) return;
-
-      let replacement = "";
-      if (type === "bold") replacement = `*${selected}*`;
-      else if (type === "italic") replacement = `_${selected}_`;
-      else if (type === "underline") replacement = `__${selected}__`;
-      else if (type === "strike") replacement = `~${selected}~`;
-      else if (type === "code") replacement = `\`${selected}\``;
-      else if (type === "quote") replacement = `> ${selected}`;
-      else if (type === "link") {
-        const linkUrl = prompt("Enter link URL (https://...):", "https://");
-        if (linkUrl) {
-          replacement = `[${selected}](${linkUrl})`;
-        } else {
-          return;
-        }
+      const s = textInput.selectionStart, e = textInput.selectionEnd, v = textInput.value, sel = v.slice(s, e);
+      const done = (rep, a, b) => {
+        textInput.value = v.slice(0, s) + rep + v.slice(e);
+        textInput.focus();
+        textInput.setSelectionRange(a, b);
+        textInput.dispatchEvent(new Event("input"));
+        triggerVibration(20);
+      };
+      const wrap = { bold: ["*", "*"], italic: ["_", "_"], underline: ["__", "__"], strike: ["~", "~"], code: ["`", "`"] }[type];
+      if (wrap) {
+        const [o, c] = wrap;
+        if (sel) done(o + sel + c, s, s + o.length + sel.length + c.length);
+        else done(o + c, s + o.length, s + o.length);
+      } else if (type === "quote") {
+        done("> " + sel, s + 2 + sel.length, s + 2 + sel.length);
+      } else if (type === "link") {
+        showDialog({ title: "Add link", input: "https://", okLabel: "Add", onOk: (url) => {
+          if (!url || url === "https://") return;
+          const rep = "[" + (sel || url) + "](" + url + ")";
+          done(rep, s + rep.length, s + rep.length);
+        }});
       }
-
-      textInput.value = text.substring(0, start) + replacement + text.substring(end);
-      textInput.dispatchEvent(new Event("input"));
-      floatingFormatBar.style.display = "none";
-      textInput.focus();
-      triggerVibration(20);
     }
 
     // Multi-Selection Logic
@@ -1947,9 +2021,20 @@ html.kb-open footer{padding-bottom:0}
     document.getElementById("btn-close-selection").addEventListener("click", clearAllSelection);
 
     document.getElementById("btn-delete-selected").addEventListener("click", () => {
-      if (!selectedMsgIds.size) return;
-      selectedMsgIds.forEach((id) => clipRef.child(id).remove());
-      triggerVibration([30, 40, 30]);
+      const n = selectedMsgIds.size;
+      if (!n) return;
+      showDialog({ title: n > 1 ? `Delete ${n} messages?` : "Delete message?", body: "This removes it from all your devices.", okLabel: "Delete", danger: true, onOk: () => {
+        selectedMsgIds.forEach((id) => clipRef.child(id).remove());
+        triggerVibration([30, 40, 30]);
+        clearAllSelection();
+      }});
+    });
+
+    document.getElementById("btn-star-selected").addEventListener("click", () => {
+      const sel = messages.filter((m) => selectedMsgIds.has(m.id));
+      const all = sel.every((m) => m.isStarred);
+      sel.forEach((m) => clipRef.child(m.id).update({ isStarred: !all }));
+      showToast(all ? "Removed from starred" : "Starred");
       clearAllSelection();
     });
 
@@ -2120,7 +2205,10 @@ html.kb-open footer{padding-bottom:0}
     // Reply Handlers
     function initiateReply(msg) {
       replyingToMsg = msg;
-      replyPreviewText.innerText = msgSnippet(msg);
+      replyPreviewText.innerHTML = replyIcon(msg) + "<span>" + escapeHtml(msgSnippet(msg)) + "</span>";
+      const th = document.getElementById("reply-preview-thumb");
+      th.style.display = msg.type === "photo" ? "block" : "none";
+      if (msg.type === "photo") th.src = msg.fileData;
       replyPreviewBar.style.display = "flex";
       textInput.focus();
     }
@@ -2137,8 +2225,8 @@ html.kb-open footer{padding-bottom:0}
       if (!el) { showToast("Message not found"); return; }
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.classList.add("selected");
-        setTimeout(() => el.classList.remove("selected"), 1200);
+        el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+        setTimeout(() => el.classList.remove("flash"), 1500);
       }
     }
 
@@ -2198,8 +2286,11 @@ html.kb-open footer{padding-bottom:0}
 
     document.getElementById("menu-pinned-opt").addEventListener("click", () => {
       dropdownMenu.style.display = "none";
-      const pinned = messages.filter((m) => m.isPinned);
-      if (pinned.length) scrollToMessage(pinned[pinned.length - 1].id);
+      openMessageList("Pinned messages", (m) => m.isPinned);
+    });
+    document.getElementById("menu-starred-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      openMessageList("Starred messages", (m) => m.isStarred);
     });
 
     document.getElementById("menu-export-opt").addEventListener("click", () => {
@@ -2222,11 +2313,11 @@ html.kb-open footer{padding-bottom:0}
     });
 
     document.getElementById("btn-clear-chat-modal").addEventListener("click", () => {
-      if (confirm("Are you sure you want to clear all messages in Slipboard?")) {
+      showDialog({ title: "Clear chat?", body: "All messages will be deleted from every device.", okLabel: "Clear chat", danger: true, onOk: () => {
         clipRef.remove();
         triggerVibration([40, 50]);
         groupModal.style.display = "none";
-      }
+      }});
     });
 
     // In-App Sheet Editor
@@ -2382,10 +2473,9 @@ html.kb-open footer{padding-bottom:0}
           div.onclick = () => openVideoViewer(item.fileData);
           grid.appendChild(div);
         } else if (type === "files") {
-          const a = document.createElement("a");
+          const a = document.createElement("div");
           a.className = "msg-file";
-          a.href = item.fileData;
-          a.download = item.fileName || "file";
+          a.onclick = () => openFileSheet(item);
           a.innerHTML = `<svg class="ic "><use href="#ri-file-text-fill"/></svg><div class="msg-file-name">${escapeHtml(item.fileName || "File")}</div>`;
           grid.appendChild(a);
         }
@@ -2524,7 +2614,10 @@ html.kb-open footer{padding-bottom:0}
     }
     function pushMessage(p) {
       forceScrollOnce = true;
-      return clipRef.push(p).catch(() => showToast("Couldn't send. Check your connection."));
+      const ref = clipRef.push();
+      sentIds.add(ref.key);
+      playSound("send");
+      return ref.set(p).catch(() => showToast("Couldn't send. Check your connection."));
     }
     async function copyText(t) {
       try { await navigator.clipboard.writeText(t); }
@@ -2583,6 +2676,207 @@ html.kb-open footer{padding-bottom:0}
     // Keep keyboard open when tapping send / format buttons
     [btnSend, floatingFormatBar].forEach((el) => el.addEventListener("mousedown", (e) => e.preventDefault()));
     textInput.addEventListener("touchend", handleTextSelection);
+
+    // ===== Added v2: sounds, unread, files, lists, dialogs, group info =====
+    let knownIds = null, unread = 0;
+    const sentIds = new Set();
+    let soundOn = true;
+    try { soundOn = localStorage.getItem("sb_sound") !== "0"; } catch (e) {}
+    let audioCtx = null;
+    function unlockAudio() {
+      if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+    }
+    ["pointerdown", "touchstart", "keydown"].forEach((ev) => document.addEventListener(ev, unlockAudio, { passive: true }));
+    function tone(freq, at, dur, vol) {
+      const t = audioCtx.currentTime + at, o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = "sine"; o.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(vol, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t + dur + 0.03);
+    }
+    function playSound(kind) {
+      if (!soundOn || !audioCtx) return;
+      try {
+        if (kind === "send") { tone(700, 0, 0.09, 0.16); tone(1050, 0.06, 0.12, 0.13); }
+        else { tone(660, 0, 0.12, 0.18); tone(990, 0.11, 0.14, 0.16); tone(1320, 0.22, 0.2, 0.12); }
+      } catch (e) {}
+    }
+    const soundToggle = document.getElementById("sound-toggle");
+    soundToggle.setAttribute("aria-checked", soundOn);
+    const flipSound = () => {
+      soundOn = !soundOn;
+      try { localStorage.setItem("sb_sound", soundOn ? "1" : "0"); } catch (e) {}
+      soundToggle.setAttribute("aria-checked", soundOn);
+      unlockAudio(); if (soundOn) playSound("receive");
+    };
+    document.getElementById("sound-row").addEventListener("click", flipSound);
+
+    function onMessagesSynced() {
+      const ids = new Set(messages.map((m) => m.id));
+      if (knownIds) {
+        const fresh = messages.filter((m) => !knownIds.has(m.id) && !sentIds.has(m.id));
+        if (fresh.length) {
+          playSound("receive"); triggerVibration(30);
+          if (!isNearBottom()) { unread += fresh.length; updateUnread(); }
+        }
+      }
+      knownIds = ids;
+    }
+    function updateUnread() {
+      const b = document.getElementById("unread-badge");
+      b.textContent = unread; b.style.display = unread ? "flex" : "none";
+      if (unread) scrollFab.style.display = "flex";
+    }
+    msgContainer.addEventListener("scroll", () => { if (unread && isNearBottom()) { unread = 0; updateUnread(); } }, { passive: true });
+
+    function fileExt(n) { return (String(n).split(".").pop() || "").toLowerCase(); }
+    function fmtBytes(b) { return b < 1024 ? b + " B" : b < 1048576 ? (b / 1024).toFixed(1) + " KB" : (b / 1048576).toFixed(1) + " MB"; }
+    function dataBytes(d) { return d ? Math.max(0, Math.floor((d.length - d.indexOf(",") - 1) * 0.75)) : 0; }
+    function fmtSize(d) { return fmtBytes(dataBytes(d)); }
+    function dataToBlob(d) {
+      const i = d.indexOf(","), mime = (d.slice(0, i).match(/:(.*?)[;,]/) || [])[1] || "application/octet-stream";
+      const bin = atob(d.slice(i + 1)), u = new Uint8Array(bin.length);
+      for (let k = 0; k < bin.length; k++) u[k] = bin.charCodeAt(k);
+      return new Blob([u], { type: mime });
+    }
+    function replyIcon(m) {
+      const i = m.type === "photo" || m.type === "video" ? "image-line" : m.type === "file" ? "file-text-line" : "";
+      return i ? `<svg class="ic" style="font-size:16px"><use href="#ri-${i}"/></svg>` : "";
+    }
+    function quoteHtml(r) {
+      const o = messages.find((m) => m.id === r.id);
+      const label = o ? (o.text || (o.type === "photo" ? "Photo" : o.type === "video" ? "Video" : o.fileName) || "Message") : (r.snippet || "Message");
+      const thumb = o && o.type === "photo" ? `<img class="rq-thumb" src="${o.fileData}" alt="" />` : "";
+      return `<div class="msg-reply-quote"><div class="rq-text"><strong>You</strong><span>${o ? replyIcon(o) : ""}${escapeHtml(label.slice(0, 80))}</span></div>${thumb}</div>`;
+    }
+    function highlightMatches(term) {
+      const src = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), re = new RegExp("(" + src + ")", "gi"), has = new RegExp(src, "i");
+      msgContainer.querySelectorAll(".msg-content,.msg-media-caption").forEach((el) => {
+        const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
+        while (w.nextNode()) nodes.push(w.currentNode);
+        nodes.forEach((n) => {
+          if (!has.test(n.nodeValue)) return;
+          const f = document.createDocumentFragment();
+          n.nodeValue.split(re).forEach((part, i) => {
+            if (i % 2) { const mk = document.createElement("mark"); mk.textContent = part; f.appendChild(mk); }
+            else f.appendChild(document.createTextNode(part));
+          });
+          n.replaceWith(f);
+        });
+      });
+    }
+
+    // Dialog
+    let dlgAction = null;
+    const dlgBox = document.getElementById("dlg-box"), dlgInput = document.getElementById("dlg-input"), dlgOverlay = document.getElementById("dialog-overlay");
+    function showDialog(o) {
+      document.getElementById("dlg-title").textContent = o.title || "";
+      document.getElementById("dlg-body").textContent = o.body || "";
+      document.getElementById("dlg-ok").textContent = o.okLabel || "OK";
+      dlgBox.classList.toggle("has-input", o.input !== undefined);
+      dlgBox.classList.toggle("danger", !!o.danger);
+      if (o.input !== undefined) dlgInput.value = o.input;
+      dlgAction = () => { const v = o.input !== undefined ? dlgInput.value.trim() : null; hideDialog(); if (o.onOk) o.onOk(v); };
+      dlgOverlay.style.display = "flex";
+      if (o.input !== undefined) setTimeout(() => dlgInput.focus(), 50);
+    }
+    function hideDialog() { dlgOverlay.style.display = "none"; dlgAction = null; }
+    document.getElementById("dlg-cancel").addEventListener("click", hideDialog);
+    document.getElementById("dlg-ok").addEventListener("click", () => dlgAction && dlgAction());
+    dlgOverlay.addEventListener("click", (e) => { if (e.target === dlgOverlay) hideDialog(); });
+    dlgInput.addEventListener("keydown", (e) => { if (e.key === "Enter" && dlgAction) dlgAction(); });
+
+    // File sheet: tapping a file never downloads by itself
+    const fileSheet = document.getElementById("file-sheet"), fsPreview = document.getElementById("fs-preview");
+    const TEXT_EXT = new Set(["txt","md","json","js","css","html","htm","xml","csv","log","py","java","c","cpp","ts","tsx","jsx","yml","yaml","ini","sh","sql","svg","php","rb","go","rs"]);
+    let sheetFile = null;
+    function openFileSheet(m) {
+      sheetFile = m;
+      const ext = fileExt(m.fileName || "");
+      document.getElementById("fs-name").textContent = m.fileName || "File";
+      document.getElementById("fs-info").textContent = fmtSize(m.fileData) + " · " + (ext.toUpperCase() || "FILE");
+      fsPreview.style.display = "none"; fsPreview.textContent = "";
+      document.getElementById("fs-preview-btn").style.display = TEXT_EXT.has(ext) || ext === "pdf" ? "" : "none";
+      fileSheet.style.display = "flex";
+    }
+    const closeFileSheet = () => { fileSheet.style.display = "none"; sheetFile = null; };
+    document.getElementById("fs-close").addEventListener("click", closeFileSheet);
+    fileSheet.addEventListener("click", (e) => { if (e.target === fileSheet) closeFileSheet(); });
+    document.getElementById("fs-preview-btn").addEventListener("click", async () => {
+      if (!sheetFile) return;
+      const blob = dataToBlob(sheetFile.fileData);
+      if (fileExt(sheetFile.fileName) === "pdf") { window.open(URL.createObjectURL(blob), "_blank", "noopener"); return; }
+      const txt = await blob.text();
+      fsPreview.textContent = txt.length > 60000 ? txt.slice(0, 60000) + "\n… (truncated)" : txt;
+      fsPreview.style.display = "block";
+    });
+    document.getElementById("fs-download").addEventListener("click", () => {
+      if (!sheetFile) return;
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(dataToBlob(sheetFile.fileData));
+      a.download = sheetFile.fileName || "file";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      closeFileSheet();
+    });
+
+    // Starred / pinned lists
+    const listSheet = document.getElementById("list-sheet");
+    function openMessageList(title, fn) {
+      document.getElementById("list-title").textContent = title;
+      const body = document.getElementById("list-body");
+      body.innerHTML = "";
+      const items = messages.filter(fn).reverse();
+      if (!items.length) body.innerHTML = '<div class="list-empty">Nothing here yet</div>';
+      items.forEach((m) => {
+        const d = document.createElement("div");
+        d.className = "list-item";
+        const t = new Date(m.timestamp);
+        d.innerHTML = (m.type === "photo" ? `<img src="${m.fileData}" alt="" />` : "") +
+          `<div class="li-main"><div class="li-text">${escapeHtml(msgSnippet(m))}</div><div class="li-time">${dayLabel(m.timestamp)}, ${t.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</div></div>`;
+        d.onclick = () => {
+          listSheet.style.display = "none"; groupModal.style.display = "none"; mediaDrawer.style.display = "none";
+          setTimeout(() => scrollToMessage(m.id), 60);
+        };
+        body.appendChild(d);
+      });
+      listSheet.style.display = "flex";
+    }
+    document.getElementById("btn-close-list").addEventListener("click", () => (listSheet.style.display = "none"));
+
+    // Group info
+    function updateGroupStats() {
+      const c = (t) => messages.filter((m) => m.type === t).length;
+      const links = messages.reduce((n, m) => n + ((m.text || "").match(/https?:\/\/[^\s]+/g) || []).length, 0);
+      const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+      set("stat-msgs", messages.length); set("stat-photos", c("photo")); set("stat-videos", c("video")); set("stat-docs", c("file")); set("stat-links", links);
+      set("starred-count", messages.filter((m) => m.isStarred).length); set("pinned-count", messages.filter((m) => m.isPinned).length);
+      const bytes = messages.reduce((n, m) => n + dataBytes(m.fileData) + (m.text || "").length, 0);
+      set("stat-storage", "Using " + fmtBytes(bytes) + " of shared storage");
+    }
+    document.getElementById("open-starred").addEventListener("click", () => openMessageList("Starred messages", (m) => m.isStarred));
+    document.getElementById("open-pinned").addEventListener("click", () => openMessageList("Pinned messages", (m) => m.isPinned));
+    document.getElementById("qa-search").addEventListener("click", () => { groupModal.style.display = "none"; document.getElementById("menu-search-opt").click(); });
+    document.getElementById("qa-media").addEventListener("click", () => openMediaDrawerTab("photos"));
+    document.getElementById("qa-export").addEventListener("click", exportChatText);
+    document.getElementById("edit-name-btn").addEventListener("click", () => {
+      openInlineEditor("Group name", document.getElementById("group-name-label").innerText, false, (v) => {
+        if (v && v.trim()) metaRef.child("name").set(v.trim().slice(0, 40));
+      });
+    });
+
+    // Formatting strip: show while typing; desktop shortcuts
+    textInput.addEventListener("focus", handleTextSelection);
+    textInput.addEventListener("blur", () => setTimeout(handleTextSelection, 150));
+    textInput.addEventListener("keydown", (e) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      const k = e.key.toLowerCase(), map = { b: "bold", i: "italic", u: "underline", k: "link" };
+      if (map[k]) { e.preventDefault(); applyFormat(map[k]); }
+      else if (k === "x" && e.shiftKey) { e.preventDefault(); applyFormat("strike"); }
+    });
   </script>
 </body>
 </html>
