@@ -68,7 +68,7 @@
       overflow: hidden;
     }
 
-    /* WhatsApp Style Loading / Splash Screen */
+    /* WhatsApp Splash Screen */
     #splash-screen {
       position: absolute;
       inset: 0;
@@ -125,7 +125,7 @@
       50% { transform: scale(0.96); opacity: 0.85; }
     }
 
-    /* Header */
+    /* Top Bar */
     header {
       height: 60px;
       background: var(--wa-bg-panel);
@@ -208,7 +208,7 @@
       color: var(--wa-text-primary);
     }
 
-    /* Multi-Selection Top Bar */
+    /* Multi-Selection Bar */
     #selection-bar-container {
       position: absolute;
       top: 0;
@@ -245,7 +245,7 @@
       gap: 2px;
     }
 
-    /* Clamped Floating Reaction Pill (Cannot exceed screen bounds) */
+    /* Floating Reaction Pill */
     #floating-reaction-pill {
       position: absolute;
       display: none;
@@ -275,13 +275,13 @@
       transform: scale(1.35);
     }
 
-    /* Telegram Style Mini Floating Formatting Bar */
+    /* Telegram Style Floating Formatting Bar (Positioned Above Input Pill to Avoid System Menu Clashing) */
     #floating-format-bar {
       position: absolute;
       display: none;
       background: #1f2c34;
-      border-radius: 20px;
-      padding: 4px 8px;
+      border-radius: 22px;
+      padding: 5px 10px;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
       z-index: 90;
       gap: 6px;
@@ -289,20 +289,23 @@
       animation: popIn 0.12s ease-out;
       border: 1px solid rgba(255, 255, 255, 0.08);
       max-width: calc(100% - 24px);
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     .tg-format-btn {
       background: none;
       border: none;
       color: #e9edef;
-      font-size: 14px;
-      padding: 4px 6px;
+      font-size: 15px;
+      padding: 4px 7px;
       border-radius: 12px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 500;
+      transition: background 0.12s ease;
     }
 
     .tg-format-btn:hover {
@@ -310,7 +313,7 @@
       color: #ffffff;
     }
 
-    /* Pinned Message Top Banner */
+    /* Pinned Top Banner */
     #pinned-bar {
       height: 48px;
       background: #ffffff;
@@ -382,6 +385,8 @@
       font-family: inherit;
       font-size: 14px;
       outline: none;
+      -webkit-user-select: text;
+      user-select: text;
     }
 
     /* 3-Dot Dropdown */
@@ -424,7 +429,7 @@
       background-color: var(--wa-bg-gray);
     }
 
-    /* Chat Messages Stream */
+    /* Chat Messages Stream & Native Selection Suppression */
     #messages-container {
       flex: 1;
       overflow-y: auto;
@@ -443,6 +448,9 @@
       box-sizing: border-box;
       touch-action: pan-y;
       transition: background 0.15s ease;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .msg-row.selected {
@@ -475,10 +483,12 @@
       padding: 6px 8px 6px 9px;
       position: relative;
       word-wrap: break-word;
-      user-select: text;
       box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
       cursor: pointer;
       overflow: visible;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .msg-bubble.is-media {
@@ -503,8 +513,10 @@
       font-size: 14.2px;
       line-height: 1.38;
       color: var(--wa-text-primary);
-      user-select: text;
       white-space: pre-wrap;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .msg-content a {
@@ -547,8 +559,10 @@
       font-size: 14.2px;
       line-height: 1.38;
       color: var(--wa-text-primary);
-      user-select: text;
       white-space: pre-wrap;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     .msg-file {
@@ -687,6 +701,8 @@
       overflow-y: auto;
       line-height: 20px;
       background: transparent;
+      -webkit-touch-callout: default;
+      -webkit-user-select: text;
       user-select: text;
     }
 
@@ -712,7 +728,7 @@
       transform: scale(0.94);
     }
 
-    /* WhatsApp Media Caption & Send Modal */
+    /* Media Caption Modal */
     #media-preview-dialog {
       position: absolute;
       inset: 0;
@@ -781,6 +797,8 @@
       color: #ffffff;
       font-size: 14.5px;
       font-family: inherit;
+      -webkit-touch-callout: default;
+      -webkit-user-select: text;
       user-select: text;
     }
 
@@ -914,7 +932,7 @@
       color: #ea3943 !important;
     }
 
-    /* Full Drawer for Media */
+    /* Media Drawer */
     #media-drawer {
       position: absolute;
       inset: 0;
@@ -1013,6 +1031,9 @@
       font-size: 14.5px;
       outline: none;
       background: var(--wa-bg-gray);
+      -webkit-touch-callout: default;
+      -webkit-user-select: text;
+      user-select: text;
     }
 
     .inline-editor-actions {
@@ -1181,7 +1202,7 @@
       </div>
     </div>
 
-    <!-- Clamped WhatsApp Reaction Pill (Zero Screen Overflow) -->
+    <!-- Clamped WhatsApp Reaction Pill -->
     <div id="floating-reaction-pill">
       <span class="react-pill-item" data-emoji="👍">👍</span>
       <span class="react-pill-item" data-emoji="❤️">❤️</span>
@@ -1189,17 +1210,6 @@
       <span class="react-pill-item" data-emoji="😮">😮</span>
       <span class="react-pill-item" data-emoji="😢">😢</span>
       <span class="react-pill-item" data-emoji="🙏">🙏</span>
-    </div>
-
-    <!-- Telegram-Style Floating Text Selection Bar (Bold, Italic, Link, etc.) -->
-    <div id="floating-format-bar">
-      <button class="tg-format-btn" onclick="applyFormat('bold')" title="Bold"><i class="ri-bold"></i></button>
-      <button class="tg-format-btn" onclick="applyFormat('italic')" title="Italic"><i class="ri-italic"></i></button>
-      <button class="tg-format-btn" onclick="applyFormat('underline')" title="Underline"><i class="ri-underline"></i></button>
-      <button class="tg-format-btn" onclick="applyFormat('strike')" title="Strikethrough"><i class="ri-strikethrough"></i></button>
-      <button class="tg-format-btn" onclick="applyFormat('code')" title="Monospace"><i class="ri-code-line"></i></button>
-      <button class="tg-format-btn" onclick="applyFormat('quote')" title="Quote"><i class="ri-double-quotes-l"></i></button>
-      <button class="tg-format-btn" onclick="applyFormat('link')" title="Add Link"><i class="ri-link"></i></button>
     </div>
 
     <!-- Pinned Top Banner -->
@@ -1224,12 +1234,24 @@
     <!-- Messages Container -->
     <div id="messages-container"></div>
 
-    <!-- Bottom Input Bar -->
+    <!-- Bottom Input Bar Area -->
     <footer>
+      <!-- Telegram-Style Floating Text Formatting Pill (Above Input Bar to prevent OS callout clash) -->
+      <div id="floating-format-bar">
+        <button class="tg-format-btn" onclick="applyFormat('bold')" title="Bold"><i class="ri-bold"></i></button>
+        <button class="tg-format-btn" onclick="applyFormat('italic')" title="Italic"><i class="ri-italic"></i></button>
+        <button class="tg-format-btn" onclick="applyFormat('underline')" title="Underline"><i class="ri-underline"></i></button>
+        <button class="tg-format-btn" onclick="applyFormat('strike')" title="Strikethrough"><i class="ri-strikethrough"></i></button>
+        <button class="tg-format-btn" onclick="applyFormat('code')" title="Monospace"><i class="ri-code-line"></i></button>
+        <button class="tg-format-btn" onclick="applyFormat('quote')" title="Quote"><i class="ri-double-quotes-l"></i></button>
+        <button class="tg-format-btn" onclick="applyFormat('link')" title="Add Link"><i class="ri-link"></i></button>
+      </div>
+
       <div id="reply-preview-bar">
         <div class="reply-preview-content" id="reply-preview-text">Replying...</div>
         <button class="icon-btn" id="btn-cancel-reply" style="width: 28px; height: 28px;"><i class="ri-close-line"></i></button>
       </div>
+
       <div class="input-row">
         <div class="input-pill">
           <button class="icon-btn" id="btn-attach" style="margin-right: 4px;" title="Attach file">
@@ -1243,7 +1265,7 @@
       </div>
     </footer>
 
-    <!-- WhatsApp Media Preview & Caption Modal -->
+    <!-- Media Preview & Caption Modal -->
     <div id="media-preview-dialog">
       <div class="media-dialog-top">
         <button class="icon-btn" id="btn-close-media-dialog" style="color: #fff;"><i class="ri-close-line"></i></button>
@@ -1449,6 +1471,15 @@
     const lbImg = document.getElementById("lb-img");
     const lbCounter = document.getElementById("lb-counter");
 
+    // Clear Any Native OS Selection
+    function clearNativeSelection() {
+      if (window.getSelection) {
+        window.getSelection().removeAllRanges();
+      } else if (document.selection) {
+        document.selection.empty();
+      }
+    }
+
     // Haptic Feedback
     function triggerVibration(pattern = 30) {
       if ("vibrate" in navigator) {
@@ -1469,7 +1500,6 @@
       }
     }
 
-    // Fallback timer if DB is slow or empty
     setTimeout(dismissSplashScreen, 2500);
 
     // Meta Description Listener
@@ -1546,6 +1576,7 @@
         bubble.addEventListener("touchmove", clearLongPress);
         bubble.addEventListener("contextmenu", (e) => {
           e.preventDefault();
+          clearNativeSelection();
           toggleSelect(msg.id);
         });
 
@@ -1555,6 +1586,7 @@
             toggleSelect(msg.id);
           } else {
             e.stopPropagation();
+            clearNativeSelection();
             openFloatingReactionPill(bubble, msg.id);
           }
         });
@@ -1597,7 +1629,6 @@
             bodyHtml += `<div class="msg-content" style="margin-top: 4px;">${parseMessageText(msg.text)}</div>`;
           }
         } else {
-          // Plain Text
           if (msg.text) {
             bodyHtml += `<div class="msg-content">${parseMessageText(msg.text)}</div>`;
           }
@@ -1673,13 +1704,11 @@
       const pillWidth = floatingReactionPill.offsetWidth || 230;
       const pillHeight = floatingReactionPill.offsetHeight || 44;
 
-      // Vertical calculation
       let topPos = (rect.top - appRect.top) - (pillHeight + 8);
       if (topPos < 10) {
         topPos = (rect.bottom - appRect.top) + 8;
       }
 
-      // Horizontal calculation
       let leftPos = (rect.right - appRect.left) - pillWidth;
       if (leftPos < 10) leftPos = 10;
       if (leftPos + pillWidth > appRect.width - 10) {
@@ -1709,7 +1738,7 @@
       });
     });
 
-    // Telegram-Style Floating Formatting on Text Selection in Textarea
+    // Telegram-Style Floating Formatting: Anchored Cleanly Above Text Input Pill
     textInput.addEventListener("select", handleTextSelection);
     textInput.addEventListener("keyup", handleTextSelection);
     textInput.addEventListener("mouseup", handleTextSelection);
@@ -1718,23 +1747,16 @@
       const start = textInput.selectionStart;
       const end = textInput.selectionEnd;
       if (start !== end && textInput.value.substring(start, end).trim().length > 0) {
+        const inputPill = document.querySelector(".input-pill");
         const appRect = document.getElementById("app").getBoundingClientRect();
-        const inputRect = textInput.getBoundingClientRect();
+        const pillRect = inputPill.getBoundingClientRect();
 
         floatingFormatBar.style.display = "flex";
-        const barWidth = floatingFormatBar.offsetWidth || 260;
         const barHeight = floatingFormatBar.offsetHeight || 38;
 
-        let topPos = (inputRect.top - appRect.top) - (barHeight + 8);
-        let leftPos = (inputRect.left - appRect.left) + ((inputRect.width - barWidth) / 2);
-
-        if (leftPos < 10) leftPos = 10;
-        if (leftPos + barWidth > appRect.width - 10) {
-          leftPos = appRect.width - barWidth - 10;
-        }
-
-        floatingFormatBar.style.top = topPos + "px";
-        floatingFormatBar.style.left = leftPos + "px";
+        // Position 10px above the entire input pill container
+        const topPos = (pillRect.top - appRect.top) - (barHeight + 10);
+        floatingFormatBar.style.top = `${topPos}px`;
       } else {
         floatingFormatBar.style.display = "none";
       }
@@ -1778,6 +1800,7 @@
     // Multi-Selection Logic
     function startLongPress(e, id) {
       longPressTimeout = setTimeout(() => {
+        clearNativeSelection();
         toggleSelect(id);
       }, 450);
     }
@@ -1907,7 +1930,7 @@
       }
     });
 
-    // Attachment Button & Media Dialog with Caption
+    // Attachment & Caption Modal
     document.getElementById("btn-attach").addEventListener("click", () => mediaFileInput.click());
 
     mediaFileInput.addEventListener("change", (e) => {
@@ -1933,7 +1956,6 @@
           timestamp: firebase.database.ServerValue.TIMESTAMP
         };
 
-        // Open WhatsApp Media Caption Modal
         mediaDialogBody.innerHTML = "";
         if (type === "photo") {
           mediaDialogBody.innerHTML = `<img src="${evt.target.result}" alt="Preview" />`;
