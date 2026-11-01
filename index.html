@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Clipboard</title>
+  <title>Slipboard</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
-  <!-- Google Fonts: Inter -->
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Remix Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
 
   <!-- Firebase SDKs -->
@@ -22,14 +21,15 @@
       --wa-teal: #00a884;
       --wa-teal-hover: #029072;
       --wa-bubble-green: #d9fdd3;
-      --wa-bubble-border: #c8eec2;
+      --wa-bubble-border: transparent;
       --wa-text-primary: #111b21;
       --wa-text-secondary: #667781;
       --wa-bg-panel: #ffffff;
       --wa-bg-gray: #f0f2f5;
       --wa-border: #e9edef;
+      --wa-selection-highlight: rgba(12, 160, 130, 0.18);
       --wa-link: #027eb5;
-      --app-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --app-font: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
     }
 
     * {
@@ -42,7 +42,7 @@
 
     body {
       font-family: var(--app-font);
-      background-color: #e5e7eb;
+      background-color: #eae6df;
       height: 100dvh;
       display: flex;
       justify-content: center;
@@ -56,32 +56,28 @@
     #app {
       width: 100%;
       height: 100%;
-      max-width: 520px;
+      max-width: 500px;
       display: flex;
       flex-direction: column;
       position: relative;
-      background-color: #fafbfc;
-      /* Dotted Isometric Blueprint Canvas */
-      background-image: 
-        radial-gradient(circle, rgba(17, 27, 33, 0.08) 1.2px, transparent 1.2px),
-        linear-gradient(to right, rgba(17, 27, 33, 0.025) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(17, 27, 33, 0.025) 1px, transparent 1px);
-      background-size: 24px 24px, 24px 24px, 24px 24px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      background-color: #efeae2;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
       overflow: hidden;
     }
 
-    /* Top Bar */
+    /* Header */
     header {
-      height: 62px;
+      height: 60px;
       background: var(--wa-bg-panel);
       border-bottom: 1px solid var(--wa-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 14px;
+      padding: 0 12px;
       z-index: 10;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
       flex-shrink: 0;
     }
 
@@ -95,16 +91,16 @@
     }
 
     .avatar-wrap {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       overflow: hidden;
-      background: var(--wa-bg-gray);
+      background: #ffffff;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+      border: 1px solid var(--wa-border);
     }
 
     .avatar-wrap img {
@@ -122,7 +118,6 @@
     .header-info h1 {
       font-size: 16px;
       font-weight: 600;
-      letter-spacing: -0.2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -132,7 +127,6 @@
       font-size: 11.5px;
       color: var(--wa-text-secondary);
       font-weight: 400;
-      letter-spacing: 0.1px;
     }
 
     .icon-btn {
@@ -148,7 +142,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.15s ease;
+      transition: background 0.15s ease;
       flex-shrink: 0;
     }
 
@@ -157,7 +151,7 @@
       color: var(--wa-text-primary);
     }
 
-    /* Long-Press Selection Bar with Quick Reaction Row */
+    /* Multi-Selection Top Bar */
     #selection-bar-container {
       position: absolute;
       top: 0;
@@ -166,18 +160,18 @@
       z-index: 25;
       display: none;
       flex-direction: column;
-      animation: fadeIn 0.15s ease-out;
+      background: #ffffff;
+      height: 60px;
+      border-bottom: 1px solid var(--wa-border);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     }
 
     #selection-bar {
-      height: 62px;
-      background: #ffffff;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 12px;
-      border-bottom: 1px solid var(--wa-border);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .selection-left {
@@ -194,28 +188,34 @@
       gap: 2px;
     }
 
-    .reaction-bar {
+    /* Floating WhatsApp Reaction Pill (Right next to target message) */
+    #floating-reaction-pill {
+      position: absolute;
+      display: none;
       background: #ffffff;
-      padding: 8px 16px;
-      display: flex;
+      border-radius: 28px;
+      padding: 5px 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      z-index: 40;
+      gap: 8px;
       align-items: center;
-      justify-content: space-around;
-      border-bottom: 2px solid var(--wa-teal);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      animation: popIn 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      border: 1px solid var(--wa-border);
     }
 
-    .react-pill {
-      font-size: 24px;
+    .react-pill-item {
+      font-size: 22px;
       cursor: pointer;
+      line-height: 1;
       transition: transform 0.12s ease;
       display: inline-block;
     }
 
-    .react-pill:hover, .react-pill:active {
-      transform: scale(1.3);
+    .react-pill-item:hover, .react-pill-item:active {
+      transform: scale(1.35);
     }
 
-    /* Telegram Style Pinned Message Top Banner */
+    /* Pinned Message Top Banner */
     #pinned-bar {
       height: 48px;
       background: #ffffff;
@@ -228,11 +228,10 @@
       z-index: 8;
       box-shadow: 0 1px 3px rgba(0,0,0,0.04);
       flex-shrink: 0;
-      animation: fadeIn 0.15s ease-out;
     }
 
     .pinned-indicator {
-      width: 3px;
+      width: 3.5px;
       height: 30px;
       background: var(--wa-teal);
       border-radius: 2px;
@@ -251,7 +250,7 @@
       font-weight: 600;
       color: var(--wa-teal);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
     }
 
     .pinned-snippet {
@@ -262,14 +261,13 @@
       text-overflow: ellipsis;
     }
 
-    /* Expandable Search Input */
+    /* Search Dropdown Input */
     #search-bar-container {
       display: none;
       padding: 8px 12px;
       background: #ffffff;
       border-bottom: 1px solid var(--wa-border);
       z-index: 9;
-      animation: fadeIn 0.15s ease-out;
       flex-shrink: 0;
     }
 
@@ -320,7 +318,6 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      transition: background-color 0.12s ease;
     }
 
     .menu-dropdown button i {
@@ -332,42 +329,67 @@
       background-color: var(--wa-bg-gray);
     }
 
-    /* Message Bubbles Area */
+    /* Chat Messages Stream */
     #messages-container {
       flex: 1;
       overflow-y: auto;
-      padding: 16px 14px;
+      padding: 12px 0;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
       scroll-behavior: smooth;
     }
 
-    .msg-wrapper {
+    .msg-row {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
       width: 100%;
+      position: relative;
+      padding: 3px 12px;
+      box-sizing: border-box;
+      touch-action: pan-y;
+      transition: background 0.15s ease;
     }
 
+    /* WhatsApp Green Multi-Selection Row Highlight */
+    .msg-row.selected {
+      background-color: var(--wa-selection-highlight) !important;
+    }
+
+    .msg-swipe-box {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      position: relative;
+      transition: transform 0.15s ease-out;
+    }
+
+    .swipe-reply-icon {
+      position: absolute;
+      left: -32px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: var(--wa-teal);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    /* WhatsApp Authentic Message Bubble */
     .msg-bubble {
-      max-width: 85%;
+      max-width: 82%;
       background: var(--wa-bubble-green);
-      border: 1px solid var(--wa-bubble-border);
-      border-radius: 12px 0px 12px 12px;
-      padding: 7px 10px 5px 12px;
+      border-radius: 8px;
+      padding: 6px 8px 6px 9px;
       position: relative;
       word-wrap: break-word;
       user-select: text;
-      box-shadow: 0 1px 1px rgba(11, 20, 26, 0.08);
+      box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
       cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      overflow: visible;
     }
 
-    .msg-bubble.selected {
-      background-color: #bbf7d0 !important;
-      border-color: #4ade80 !important;
-      box-shadow: 0 0 0 2px var(--wa-teal);
+    .msg-bubble.is-media {
+      padding: 3px 3px 5px 3px;
     }
 
     .msg-reply-quote {
@@ -375,7 +397,7 @@
       border-left: 3px solid var(--wa-teal);
       border-radius: 4px;
       padding: 4px 8px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       font-size: 12px;
       color: var(--wa-text-secondary);
       cursor: pointer;
@@ -385,8 +407,8 @@
     }
 
     .msg-content {
-      font-size: 14.5px;
-      line-height: 1.45;
+      font-size: 14.2px;
+      line-height: 1.38;
       color: var(--wa-text-primary);
       user-select: text;
       white-space: pre-wrap;
@@ -401,26 +423,29 @@
       cursor: pointer;
     }
 
+    /* Seamless WhatsApp Media Container */
     .msg-media {
-      margin-top: 2px;
-      border-radius: 8px;
+      margin: 0;
+      padding: 0;
+      border-radius: 6px;
       overflow: hidden;
-      max-width: 100%;
-      border: 1px solid rgba(0,0,0,0.06);
+      display: block;
+      line-height: 0;
     }
 
     .msg-media img {
       width: 100%;
-      max-height: 320px;
+      max-height: 330px;
       object-fit: cover;
       display: block;
       cursor: pointer;
+      border-radius: 6px;
     }
 
     .msg-media video {
       width: 100%;
-      max-height: 320px;
-      border-radius: 8px;
+      max-height: 330px;
+      border-radius: 6px;
       display: block;
       background: #000;
     }
@@ -429,13 +454,12 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: rgba(255, 255, 255, 0.75);
-      padding: 10px 12px;
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 8px 10px;
+      border-radius: 6px;
       text-decoration: none;
       color: var(--wa-text-primary);
-      border: 1px solid rgba(0,0,0,0.04);
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .msg-file i {
@@ -451,29 +475,32 @@
       white-space: nowrap;
     }
 
+    /* Reaction Badge on Message */
     .msg-reaction-badge {
       position: absolute;
-      bottom: -8px;
-      left: 10px;
+      bottom: -7px;
+      left: 8px;
       background: #ffffff;
       border-radius: 12px;
       padding: 1px 5px;
       font-size: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.18);
       border: 1px solid var(--wa-border);
       display: inline-flex;
       align-items: center;
+      z-index: 2;
     }
 
     .msg-footer {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      gap: 4px;
-      margin-top: 3px;
+      gap: 3px;
+      margin-top: 2px;
       font-size: 10.5px;
       color: var(--wa-text-secondary);
-      font-weight: 500;
+      font-weight: 400;
+      padding-left: 12px;
     }
 
     .edited-badge {
@@ -489,7 +516,51 @@
       margin-right: 2px;
     }
 
-    /* WhatsApp Styled Footer & Reply Preview Bar */
+    /* Precise WhatsApp Blue Double Check */
+    .wa-checks {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 2px;
+    }
+
+    .wa-checks svg {
+      width: 16px;
+      height: 11px;
+      fill: #53bdeb;
+    }
+
+    /* Format Toolbar Strip */
+    #formatting-bar {
+      display: none;
+      background: #ffffff;
+      border-top: 1px solid var(--wa-border);
+      padding: 4px 10px;
+      gap: 4px;
+      align-items: center;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+
+    .format-btn {
+      background: none;
+      border: 1px solid transparent;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--wa-text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .format-btn:hover {
+      background-color: var(--wa-bg-gray);
+      color: var(--wa-text-primary);
+    }
+
+    /* WhatsApp Footer */
     footer {
       display: flex;
       flex-direction: column;
@@ -520,18 +591,18 @@
       display: flex;
       align-items: flex-end;
       gap: 8px;
-      padding: 8px 12px 10px;
+      padding: 6px 10px 8px;
     }
 
     .input-pill {
       flex: 1;
-      min-height: 48px;
+      min-height: 44px;
       background: #ffffff;
-      border-radius: 26px;
+      border-radius: 24px;
       display: flex;
       align-items: flex-end;
-      padding: 4px 12px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0,0,0,0.1);
+      padding: 3px 12px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
       border: 1px solid rgba(0,0,0,0.03);
     }
 
@@ -540,7 +611,7 @@
       border: none;
       outline: none;
       resize: none;
-      padding: 10px 4px;
+      padding: 9px 4px;
       font-size: 15px;
       font-family: inherit;
       max-height: 120px;
@@ -550,13 +621,9 @@
       user-select: text;
     }
 
-    .input-pill textarea::placeholder {
-      color: #8696a0;
-    }
-
     .send-fab {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: var(--wa-teal);
       border: none;
@@ -568,7 +635,7 @@
       justify-content: center;
       cursor: pointer;
       flex-shrink: 0;
-      box-shadow: 0 2px 6px rgba(0, 168, 132, 0.35);
+      box-shadow: 0 2px 4px rgba(0, 168, 132, 0.3);
       transition: all 0.15s ease;
     }
 
@@ -576,81 +643,7 @@
       transform: scale(0.94);
     }
 
-    /* In-App Inline Editor Sheet (Bottom Sheet instead of popups) */
-    #inline-editor-sheet {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 80;
-      display: none;
-      align-items: flex-end;
-      animation: fadeIn 0.15s ease-out;
-    }
-
-    .inline-editor-box {
-      width: 100%;
-      background: #ffffff;
-      border-radius: 16px 16px 0 0;
-      padding: 18px 16px;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .inline-editor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 600;
-      font-size: 16px;
-    }
-
-    .inline-editor-box textarea, .inline-editor-box input {
-      width: 100%;
-      border: 1px solid var(--wa-border);
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-family: inherit;
-      font-size: 14.5px;
-      outline: none;
-      background: var(--wa-bg-gray);
-    }
-
-    .inline-editor-box textarea:focus, .inline-editor-box input:focus {
-      border-color: var(--wa-teal);
-      background: #ffffff;
-    }
-
-    .inline-editor-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .btn-secondary {
-      padding: 8px 16px;
-      background: #f0f2f5;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      padding: 8px 20px;
-      background: var(--wa-teal);
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    /* Group Info Full Screen Modal */
+    /* Group Info Full Modal */
     #group-modal {
       position: absolute;
       inset: 0;
@@ -691,65 +684,21 @@
     }
 
     .profile-avatar-wrap {
-      width: 100px;
-      height: 100px;
+      width: 104px;
+      height: 104px;
       border-radius: 50%;
       position: relative;
-      cursor: pointer;
       overflow: hidden;
-      background: #e9edef;
+      background: #ffffff;
       box-shadow: 0 4px 14px rgba(0,0,0,0.08);
       margin-bottom: 14px;
+      border: 1px solid var(--wa-border);
     }
 
     .profile-avatar-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-    }
-
-    .profile-avatar-wrap .camera-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .profile-avatar-wrap:hover .camera-overlay {
-      opacity: 1;
-    }
-
-    .info-editable-title {
-      font-size: 19px;
-      font-weight: 600;
-      color: var(--wa-text-primary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .desc-header {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--wa-teal);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-    }
-
-    .desc-content {
-      font-size: 14px;
-      color: var(--wa-text-primary);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      line-height: 1.5;
     }
 
     .clickable-row {
@@ -763,10 +712,6 @@
 
     .clickable-row:last-child {
       border-bottom: none;
-    }
-
-    .clickable-row:hover {
-      background-color: #fafafa;
     }
 
     .row-left {
@@ -801,7 +746,7 @@
     .preview-thumb {
       width: 60px;
       height: 60px;
-      border-radius: 8px;
+      border-radius: 6px;
       overflow: hidden;
       background: var(--wa-bg-gray);
       flex-shrink: 0;
@@ -816,7 +761,16 @@
       object-fit: cover;
     }
 
-    /* Media Full Drawer */
+    /* Red Danger Row for Clear Chat */
+    .danger-row {
+      color: #ea3943 !important;
+    }
+
+    .danger-row i {
+      color: #ea3943 !important;
+    }
+
+    /* Full Drawer for Media */
     #media-drawer {
       position: absolute;
       inset: 0;
@@ -836,16 +790,15 @@
 
     .drawer-tab {
       flex: 1;
-      padding: 14px 0;
+      padding: 13px 0;
       text-align: center;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--wa-text-secondary);
       background: none;
       border: none;
       border-bottom: 3px solid transparent;
       cursor: pointer;
-      transition: all 0.15s;
     }
 
     .drawer-tab.active {
@@ -854,7 +807,7 @@
     }
 
     .drawer-grid {
-      padding: 6px;
+      padding: 4px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 4px;
@@ -884,42 +837,22 @@
       object-fit: cover;
     }
 
-    /* Pinned Messages Viewer Modal */
-    #pinned-modal {
+    /* Bottom Sheet Inline Editor */
+    #inline-editor-sheet {
       position: absolute;
       inset: 0;
-      background: #f0f2f5;
-      z-index: 65;
-      display: none;
-      flex-direction: column;
-      animation: slideInRight 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    #pinned-modal-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    /* Export Modal Sheet */
-    #export-sheet {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 70;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 80;
       display: none;
       align-items: flex-end;
       animation: fadeIn 0.15s ease-out;
     }
 
-    .export-box {
+    .inline-editor-box {
       width: 100%;
       background: #ffffff;
       border-radius: 16px 16px 0 0;
-      padding: 20px 16px;
+      padding: 18px 16px;
       box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
       display: flex;
       flex-direction: column;
@@ -927,7 +860,45 @@
       animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Swipeable Lightbox */
+    .inline-editor-box textarea, .inline-editor-box input {
+      width: 100%;
+      border: 1px solid var(--wa-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 14.5px;
+      outline: none;
+      background: var(--wa-bg-gray);
+    }
+
+    .inline-editor-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      padding: 8px 16px;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      padding: 8px 20px;
+      background: var(--wa-teal);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Lightbox */
     #lightbox {
       position: fixed;
       inset: 0;
@@ -959,10 +930,9 @@
     }
 
     .lightbox-stage img {
-      max-width: 95%;
+      max-width: 96%;
       max-height: 82vh;
       object-fit: contain;
-      user-select: none;
     }
 
     .lightbox-nav-btn {
@@ -995,6 +965,11 @@
       to { opacity: 1; }
     }
 
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.7); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
     @keyframes slideInRight {
       from { transform: translateX(100%); }
       to { transform: translateX(0); }
@@ -1009,18 +984,19 @@
 <body>
 
   <div id="app">
-    <!-- Top Header -->
+    <!-- Top Bar -->
     <header>
       <div class="header-left" id="header-open-modal">
         <div class="avatar-wrap">
-          <img id="chat-header-avatar" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=120" alt="Avatar" />
+          <img id="chat-header-avatar" src="slipboard.png" alt="Slipboard" />
         </div>
         <div class="header-info">
-          <h1 id="chat-header-title">Clipboard</h1>
+          <h1 id="chat-header-title">Slipboard</h1>
           <span id="chat-header-status">Tap here for group info</span>
         </div>
       </div>
       <div class="header-actions">
+        <button class="icon-btn" id="btn-toggle-formatting" title="Formatting options"><i class="ri-font-size-2"></i></button>
         <button class="icon-btn" id="btn-open-menu" title="Menu"><i class="ri-more-2-fill"></i></button>
       </div>
 
@@ -1031,20 +1007,11 @@
         <button id="menu-pinned-opt"><i class="ri-pushpin-line"></i> Pinned messages</button>
         <button id="menu-export-opt"><i class="ri-download-2-line"></i> Export chat</button>
         <button id="menu-info-opt"><i class="ri-information-line"></i> Group info</button>
-        <button id="menu-clear-opt"><i class="ri-delete-bin-line"></i> Clear chat</button>
       </div>
     </header>
 
-    <!-- Selection Bar with WhatsApp Reaction Pill Bar -->
+    <!-- Multi-Selection Top Action Bar -->
     <div id="selection-bar-container">
-      <div class="reaction-bar" id="reaction-bar">
-        <span class="react-pill" data-emoji="👍">👍</span>
-        <span class="react-pill" data-emoji="❤️">❤️</span>
-        <span class="react-pill" data-emoji="😂">😂</span>
-        <span class="react-pill" data-emoji="😮">😮</span>
-        <span class="react-pill" data-emoji="😢">😢</span>
-        <span class="react-pill" data-emoji="🙏">🙏</span>
-      </div>
       <div id="selection-bar">
         <div class="selection-left">
           <button class="icon-btn" id="btn-close-selection"><i class="ri-close-line"></i></button>
@@ -1060,7 +1027,17 @@
       </div>
     </div>
 
-    <!-- Telegram-Style Pinned Message Banner -->
+    <!-- Floating WhatsApp Single-Click Reaction Pill -->
+    <div id="floating-reaction-pill">
+      <span class="react-pill-item" data-emoji="👍">👍</span>
+      <span class="react-pill-item" data-emoji="❤️">❤️</span>
+      <span class="react-pill-item" data-emoji="😂">😂</span>
+      <span class="react-pill-item" data-emoji="😮">😮</span>
+      <span class="react-pill-item" data-emoji="😢">😢</span>
+      <span class="react-pill-item" data-emoji="🙏">🙏</span>
+    </div>
+
+    <!-- Telegram-Style Pinned Top Banner -->
     <div id="pinned-bar">
       <div class="pinned-indicator"></div>
       <div class="pinned-text-wrap" id="pinned-click-target">
@@ -1070,7 +1047,7 @@
       <button class="icon-btn" id="btn-unpin-top" title="Unpin"><i class="ri-close-line"></i></button>
     </div>
 
-    <!-- Search Bar -->
+    <!-- Search Input Bar -->
     <div id="search-bar-container">
       <div id="search-input-wrap">
         <i class="ri-search-line" style="color: var(--wa-text-secondary); margin-left: 6px;"></i>
@@ -1082,15 +1059,26 @@
     <!-- Messages Container -->
     <div id="messages-container"></div>
 
-    <!-- Bottom Input Bar & Reply Preview -->
+    <!-- Formatting Strip (Bold, Italic, Strikethrough, Underline, Link, Code, Quote) -->
+    <div id="formatting-bar">
+      <button class="format-btn" onclick="applyFormat('bold')"><i class="ri-bold"></i> Bold</button>
+      <button class="format-btn" onclick="applyFormat('italic')"><i class="ri-italic"></i> Italic</button>
+      <button class="format-btn" onclick="applyFormat('underline')"><i class="ri-underline"></i> Underline</button>
+      <button class="format-btn" onclick="applyFormat('strike')"><i class="ri-strikethrough"></i> Strike</button>
+      <button class="format-btn" onclick="applyFormat('code')"><i class="ri-code-line"></i> Mono</button>
+      <button class="format-btn" onclick="applyFormat('quote')"><i class="ri-double-quotes-l"></i> Quote</button>
+      <button class="format-btn" onclick="applyFormat('link')"><i class="ri-link"></i> Link</button>
+    </div>
+
+    <!-- Bottom Bar -->
     <footer>
       <div id="reply-preview-bar">
-        <div class="reply-preview-content" id="reply-preview-text">Replying to message...</div>
+        <div class="reply-preview-content" id="reply-preview-text">Replying...</div>
         <button class="icon-btn" id="btn-cancel-reply" style="width: 28px; height: 28px;"><i class="ri-close-line"></i></button>
       </div>
       <div class="input-row">
         <div class="input-pill">
-          <button class="icon-btn" id="btn-attach" style="margin-right: 4px;" title="Attach photo, video or document">
+          <button class="icon-btn" id="btn-attach" style="margin-right: 4px;" title="Attach file">
             <i class="ri-attachment-2"></i>
           </button>
           <textarea id="text-input" rows="1" placeholder="Type a message or paste link..."></textarea>
@@ -1101,14 +1089,13 @@
       </div>
     </footer>
 
-    <!-- File Inputs -->
+    <!-- Hidden Attachment Input -->
     <input type="file" id="media-file-input" />
-    <input type="file" id="profile-img-input" accept="image/*" />
 
-    <!-- In-App Inline Editor Sheet (Replaces window.prompt/popups) -->
+    <!-- In-App Sheet Editor -->
     <div id="inline-editor-sheet">
       <div class="inline-editor-box">
-        <div class="inline-editor-header">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-weight: 600;">
           <span id="inline-editor-title">Edit Message</span>
           <button class="icon-btn" id="btn-close-inline-editor" style="width: 32px; height: 32px;"><i class="ri-close-line"></i></button>
         </div>
@@ -1127,26 +1114,18 @@
         <span style="font-size: 17px; font-weight: 600;">Group info</span>
       </div>
 
-      <!-- Hero Section -->
       <div class="info-card profile-hero">
-        <div class="profile-avatar-wrap" id="change-profile-btn" title="Tap to change group photo">
-          <img id="modal-profile-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=120" alt="Avatar" />
-          <div class="camera-overlay">
-            <i class="ri-camera-fill" style="font-size: 22px; margin-bottom: 2px;"></i>
-            <span style="font-size: 10px; font-weight: 500;">CHANGE</span>
-          </div>
+        <div class="profile-avatar-wrap">
+          <img src="slipboard.png" alt="Slipboard Profile" />
         </div>
-        <div class="info-editable-title">
-          <span id="group-title-label">Clipboard</span>
-          <button class="icon-btn" id="edit-title-btn" style="width: 30px; height: 30px; font-size: 17px;"><i class="ri-pencil-line"></i></button>
-        </div>
+        <h2 style="font-size: 19px; font-weight: 600;">Slipboard</h2>
         <span style="font-size: 12.5px; color: var(--wa-text-secondary); margin-top: 4px;">Universal Cross-Device Workspace</span>
       </div>
 
       <!-- Description Block -->
       <div class="info-card">
-        <div class="desc-header">Description</div>
-        <div class="desc-content">
+        <div style="font-size: 12px; font-weight: 600; color: var(--wa-teal); text-transform: uppercase; margin-bottom: 6px;">Description</div>
+        <div style="font-size: 14px; color: var(--wa-text-primary); display: flex; justify-content: space-between;">
           <span id="group-desc-label">Share text snippets, code, images, and links instantly across devices.</span>
           <button class="icon-btn" id="edit-desc-btn" style="width: 30px; height: 30px; font-size: 17px;"><i class="ri-pencil-line"></i></button>
         </div>
@@ -1167,35 +1146,18 @@
         <div class="media-preview-strip" id="media-preview-strip"></div>
       </div>
 
-      <!-- Pinned Row -->
+      <!-- WhatsApp Red Clear Chat Button -->
       <div class="info-card" style="padding-top: 10px; padding-bottom: 10px;">
-        <div class="clickable-row" id="open-pinned-modal-btn">
+        <div class="clickable-row danger-row" id="btn-clear-chat-modal">
           <div class="row-left">
-            <i class="ri-pushpin-line"></i>
-            <span>Pinned messages</span>
-          </div>
-          <div class="row-right">
-            <span id="total-pinned-count">0</span>
-            <i class="ri-arrow-right-s-line" style="font-size: 20px;"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Export Chat Option -->
-      <div class="info-card" style="padding-top: 10px; padding-bottom: 10px;">
-        <div class="clickable-row" id="open-export-sheet-btn">
-          <div class="row-left">
-            <i class="ri-download-2-line"></i>
-            <span>Export chat</span>
-          </div>
-          <div class="row-right">
-            <i class="ri-arrow-right-s-line" style="font-size: 20px;"></i>
+            <i class="ri-delete-bin-line"></i>
+            <span style="font-weight: 600;">Clear chat</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Media Full Screen Drawer (Photos, Videos, Docs, Links) -->
+    <!-- Media Full Screen Drawer -->
     <div id="media-drawer">
       <div class="modal-nav">
         <button class="icon-btn" id="btn-close-drawer"><i class="ri-arrow-left-line"></i></button>
@@ -1208,34 +1170,6 @@
         <button class="drawer-tab" data-drawer-tab="links">LINKS</button>
       </div>
       <div class="drawer-grid" id="drawer-grid-content"></div>
-    </div>
-
-    <!-- Pinned Messages Full Modal -->
-    <div id="pinned-modal">
-      <div class="modal-nav">
-        <button class="icon-btn" id="btn-close-pinned-modal"><i class="ri-arrow-left-line"></i></button>
-        <span style="font-size: 17px; font-weight: 600;">Pinned Messages</span>
-      </div>
-      <div id="pinned-modal-list"></div>
-    </div>
-
-    <!-- Export Chat Option Sheet -->
-    <div id="export-sheet">
-      <div class="export-box">
-        <div class="inline-editor-header">
-          <span>Export Chat</span>
-          <button class="icon-btn" id="btn-close-export" style="width: 32px; height: 32px;"><i class="ri-close-line"></i></button>
-        </div>
-        <p style="font-size: 13.5px; color: var(--wa-text-secondary);">Include media or export plain transcript file?</p>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
-          <button class="btn-secondary" id="btn-export-without" style="padding: 12px; text-align: left; display: flex; align-items: center; gap: 10px;">
-            <i class="ri-file-text-line" style="font-size: 18px;"></i> Without Media (.txt)
-          </button>
-          <button class="btn-primary" id="btn-export-with" style="padding: 12px; text-align: left; display: flex; align-items: center; gap: 10px;">
-            <i class="ri-attachment-line" style="font-size: 18px;"></i> With Media Data (.txt)
-          </button>
-        </div>
-      </div>
     </div>
 
     <!-- Photo Lightbox -->
@@ -1255,6 +1189,36 @@
   </div>
 
   <script>
+    // Offline Cache: background.png Local Storage / Cache
+    (function cacheAndApplyBackground() {
+      const appEl = document.getElementById("app");
+      const cachedBg = localStorage.getItem("slipboard_bg_cached");
+      if (cachedBg) {
+        appEl.style.backgroundImage = `url(${cachedBg})`;
+      } else {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = "backgrounf.png";
+        img.onload = function () {
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL("image/png");
+            localStorage.setItem("slipboard_bg_cached", dataURL);
+            appEl.style.backgroundImage = `url(${dataURL})`;
+          } catch (e) {
+            appEl.style.backgroundImage = "url(backgrounf.png)";
+          }
+        };
+        img.onerror = function() {
+          appEl.style.backgroundImage = "url(backgrounf.png)";
+        };
+      }
+    })();
+
     // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyD1WCOzRfz13BBTGnwMLOcNrdJcTxa5Wrs",
@@ -1274,64 +1238,55 @@
 
     // State Variables
     let messages = [];
-    let selectedMsgId = null;
+    let selectedMsgIds = new Set();
     let replyingToMsg = null;
-    let pressTimer = null;
+    let longPressTimeout = null;
     let photoList = [];
     let currentPhotoIdx = 0;
     let touchStartX = 0;
     let touchEndX = 0;
     let inlineEditCallback = null;
+    let activePillMsgId = null;
 
     // Elements
     const msgContainer = document.getElementById("messages-container");
     const textInput = document.getElementById("text-input");
     const btnSend = document.getElementById("btn-send");
     const mediaFileInput = document.getElementById("media-file-input");
-    const profileImgInput = document.getElementById("profile-img-input");
     const dropdownMenu = document.getElementById("dropdown-menu");
     const searchBarContainer = document.getElementById("search-bar-container");
     const searchInput = document.getElementById("search-input");
     const selectionBarContainer = document.getElementById("selection-bar-container");
+    const selectionCount = document.getElementById("selection-count");
+    const floatingReactionPill = document.getElementById("floating-reaction-pill");
     const pinnedBar = document.getElementById("pinned-bar");
     const pinnedSnippetText = document.getElementById("pinned-snippet-text");
     const replyPreviewBar = document.getElementById("reply-preview-bar");
     const replyPreviewText = document.getElementById("reply-preview-text");
     const groupModal = document.getElementById("group-modal");
     const mediaDrawer = document.getElementById("media-drawer");
-    const pinnedModal = document.getElementById("pinned-modal");
-    const exportSheet = document.getElementById("export-sheet");
     const inlineEditorSheet = document.getElementById("inline-editor-sheet");
+    const formattingBar = document.getElementById("formatting-bar");
     const lightbox = document.getElementById("lightbox");
     const lbImg = document.getElementById("lb-img");
     const lbCounter = document.getElementById("lb-counter");
 
-    // Haptic Feedback Helper
-    function triggerVibration(pattern = 35) {
+    // Haptic Feedback
+    function triggerVibration(pattern = 30) {
       if ("vibrate" in navigator) {
-        try {
-          navigator.vibrate(pattern);
-        } catch (e) {}
+        try { navigator.vibrate(pattern); } catch (e) {}
       }
     }
 
-    // Realtime Metadata Listener
+    // Meta Description Listener
     metaRef.on("value", (snap) => {
       const data = snap.val() || {};
-      if (data.avatar) {
-        document.getElementById("chat-header-avatar").src = data.avatar;
-        document.getElementById("modal-profile-img").src = data.avatar;
-      }
-      if (data.name) {
-        document.getElementById("chat-header-title").innerText = data.name;
-        document.getElementById("group-title-label").innerText = data.name;
-      }
       if (data.description) {
         document.getElementById("group-desc-label").innerText = data.description;
       }
     });
 
-    // Realtime Message Stream Listener
+    // Realtime Database Sync
     clipRef.on("value", (snapshot) => {
       const data = snapshot.val();
       messages = [];
@@ -1347,19 +1302,43 @@
       updatePinnedBanner();
     });
 
-    // Extract URLs
-    function extractUrls(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.match(urlRegex) || [];
+    // Text & Custom Markdown Parser (Bold, Italic, Underline, Strike, Code, Quote, Links)
+    function parseMessageText(text) {
+      if (!text) return "";
+      let html = escapeHtml(text);
+
+      // Code blocks & Monospace
+      html = html.replace(/```([\s\S]*?)```/g, '<pre style="background: rgba(0,0,0,0.06); padding: 4px 6px; border-radius: 4px; font-family: monospace; font-size: 13px;">$1</pre>');
+      html = html.replace(/`([^`]+)`/g, '<code style="background: rgba(0,0,0,0.06); padding: 1px 4px; border-radius: 3px; font-family: monospace; font-size: 13px;">$1</code>');
+
+      // Bold: *text*
+      html = html.replace(/\*([^\*]+)\*/g, '<strong>$1</strong>');
+
+      // Italic: _text_
+      html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+      // Strikethrough: ~text~
+      html = html.replace(/~([^~]+)~/g, '<del>$1</del>');
+
+      // Underline: __text__
+      html = html.replace(/__([^_]+)__/g, '<u>$1</u>');
+
+      // Quotes: > quote
+      html = html.replace(/^(&gt;|>)\s?(.*)$/gm, '<blockquote style="border-left: 3px solid var(--wa-teal); padding-left: 8px; margin: 4px 0; color: #54656f;">$2</blockquote>');
+
+      // Named Markdown Links: [label](url)
+      html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+      // Raw URLs: https://...
+      const urlRegex = /(https?:\/\/[^\s<]+)/g;
+      html = html.replace(urlRegex, (url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+      });
+
+      return html;
     }
 
-    // Format Text Links
-    function formatLinks(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
-    }
-
-    // Render Messages
+    // Render Messages with Swipe-To-Reply and Selection Highlight
     function renderMessages(filterText = "") {
       msgContainer.innerHTML = "";
       const filtered = filterText
@@ -1367,46 +1346,59 @@
         : messages;
 
       filtered.forEach((msg) => {
-        const wrap = document.createElement("div");
-        wrap.className = "msg-wrapper";
+        const row = document.createElement("div");
+        row.className = `msg-row ${selectedMsgIds.has(msg.id) ? "selected" : ""}`;
+        row.dataset.id = msg.id;
+
+        const swipeBox = document.createElement("div");
+        swipeBox.className = "msg-swipe-box";
+
+        const swipeReplyIcon = document.createElement("i");
+        swipeReplyIcon.className = "ri-reply-fill swipe-reply-icon";
+        swipeBox.appendChild(swipeReplyIcon);
 
         const bubble = document.createElement("div");
-        bubble.className = `msg-bubble ${selectedMsgId === msg.id ? "selected" : ""}`;
+        bubble.className = `msg-bubble ${msg.type === "photo" || msg.type === "video" ? "is-media" : ""}`;
         bubble.dataset.id = msg.id;
 
-        // Long Press / Right Click Handlers
-        bubble.addEventListener("touchstart", (e) => handleTouchStart(e, msg.id), { passive: true });
-        bubble.addEventListener("touchend", handleTouchEnd);
-        bubble.addEventListener("touchmove", handleTouchEnd);
+        // Long Press Handler (Multi-Select)
+        bubble.addEventListener("touchstart", (e) => startLongPress(e, msg.id), { passive: true });
+        bubble.addEventListener("touchend", clearLongPress);
+        bubble.addEventListener("touchmove", clearLongPress);
         bubble.addEventListener("contextmenu", (e) => {
           e.preventDefault();
-          selectMessage(msg.id);
+          toggleSelect(msg.id);
         });
 
-        // Bubble Click
-        bubble.addEventListener("click", () => {
-          if (selectedMsgId) {
-            if (selectedMsgId === msg.id) clearSelection();
-            else selectMessage(msg.id);
+        // Click Handler: Single Click Opens WhatsApp Reaction Pill; if selecting, toggles select
+        bubble.addEventListener("click", (e) => {
+          if (selectedMsgIds.size > 0) {
+            toggleSelect(msg.id);
+          } else {
+            e.stopPropagation();
+            openFloatingReactionPill(bubble, msg.id);
           }
         });
 
+        // Swipe-to-Reply Logic
+        setupSwipeToReply(row, swipeBox, swipeReplyIcon, msg);
+
         let bodyHtml = "";
 
-        // Quoted Reply Context
+        // Quoted Context
         if (msg.replyTo) {
           bodyHtml += `
             <div class="msg-reply-quote" onclick="scrollToMessage('${msg.replyTo.id}')">
-              <strong>${escapeHtml(msg.replyTo.sender || "Message")}</strong>: ${escapeHtml(msg.replyTo.snippet || "")}
+              <strong>${escapeHtml(msg.replyTo.sender || "Slipboard")}</strong>: ${escapeHtml(msg.replyTo.snippet || "")}
             </div>`;
         }
 
-        // Text & Clickable Blue Links
+        // Formatted Text
         if (msg.text) {
-          bodyHtml += `<div class="msg-content">${formatLinks(escapeHtml(msg.text))}</div>`;
+          bodyHtml += `<div class="msg-content">${parseMessageText(msg.text)}</div>`;
         }
 
-        // Media Types
+        // Photos & Videos (Seamless Zero-Border Fit)
         if (msg.type === "photo") {
           bodyHtml += `
             <div class="msg-media">
@@ -1425,24 +1417,27 @@
             </a>`;
         }
 
-        // WhatsApp Style Reaction Badge
+        // Reaction Badge
         if (msg.reaction) {
           bodyHtml += `<span class="msg-reaction-badge">${msg.reaction}</span>`;
         }
 
-        // Footer (Pin icon, Edited status, Time, Checkmarks)
+        // Footer with WhatsApp Blue Ticks
         const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         bodyHtml += `
           <div class="msg-footer">
             ${msg.isPinned ? '<i class="ri-pushpin-fill pin-icon"></i>' : ''}
             ${msg.isEdited ? '<span class="edited-badge">edited</span>' : ''}
             <span>${time}</span>
-            <i class="ri-check-double-line" style="font-size: 13px; color: #53bdeb;"></i>
+            <span class="wa-checks">
+              <svg viewBox="0 0 16 11"><path d="M15.01 3.316l-7.79 7.79a.996.996 0 0 1-1.41 0l-3.8-3.81a.996.996 0 1 1 1.41-1.41l3.09 3.1 7.09-7.08a.996.996 0 0 1 1.41 1.41z M11.19 3.316l-7.79 7.79a.996.996 0 0 1-1.41 0L.29 9.406a.996.996 0 1 1 1.41-1.41l1.41 1.41 7.08-7.08a.996.996 0 0 1 1.41 1.41z"/></svg>
+            </span>
           </div>`;
 
         bubble.innerHTML = bodyHtml;
-        wrap.appendChild(bubble);
-        msgContainer.appendChild(wrap);
+        swipeBox.appendChild(bubble);
+        row.appendChild(swipeBox);
+        msgContainer.appendChild(row);
       });
 
       if (!filterText) {
@@ -1450,15 +1445,171 @@
       }
     }
 
-    // Scroll to Message
-    function scrollToMessage(msgId) {
-      const el = document.querySelector(`.msg-bubble[data-id="${msgId}"]`);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.classList.add("selected");
-        setTimeout(() => el.classList.remove("selected"), 1200);
+    // Swipe To Reply Implementation
+    function setupSwipeToReply(row, swipeBox, icon, msg) {
+      let startX = 0;
+      let diffX = 0;
+
+      row.addEventListener("touchstart", (e) => {
+        startX = e.changedTouches[0].clientX;
+      }, { passive: true });
+
+      row.addEventListener("touchmove", (e) => {
+        const currentX = e.changedTouches[0].clientX;
+        diffX = currentX - startX;
+        if (diffX < 0) {
+          const move = Math.max(diffX, -70);
+          swipeBox.style.transform = `translateX(${move}px)`;
+          if (move < -45) {
+            icon.style.opacity = "1";
+          } else {
+            icon.style.opacity = "0";
+          }
+        }
+      }, { passive: true });
+
+      row.addEventListener("touchend", () => {
+        if (diffX < -50) {
+          triggerVibration(40);
+          initiateReply(msg);
+        }
+        swipeBox.style.transform = "translateX(0px)";
+        icon.style.opacity = "0";
+        diffX = 0;
+      });
+    }
+
+    // Floating Reaction Pill Positioned right around target bubble
+    function openFloatingReactionPill(bubble, msgId) {
+      activePillMsgId = msgId;
+      const rect = bubble.getBoundingClientRect();
+      const appRect = document.getElementById("app").getBoundingClientRect();
+
+      floatingReactionPill.style.display = "flex";
+      let topPos = (rect.top - appRect.top) - 48;
+      if (topPos < 10) topPos = (rect.bottom - appRect.top) + 8;
+      let leftPos = (rect.right - appRect.left) - 220;
+      if (leftPos < 10) leftPos = 10;
+
+      floatingReactionPill.style.top = topPos + "px";
+      floatingReactionPill.style.left = leftPos + "px";
+      triggerVibration(25);
+    }
+
+    document.addEventListener("click", () => {
+      floatingReactionPill.style.display = "none";
+      activePillMsgId = null;
+    });
+
+    document.querySelectorAll(".react-pill-item").forEach((pill) => {
+      pill.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!activePillMsgId) return;
+        const emoji = pill.dataset.emoji;
+        const currentMsg = messages.find((m) => m.id === activePillMsgId);
+        const newReaction = currentMsg && currentMsg.reaction === emoji ? null : emoji;
+        clipRef.child(activePillMsgId).update({ reaction: newReaction });
+        triggerVibration(30);
+        floatingReactionPill.style.display = "none";
+      });
+    });
+
+    // Multi-Selection Logic
+    function startLongPress(e, id) {
+      longPressTimeout = setTimeout(() => {
+        toggleSelect(id);
+      }, 450);
+    }
+
+    function clearLongPress() {
+      clearTimeout(longPressTimeout);
+    }
+
+    function toggleSelect(id) {
+      if (selectedMsgIds.has(id)) {
+        selectedMsgIds.delete(id);
+      } else {
+        selectedMsgIds.add(id);
+      }
+      triggerVibration(35);
+      updateSelectionBar();
+      renderMessages(searchInput.value);
+    }
+
+    function updateSelectionBar() {
+      const count = selectedMsgIds.size;
+      if (count > 0) {
+        selectionBarContainer.style.display = "flex";
+        selectionCount.innerText = count;
+        document.getElementById("btn-edit-selected").style.display = count === 1 ? "flex" : "none";
+        document.getElementById("btn-reply-selected").style.display = count === 1 ? "flex" : "none";
+      } else {
+        selectionBarContainer.style.display = "none";
       }
     }
+
+    function clearAllSelection() {
+      selectedMsgIds.clear();
+      updateSelectionBar();
+      renderMessages(searchInput.value);
+    }
+
+    document.getElementById("btn-close-selection").addEventListener("click", clearAllSelection);
+
+    // Multi-Delete
+    document.getElementById("btn-delete-selected").addEventListener("click", () => {
+      if (!selectedMsgIds.size) return;
+      selectedMsgIds.forEach((id) => clipRef.child(id).remove());
+      triggerVibration([30, 40, 30]);
+      clearAllSelection();
+    });
+
+    // Multi-Copy
+    document.getElementById("btn-copy-selected").addEventListener("click", () => {
+      const copyArr = [];
+      messages.forEach((m) => {
+        if (selectedMsgIds.has(m.id)) {
+          copyArr.push(m.text || m.fileData || "");
+        }
+      });
+      if (copyArr.length) {
+        navigator.clipboard.writeText(copyArr.join("\n"));
+        triggerVibration(35);
+      }
+      clearAllSelection();
+    });
+
+    // Reply Selected
+    document.getElementById("btn-reply-selected").addEventListener("click", () => {
+      const id = Array.from(selectedMsgIds)[0];
+      const target = messages.find((m) => m.id === id);
+      if (target) initiateReply(target);
+      clearAllSelection();
+    });
+
+    // Pin Selected
+    document.getElementById("btn-pin-selected").addEventListener("click", () => {
+      selectedMsgIds.forEach((id) => {
+        const target = messages.find((m) => m.id === id);
+        if (target) clipRef.child(id).update({ isPinned: !target.isPinned });
+      });
+      triggerVibration(35);
+      clearAllSelection();
+    });
+
+    // Edit Selected
+    document.getElementById("btn-edit-selected").addEventListener("click", () => {
+      const id = Array.from(selectedMsgIds)[0];
+      const target = messages.find((m) => m.id === id);
+      if (target && target.text) {
+        openInlineEditor("Edit Message", target.text, true, (newVal) => {
+          if (newVal && newVal.trim() && newVal.trim() !== target.text) {
+            clipRef.child(id).update({ text: newVal.trim(), isEdited: true });
+          }
+        });
+      }
+      clearAllSelection();
+    });
 
     // Auto-expand Textarea
     textInput.addEventListener("input", function () {
@@ -1481,7 +1632,7 @@
         payload.replyTo = {
           id: replyingToMsg.id,
           snippet: (replyingToMsg.text || replyingToMsg.fileName || "Media").slice(0, 50),
-          sender: "Clipboard"
+          sender: "Slipboard"
         };
       }
 
@@ -1489,7 +1640,6 @@
       textInput.value = "";
       textInput.style.height = "auto";
       cancelReply();
-      clearSelection();
       triggerVibration(25);
     }
 
@@ -1501,22 +1651,7 @@
       }
     });
 
-    // Reply Handler
-    function initiateReply(msg) {
-      replyingToMsg = msg;
-      replyPreviewText.innerText = (msg.text || msg.fileName || "Media").slice(0, 45);
-      replyPreviewBar.style.display = "flex";
-      textInput.focus();
-    }
-
-    function cancelReply() {
-      replyingToMsg = null;
-      replyPreviewBar.style.display = "none";
-    }
-
-    document.getElementById("btn-cancel-reply").addEventListener("click", cancelReply);
-
-    // Media & File Attachments
+    // Attachment Button
     document.getElementById("btn-attach").addEventListener("click", () => mediaFileInput.click());
 
     mediaFileInput.addEventListener("change", (e) => {
@@ -1546,7 +1681,7 @@
           payload.replyTo = {
             id: replyingToMsg.id,
             snippet: (replyingToMsg.text || replyingToMsg.fileName || "Media").slice(0, 50),
-            sender: "Clipboard"
+            sender: "Slipboard"
           };
         }
 
@@ -1558,94 +1693,153 @@
       mediaFileInput.value = "";
     });
 
-    // Profile Avatar Upload
-    document.getElementById("change-profile-btn").addEventListener("click", () => profileImgInput.click());
-    profileImgInput.addEventListener("change", (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        metaRef.child("avatar").set(evt.target.result);
-        triggerVibration(30);
-      };
-      reader.readAsDataURL(file);
+    // Formatting Toolbar Handlers
+    document.getElementById("btn-toggle-formatting").addEventListener("click", () => {
+      const isVisible = formattingBar.style.display === "flex";
+      formattingBar.style.display = isVisible ? "none" : "flex";
+      triggerVibration(20);
     });
 
-    // Long Press Handler
-    function handleTouchStart(e, msgId) {
-      pressTimer = setTimeout(() => {
-        selectMessage(msgId);
-      }, 450);
-    }
+    function applyFormat(type) {
+      const start = textInput.selectionStart;
+      const end = textInput.selectionEnd;
+      const text = textInput.value;
+      const selected = text.substring(start, end);
 
-    function handleTouchEnd() {
-      clearTimeout(pressTimer);
-    }
-
-    function selectMessage(msgId) {
-      selectedMsgId = msgId;
-      triggerVibration(40);
-      selectionBarContainer.style.display = "flex";
-      renderMessages(searchInput.value);
-    }
-
-    function clearSelection() {
-      selectedMsgId = null;
-      selectionBarContainer.style.display = "none";
-      renderMessages(searchInput.value);
-    }
-
-    document.getElementById("btn-close-selection").addEventListener("click", clearSelection);
-
-    // Reactions
-    document.querySelectorAll(".react-pill").forEach((pill) => {
-      pill.addEventListener("click", () => {
-        if (!selectedMsgId) return;
-        const emoji = pill.dataset.emoji;
-        const currentMsg = messages.find((m) => m.id === selectedMsgId);
-        const newReaction = currentMsg && currentMsg.reaction === emoji ? null : emoji;
-        clipRef.child(selectedMsgId).update({ reaction: newReaction });
-        triggerVibration(35);
-        clearSelection();
-      });
-    });
-
-    // Selection Bar Actions
-    document.getElementById("btn-reply-selected").addEventListener("click", () => {
-      const target = messages.find((m) => m.id === selectedMsgId);
-      if (target) initiateReply(target);
-      triggerVibration(30);
-      clearSelection();
-    });
-
-    document.getElementById("btn-pin-selected").addEventListener("click", () => {
-      const target = messages.find((m) => m.id === selectedMsgId);
-      if (target) {
-        clipRef.child(selectedMsgId).update({ isPinned: !target.isPinned });
-        triggerVibration(40);
+      let replacement = "";
+      if (type === "bold") replacement = `*${selected || "bold text"}*`;
+      else if (type === "italic") replacement = `_${selected || "italic text"}_`;
+      else if (type === "underline") replacement = `__${selected || "underlined"}__`;
+      else if (type === "strike") replacement = `~${selected || "strikethrough"}~`;
+      else if (type === "code") replacement = `\`${selected || "monospace"}\``;
+      else if (type === "quote") replacement = `> ${selected || "quote"}`;
+      else if (type === "link") {
+        const linkUrl = prompt("Enter web URL (https://...):", "https://");
+        if (linkUrl) {
+          replacement = `[${selected || "link"}](${linkUrl})`;
+        } else {
+          return;
+        }
       }
-      clearSelection();
-    });
 
-    document.getElementById("btn-copy-selected").addEventListener("click", () => {
-      const target = messages.find((m) => m.id === selectedMsgId);
-      if (target) {
-        const textToCopy = target.text || target.fileData || "";
-        navigator.clipboard.writeText(textToCopy);
-        triggerVibration(40);
+      textInput.value = text.substring(0, start) + replacement + text.substring(end);
+      textInput.focus();
+      triggerVibration(20);
+    }
+
+    // Reply Preview Handlers
+    function initiateReply(msg) {
+      replyingToMsg = msg;
+      replyPreviewText.innerText = (msg.text || msg.fileName || "Media").slice(0, 45);
+      replyPreviewBar.style.display = "flex";
+      textInput.focus();
+    }
+
+    function cancelReply() {
+      replyingToMsg = null;
+      replyPreviewBar.style.display = "none";
+    }
+
+    document.getElementById("btn-cancel-reply").addEventListener("click", cancelReply);
+
+    // Scroll to Message
+    function scrollToMessage(msgId) {
+      const el = document.querySelector(`.msg-row[data-id="${msgId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("selected");
+        setTimeout(() => el.classList.remove("selected"), 1200);
       }
-      clearSelection();
+    }
+
+    // Pinned Banner Handlers
+    function updatePinnedBanner() {
+      const pinned = messages.filter((m) => m.isPinned);
+      if (pinned.length > 0) {
+        const latestPinned = pinned[pinned.length - 1];
+        pinnedSnippetText.innerText = latestPinned.text || latestPinned.fileName || "Media attachment";
+        pinnedBar.style.display = "flex";
+
+        document.getElementById("pinned-click-target").onclick = () => {
+          scrollToMessage(latestPinned.id);
+        };
+
+        document.getElementById("btn-unpin-top").onclick = (e) => {
+          e.stopPropagation();
+          clipRef.child(latestPinned.id).update({ isPinned: false });
+          triggerVibration(30);
+        };
+      } else {
+        pinnedBar.style.display = "none";
+      }
+    }
+
+    // 3-Dot Dropdown Handlers
+    document.getElementById("btn-open-menu").addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === "flex" ? "none" : "flex";
+      triggerVibration(25);
     });
 
-    document.getElementById("btn-delete-selected").addEventListener("click", () => {
-      if (selectedMsgId) {
-        clipRef.child(selectedMsgId).remove();
-        triggerVibration([30, 50, 30]);
-        clearSelection();
+    document.addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+    });
+
+    document.getElementById("menu-search-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      searchBarContainer.style.display = "block";
+      searchInput.focus();
+    });
+
+    document.getElementById("btn-close-search").addEventListener("click", () => {
+      searchBarContainer.style.display = "none";
+      searchInput.value = "";
+      renderMessages();
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      renderMessages(e.target.value);
+    });
+
+    document.getElementById("menu-media-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      openMediaDrawerTab("photos");
+    });
+
+    document.getElementById("menu-pinned-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      const pinned = messages.filter((m) => m.isPinned);
+      if (pinned.length) scrollToMessage(pinned[pinned.length - 1].id);
+    });
+
+    document.getElementById("menu-export-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      exportChatText();
+    });
+
+    document.getElementById("menu-info-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      groupModal.style.display = "flex";
+    });
+
+    // Group Modal & Red Clear Chat Button
+    document.getElementById("header-open-modal").addEventListener("click", () => {
+      groupModal.style.display = "flex";
+    });
+
+    document.getElementById("btn-close-modal").addEventListener("click", () => {
+      groupModal.style.display = "none";
+    });
+
+    document.getElementById("btn-clear-chat-modal").addEventListener("click", () => {
+      if (confirm("Are you sure you want to clear all messages in Slipboard?")) {
+        clipRef.remove();
+        triggerVibration([40, 50]);
+        groupModal.style.display = "none";
       }
     });
 
-    // In-App Non-Popup Inline Editor Sheet
+    // In-App Sheet Editor for Descriptions and Edits
     function openInlineEditor(title, initialValue, isTextarea, onSave) {
       document.getElementById("inline-editor-title").innerText = title;
       const body = document.getElementById("inline-editor-body");
@@ -1680,177 +1874,19 @@
       const val = document.getElementById("inline-editor-input").value;
       if (inlineEditCallback) {
         inlineEditCallback(val);
-        triggerVibration(35);
+        triggerVibration(30);
       }
       closeInlineEditor();
     });
 
-    // Edit Selected Message
-    document.getElementById("btn-edit-selected").addEventListener("click", () => {
-      const target = messages.find((m) => m.id === selectedMsgId);
-      if (target && target.text) {
-        const targetId = selectedMsgId;
-        openInlineEditor("Edit Message", target.text, true, (newVal) => {
-          if (newVal && newVal.trim() && newVal.trim() !== target.text) {
-            clipRef.child(targetId).update({
-              text: newVal.trim(),
-              isEdited: true
-            });
-          }
-        });
-      }
-      clearSelection();
-    });
-
-    // Edit Group Name & Description In-App
-    document.getElementById("edit-title-btn").addEventListener("click", () => {
-      const current = document.getElementById("group-title-label").innerText;
-      openInlineEditor("Change Group Name", current, false, (val) => {
-        if (val && val.trim()) metaRef.child("name").set(val.trim());
-      });
-    });
-
     document.getElementById("edit-desc-btn").addEventListener("click", () => {
       const current = document.getElementById("group-desc-label").innerText;
-      openInlineEditor("Change Description", current, true, (val) => {
+      openInlineEditor("Edit Description", current, true, (val) => {
         if (val && val.trim()) metaRef.child("description").set(val.trim());
       });
     });
 
-    // 3-Dot Menu Handlers
-    document.getElementById("btn-open-menu").addEventListener("click", (e) => {
-      e.stopPropagation();
-      dropdownMenu.style.display = dropdownMenu.style.display === "flex" ? "none" : "flex";
-      triggerVibration(25);
-    });
-
-    document.addEventListener("click", () => {
-      dropdownMenu.style.display = "none";
-    });
-
-    // Search Toggle from 3-dot Menu
-    document.getElementById("menu-search-opt").addEventListener("click", () => {
-      dropdownMenu.style.display = "none";
-      searchBarContainer.style.display = "block";
-      searchInput.focus();
-    });
-
-    document.getElementById("btn-close-search").addEventListener("click", () => {
-      searchBarContainer.style.display = "none";
-      searchInput.value = "";
-      renderMessages();
-    });
-
-    searchInput.addEventListener("input", (e) => {
-      renderMessages(e.target.value);
-    });
-
-    // Media Menu Option
-    document.getElementById("menu-media-opt").addEventListener("click", () => {
-      dropdownMenu.style.display = "none";
-      openMediaDrawerTab("photos");
-    });
-
-    // Pinned Menu Option
-    document.getElementById("menu-pinned-opt").addEventListener("click", () => {
-      dropdownMenu.style.display = "none";
-      openPinnedModal();
-    });
-
-    // Export Chat Menu Option
-    document.getElementById("menu-export-opt").addEventListener("click", () => {
-      dropdownMenu.style.display = "none";
-      exportSheet.style.display = "flex";
-    });
-
-    document.getElementById("open-export-sheet-btn").addEventListener("click", () => {
-      exportSheet.style.display = "flex";
-    });
-
-    document.getElementById("btn-close-export").addEventListener("click", () => {
-      exportSheet.style.display = "none";
-    });
-
-    // Clear Chat Option
-    document.getElementById("menu-clear-opt").addEventListener("click", () => {
-      dropdownMenu.style.display = "none";
-      if (confirm("Clear all items in Clipboard?")) {
-        clipRef.remove();
-        triggerVibration([50, 50]);
-      }
-    });
-
-    document.getElementById("menu-info-opt").addEventListener("click", () => {
-      dropdownMenu.style.display = "none";
-      groupModal.style.display = "flex";
-    });
-
-    document.getElementById("header-open-modal").addEventListener("click", () => {
-      groupModal.style.display = "flex";
-    });
-
-    document.getElementById("btn-close-modal").addEventListener("click", () => {
-      groupModal.style.display = "none";
-    });
-
-    // Telegram-Style Pinned Banner State
-    function updatePinnedBanner() {
-      const pinned = messages.filter((m) => m.isPinned);
-      document.getElementById("total-pinned-count").innerText = pinned.length;
-
-      if (pinned.length > 0) {
-        const latestPinned = pinned[pinned.length - 1];
-        pinnedSnippetText.innerText = latestPinned.text || latestPinned.fileName || "Media attachment";
-        pinnedBar.style.display = "flex";
-
-        document.getElementById("pinned-click-target").onclick = () => {
-          scrollToMessage(latestPinned.id);
-        };
-
-        document.getElementById("btn-unpin-top").onclick = (e) => {
-          e.stopPropagation();
-          clipRef.child(latestPinned.id).update({ isPinned: false });
-          triggerVibration(30);
-        };
-      } else {
-        pinnedBar.style.display = "none";
-      }
-    }
-
-    // Pinned Messages Modal
-    function openPinnedModal() {
-      const list = document.getElementById("pinned-modal-list");
-      list.innerHTML = "";
-      const pinned = messages.filter((m) => m.isPinned);
-
-      if (!pinned.length) {
-        list.innerHTML = `<div style="text-align: center; color: var(--wa-text-secondary); padding: 40px; font-size: 14px;">No pinned messages</div>`;
-      } else {
-        pinned.forEach((msg) => {
-          const item = document.createElement("div");
-          item.className = "msg-bubble";
-          item.style.alignSelf = "flex-end";
-          item.style.width = "100%";
-          item.innerHTML = `
-            <div style="font-size: 12px; color: var(--wa-teal); font-weight: 600; margin-bottom: 2px;">Pinned Message</div>
-            <div class="msg-content">${formatLinks(escapeHtml(msg.text || msg.fileName || "Media"))}</div>`;
-          item.onclick = () => {
-            pinnedModal.style.display = "none";
-            groupModal.style.display = "none";
-            scrollToMessage(msg.id);
-          };
-          list.appendChild(item);
-        });
-      }
-      pinnedModal.style.display = "flex";
-    }
-
-    document.getElementById("open-pinned-modal-btn").addEventListener("click", openPinnedModal);
-    document.getElementById("btn-close-pinned-modal").addEventListener("click", () => {
-      pinnedModal.style.display = "none";
-    });
-
-    // Media Shelf Preview
+    // Media Preview Shelf
     function updateMediaPreviewStrip() {
       const mediaItems = messages.filter((m) => m.type === "photo" || m.type === "video" || m.type === "file");
       document.getElementById("total-media-count").innerText = mediaItems.length;
@@ -1873,7 +1909,6 @@
       });
     }
 
-    // Media Drawer Navigation
     function openMediaDrawerTab(tabName) {
       mediaDrawer.style.display = "flex";
       document.querySelectorAll(".drawer-tab").forEach((t) => {
@@ -1909,8 +1944,8 @@
         const linkItems = [];
         messages.forEach((m) => {
           if (m.text) {
-            const urls = extractUrls(m.text);
-            urls.forEach((url) => linkItems.push({ url, timestamp: m.timestamp }));
+            const urls = m.text.match(/(https?:\/\/[^\s]+)/g) || [];
+            urls.forEach((url) => linkItems.push(url));
           }
         });
 
@@ -1919,13 +1954,13 @@
           return;
         }
 
-        linkItems.forEach((item) => {
+        linkItems.forEach((url) => {
           const a = document.createElement("a");
           a.className = "msg-file";
-          a.href = item.url;
+          a.href = url;
           a.target = "_blank";
           a.rel = "noopener noreferrer";
-          a.innerHTML = `<i class="ri-links-line"></i><div class="msg-file-name">${escapeHtml(item.url)}</div>`;
+          a.innerHTML = `<i class="ri-links-line"></i><div class="msg-file-name">${escapeHtml(url)}</div>`;
           grid.appendChild(a);
         });
         return;
@@ -1967,38 +2002,29 @@
       });
     }
 
-    // Export Chat (Without & With Media Options)
-    function exportChat(withMedia) {
-      let output = `--- WhatsApp / Clipboard Chat Export ---\nGenerated: ${new Date().toLocaleString()}\n\n`;
-
+    // Export Chat Transcript
+    function exportChatText() {
+      let output = `--- Slipboard Chat Transcript ---\nExported on: ${new Date().toLocaleString()}\n\n`;
       messages.forEach((m) => {
         const time = new Date(m.timestamp).toLocaleString();
         const editedStr = m.isEdited ? " (edited)" : "";
         const reactStr = m.reaction ? ` [Reaction: ${m.reaction}]` : "";
-
         if (m.type === "text") {
-          output += `[${time}] Clipboard: ${m.text}${editedStr}${reactStr}\n`;
+          output += `[${time}] Slipboard: ${m.text}${editedStr}${reactStr}\n`;
         } else {
-          output += `[${time}] Clipboard: <Attached ${m.type.toUpperCase()}: ${m.fileName || "attachment"}>${reactStr}\n`;
-          if (withMedia && m.fileData) {
-            output += `Data URL: ${m.fileData}\n`;
-          }
+          output += `[${time}] Slipboard: <Attached ${m.type.toUpperCase()}: ${m.fileName || "file"}>${reactStr}\n`;
         }
       });
 
       const blob = new Blob([output], { type: "text/plain;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `Clipboard_Chat_${withMedia ? "WithMedia" : "WithoutMedia"}_${Date.now()}.txt`;
+      a.download = `Slipboard_Chat_${Date.now()}.txt`;
       a.click();
-      exportSheet.style.display = "none";
-      triggerVibration(40);
+      triggerVibration(35);
     }
 
-    document.getElementById("btn-export-without").addEventListener("click", () => exportChat(false));
-    document.getElementById("btn-export-with").addEventListener("click", () => exportChat(true));
-
-    // Photo Lightbox & Swipe Gestures
+    // Photo Lightbox
     function extractPhotos() {
       photoList = messages.filter((m) => m.type === "photo").map((m) => m.fileData);
     }
@@ -2021,7 +2047,7 @@
       document.getElementById("lb-download").onclick = () => {
         const a = document.createElement("a");
         a.href = photoList[currentPhotoIdx];
-        a.download = `clipboard_${Date.now()}.png`;
+        a.download = `slipboard_${Date.now()}.png`;
         a.click();
       };
     }
@@ -2044,6 +2070,7 @@
       lightbox.style.display = "none";
     });
 
+    // Lightbox Swipe Gestures
     const stage = document.getElementById("lightbox-stage");
     stage.addEventListener("touchstart", (e) => {
       touchStartX = e.changedTouches[0].screenX;
@@ -2051,19 +2078,14 @@
 
     stage.addEventListener("touchend", (e) => {
       touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, { passive: true });
-
-    function handleSwipe() {
-      const threshold = 40;
-      if (touchEndX < touchStartX - threshold && currentPhotoIdx < photoList.length - 1) {
+      if (touchEndX < touchStartX - 40 && currentPhotoIdx < photoList.length - 1) {
         currentPhotoIdx++;
         updateLightbox();
-      } else if (touchEndX > touchStartX + threshold && currentPhotoIdx > 0) {
+      } else if (touchEndX > touchStartX + 40 && currentPhotoIdx > 0) {
         currentPhotoIdx--;
         updateLightbox();
       }
-    }
+    }, { passive: true });
 
     // Keyboard Shortcuts
     window.addEventListener("keydown", (e) => {
@@ -2080,7 +2102,7 @@
       }
     });
 
-    // Helper: Escape HTML
+    // HTML Escape Helper
     function escapeHtml(text) {
       const div = document.createElement("div");
       div.innerText = text;
