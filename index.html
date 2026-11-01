@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Remix Icons for authentic, sharp UI iconography -->
+  <!-- Remix Icons -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
 
   <!-- Firebase SDKs -->
@@ -28,6 +28,7 @@
       --wa-bg-panel: #ffffff;
       --wa-bg-gray: #f0f2f5;
       --wa-border: #e9edef;
+      --wa-link: #027eb5;
       --app-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -60,7 +61,7 @@
       flex-direction: column;
       position: relative;
       background-color: #fafbfc;
-      /* Refined Engineering Math/Grid Background with subtle points */
+      /* Dotted Isometric Blueprint Canvas */
       background-image: 
         radial-gradient(circle, rgba(17, 27, 33, 0.08) 1.2px, transparent 1.2px),
         linear-gradient(to right, rgba(17, 27, 33, 0.025) 1px, transparent 1px),
@@ -72,7 +73,7 @@
 
     /* Top Bar */
     header {
-      height: 64px;
+      height: 62px;
       background: var(--wa-bg-panel);
       border-bottom: 1px solid var(--wa-border);
       display: flex;
@@ -81,6 +82,7 @@
       padding: 0 14px;
       z-index: 10;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      flex-shrink: 0;
     }
 
     .header-left {
@@ -127,16 +129,10 @@
     }
 
     .header-info span {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--wa-text-secondary);
       font-weight: 400;
       letter-spacing: 0.1px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 2px;
     }
 
     .icon-btn {
@@ -153,6 +149,7 @@
       align-items: center;
       justify-content: center;
       transition: all 0.15s ease;
+      flex-shrink: 0;
     }
 
     .icon-btn:hover {
@@ -160,27 +157,33 @@
       color: var(--wa-text-primary);
     }
 
-    /* Long-Press Selection Bar */
-    #selection-bar {
+    /* Long-Press Selection Bar with Quick Reaction Row */
+    #selection-bar-container {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 64px;
-      background: #ffffff;
+      z-index: 25;
       display: none;
+      flex-direction: column;
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    #selection-bar {
+      height: 62px;
+      background: #ffffff;
+      display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
-      border-bottom: 2px solid var(--wa-teal);
-      z-index: 15;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--wa-border);
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .selection-left {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       font-size: 16px;
       font-weight: 600;
     }
@@ -188,37 +191,107 @@
     .selection-actions {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
+    }
+
+    .reaction-bar {
+      background: #ffffff;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border-bottom: 2px solid var(--wa-teal);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .react-pill {
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.12s ease;
+      display: inline-block;
+    }
+
+    .react-pill:hover, .react-pill:active {
+      transform: scale(1.3);
+    }
+
+    /* Telegram Style Pinned Message Top Banner */
+    #pinned-bar {
+      height: 48px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--wa-border);
+      display: none;
+      align-items: center;
+      padding: 0 14px;
+      gap: 12px;
+      cursor: pointer;
+      z-index: 8;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      flex-shrink: 0;
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    .pinned-indicator {
+      width: 3px;
+      height: 30px;
+      background: var(--wa-teal);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .pinned-text-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .pinned-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--wa-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pinned-snippet {
+      font-size: 13px;
+      color: var(--wa-text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Expandable Search Input */
     #search-bar-container {
       display: none;
-      padding: 10px 14px;
+      padding: 8px 12px;
       background: #ffffff;
       border-bottom: 1px solid var(--wa-border);
       z-index: 9;
       animation: fadeIn 0.15s ease-out;
+      flex-shrink: 0;
+    }
+
+    #search-input-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--wa-bg-gray);
+      border-radius: 8px;
+      padding: 0 8px;
     }
 
     #search-input {
-      width: 100%;
-      padding: 9px 16px;
-      border-radius: 10px;
-      border: 1px solid #e2e8f0;
-      background: var(--wa-bg-gray);
+      flex: 1;
+      padding: 8px;
+      border: none;
+      background: transparent;
       font-family: inherit;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.15s ease;
     }
 
-    #search-input:focus {
-      border-color: var(--wa-teal);
-      background: #ffffff;
-    }
-
-    /* Dropdown Menu */
+    /* 3-Dot Dropdown */
     .menu-dropdown {
       position: absolute;
       top: 58px;
@@ -228,8 +301,8 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0,0,0,0.04);
       display: none;
       flex-direction: column;
-      min-width: 190px;
-      z-index: 25;
+      min-width: 210px;
+      z-index: 30;
       overflow: hidden;
       border: 1px solid var(--wa-border);
       animation: fadeIn 0.15s ease-out;
@@ -263,7 +336,7 @@
     #messages-container {
       flex: 1;
       overflow-y: auto;
-      padding: 18px 16px;
+      padding: 16px 14px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -278,7 +351,7 @@
     }
 
     .msg-bubble {
-      max-width: 84%;
+      max-width: 85%;
       background: var(--wa-bubble-green);
       border: 1px solid var(--wa-bubble-border);
       border-radius: 12px 0px 12px 12px;
@@ -291,18 +364,28 @@
       transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
 
-    .msg-bubble:active {
-      transform: scale(0.99);
-    }
-
     .msg-bubble.selected {
       background-color: #bbf7d0 !important;
       border-color: #4ade80 !important;
       box-shadow: 0 0 0 2px var(--wa-teal);
     }
 
+    .msg-reply-quote {
+      background: rgba(0, 0, 0, 0.05);
+      border-left: 3px solid var(--wa-teal);
+      border-radius: 4px;
+      padding: 4px 8px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: var(--wa-text-secondary);
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .msg-content {
-      font-size: 14.2px;
+      font-size: 14.5px;
       line-height: 1.45;
       color: var(--wa-text-primary);
       user-select: text;
@@ -310,10 +393,12 @@
     }
 
     .msg-content a {
-      color: #0c72ea;
+      color: var(--wa-link);
       text-decoration: underline;
       text-underline-offset: 2px;
       word-break: break-all;
+      font-weight: 500;
+      cursor: pointer;
     }
 
     .msg-media {
@@ -344,7 +429,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.75);
       padding: 10px 12px;
       border-radius: 8px;
       text-decoration: none;
@@ -366,6 +451,20 @@
       white-space: nowrap;
     }
 
+    .msg-reaction-badge {
+      position: absolute;
+      bottom: -8px;
+      left: 10px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1px 5px;
+      font-size: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      border: 1px solid var(--wa-border);
+      display: inline-flex;
+      align-items: center;
+    }
+
     .msg-footer {
       display: flex;
       justify-content: flex-end;
@@ -377,14 +476,51 @@
       font-weight: 500;
     }
 
-    /* WhatsApp Styled Footer */
+    .edited-badge {
+      font-size: 10px;
+      color: var(--wa-text-secondary);
+      font-style: italic;
+      margin-right: 2px;
+    }
+
+    .pin-icon {
+      font-size: 11px;
+      color: var(--wa-text-secondary);
+      margin-right: 2px;
+    }
+
+    /* WhatsApp Styled Footer & Reply Preview Bar */
     footer {
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+      z-index: 10;
+      flex-shrink: 0;
+    }
+
+    #reply-preview-bar {
+      display: none;
+      background: #f7f8fa;
+      border-top: 1px solid var(--wa-border);
+      padding: 8px 14px;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 4px solid var(--wa-teal);
+    }
+
+    .reply-preview-content {
+      font-size: 12.5px;
+      color: var(--wa-text-secondary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .input-row {
       display: flex;
       align-items: flex-end;
       gap: 8px;
-      padding: 10px 14px 12px;
-      background: transparent;
-      z-index: 10;
+      padding: 8px 12px 10px;
     }
 
     .input-pill {
@@ -436,12 +572,82 @@
       transition: all 0.15s ease;
     }
 
-    .send-fab:hover {
-      background: var(--wa-teal-hover);
-    }
-
     .send-fab:active {
       transform: scale(0.94);
+    }
+
+    /* In-App Inline Editor Sheet (Bottom Sheet instead of popups) */
+    #inline-editor-sheet {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 80;
+      display: none;
+      align-items: flex-end;
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    .inline-editor-box {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px 16px 0 0;
+      padding: 18px 16px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .inline-editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .inline-editor-box textarea, .inline-editor-box input {
+      width: 100%;
+      border: 1px solid var(--wa-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-family: inherit;
+      font-size: 14.5px;
+      outline: none;
+      background: var(--wa-bg-gray);
+    }
+
+    .inline-editor-box textarea:focus, .inline-editor-box input:focus {
+      border-color: var(--wa-teal);
+      background: #ffffff;
+    }
+
+    .inline-editor-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      padding: 8px 16px;
+      background: #f0f2f5;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      padding: 8px 20px;
+      background: var(--wa-teal);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
     }
 
     /* Group Info Full Screen Modal */
@@ -467,11 +673,12 @@
       position: sticky;
       top: 0;
       z-index: 20;
+      flex-shrink: 0;
     }
 
     .info-card {
       background: #ffffff;
-      padding: 20px 16px;
+      padding: 18px 16px;
       margin-bottom: 10px;
       box-shadow: 0 1px 2px rgba(0,0,0,0.03);
     }
@@ -484,8 +691,8 @@
     }
 
     .profile-avatar-wrap {
-      width: 110px;
-      height: 110px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       position: relative;
       cursor: pointer;
@@ -519,25 +726,17 @@
     }
 
     .info-editable-title {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 600;
       color: var(--wa-text-primary);
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 4px;
     }
 
-    .info-editable-title i {
-      font-size: 16px;
-      color: var(--wa-text-secondary);
-      cursor: pointer;
-    }
-
-    /* WhatsApp Description Block */
     .desc-header {
-      font-size: 12.5px;
-      font-weight: 500;
+      font-size: 12px;
+      font-weight: 600;
       color: var(--wa-teal);
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -553,46 +752,55 @@
       line-height: 1.5;
     }
 
-    /* Media, Links & Docs Card */
-    .media-shelf-card {
-      background: #ffffff;
-      padding: 14px 16px;
-      margin-bottom: 10px;
+    .clickable-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       cursor: pointer;
-      transition: background-color 0.12s;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f2f5;
     }
 
-    .media-shelf-card:hover {
+    .clickable-row:last-child {
+      border-bottom: none;
+    }
+
+    .clickable-row:hover {
       background-color: #fafafa;
     }
 
-    .media-shelf-header {
+    .row-left {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      gap: 14px;
+      font-size: 15px;
       font-weight: 500;
     }
 
-    .media-shelf-count {
+    .row-left i {
+      font-size: 20px;
       color: var(--wa-text-secondary);
-      font-size: 13px;
+    }
+
+    .row-right {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--wa-text-secondary);
     }
 
     .media-preview-strip {
       display: flex;
       gap: 8px;
-      margin-top: 12px;
+      margin-top: 10px;
       overflow-x: hidden;
-      height: 64px;
+      height: 60px;
     }
 
     .preview-thumb {
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
       border-radius: 8px;
       overflow: hidden;
       background: var(--wa-bg-gray);
@@ -608,7 +816,7 @@
       object-fit: cover;
     }
 
-    /* Dedicated Media Full Drawer */
+    /* Media Full Drawer */
     #media-drawer {
       position: absolute;
       inset: 0;
@@ -623,13 +831,14 @@
       display: flex;
       background: #ffffff;
       border-bottom: 1px solid var(--wa-border);
+      flex-shrink: 0;
     }
 
     .drawer-tab {
       flex: 1;
       padding: 14px 0;
       text-align: center;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
       color: var(--wa-text-secondary);
       background: none;
@@ -645,7 +854,7 @@
     }
 
     .drawer-grid {
-      padding: 8px;
+      padding: 6px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 4px;
@@ -656,8 +865,8 @@
     .drawer-grid.list-view {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      padding: 10px 14px;
+      gap: 6px;
+      padding: 12px;
     }
 
     .grid-tile {
@@ -666,6 +875,7 @@
       position: relative;
       cursor: pointer;
       background: #000;
+      border-radius: 4px;
     }
 
     .grid-tile img, .grid-tile video {
@@ -674,75 +884,47 @@
       object-fit: cover;
     }
 
-    /* Settings Group Rows */
-    .setting-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 0;
-      border-bottom: 1px solid #f0f2f5;
+    /* Pinned Messages Viewer Modal */
+    #pinned-modal {
+      position: absolute;
+      inset: 0;
+      background: #f0f2f5;
+      z-index: 65;
+      display: none;
+      flex-direction: column;
+      animation: slideInRight 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .setting-row:last-child {
-      border-bottom: none;
-    }
-
-    .setting-info {
+    #pinned-modal-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 8px;
     }
 
-    .setting-title {
-      font-size: 14.5px;
-      font-weight: 500;
-    }
-
-    .setting-sub {
-      font-size: 12px;
-      color: var(--wa-text-secondary);
-    }
-
-    /* Modern Switch */
-    .toggle-switch {
-      position: relative;
-      width: 44px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
+    /* Export Modal Sheet */
+    #export-sheet {
       position: absolute;
-      cursor: pointer;
       inset: 0;
-      background-color: #cbd5e1;
-      transition: .2s;
-      border-radius: 24px;
+      background: rgba(0,0,0,0.4);
+      z-index: 70;
+      display: none;
+      align-items: flex-end;
+      animation: fadeIn 0.15s ease-out;
     }
 
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .2s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
-      background-color: var(--wa-teal);
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(20px);
+    .export-box {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px 16px 0 0;
+      padding: 20px 16px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Swipeable Lightbox */
@@ -809,13 +991,18 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     @keyframes slideInRight {
       from { transform: translateX(100%); }
       to { transform: translateX(0); }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
     }
   </style>
 </head>
@@ -834,56 +1021,106 @@
         </div>
       </div>
       <div class="header-actions">
-        <button class="icon-btn" id="btn-toggle-search" title="Search messages"><i class="ri-search-line"></i></button>
         <button class="icon-btn" id="btn-open-menu" title="Menu"><i class="ri-more-2-fill"></i></button>
       </div>
 
-      <!-- Clean 3-Dot Dropdown (Search removed) -->
+      <!-- 3-Dot Dropdown -->
       <div class="menu-dropdown" id="dropdown-menu">
+        <button id="menu-search-opt"><i class="ri-search-line"></i> Search</button>
+        <button id="menu-media-opt"><i class="ri-image-line"></i> Media, links, and docs</button>
+        <button id="menu-pinned-opt"><i class="ri-pushpin-line"></i> Pinned messages</button>
+        <button id="menu-export-opt"><i class="ri-download-2-line"></i> Export chat</button>
         <button id="menu-info-opt"><i class="ri-information-line"></i> Group info</button>
         <button id="menu-clear-opt"><i class="ri-delete-bin-line"></i> Clear chat</button>
       </div>
     </header>
 
-    <!-- Selection Bar -->
-    <div id="selection-bar">
-      <div class="selection-left">
-        <button class="icon-btn" id="btn-close-selection"><i class="ri-close-line"></i></button>
-        <span id="selection-count">1</span>
+    <!-- Selection Bar with WhatsApp Reaction Pill Bar -->
+    <div id="selection-bar-container">
+      <div class="reaction-bar" id="reaction-bar">
+        <span class="react-pill" data-emoji="👍">👍</span>
+        <span class="react-pill" data-emoji="❤️">❤️</span>
+        <span class="react-pill" data-emoji="😂">😂</span>
+        <span class="react-pill" data-emoji="😮">😮</span>
+        <span class="react-pill" data-emoji="😢">😢</span>
+        <span class="react-pill" data-emoji="🙏">🙏</span>
       </div>
-      <div class="selection-actions">
-        <button class="icon-btn" id="btn-copy-selected" title="Copy"><i class="ri-file-copy-line"></i></button>
-        <button class="icon-btn" id="btn-edit-selected" title="Edit"><i class="ri-edit-line"></i></button>
-        <button class="icon-btn" id="btn-delete-selected" title="Delete"><i class="ri-delete-bin-6-line"></i></button>
+      <div id="selection-bar">
+        <div class="selection-left">
+          <button class="icon-btn" id="btn-close-selection"><i class="ri-close-line"></i></button>
+          <span id="selection-count">1</span>
+        </div>
+        <div class="selection-actions">
+          <button class="icon-btn" id="btn-reply-selected" title="Reply"><i class="ri-reply-line"></i></button>
+          <button class="icon-btn" id="btn-pin-selected" title="Pin"><i class="ri-pushpin-line"></i></button>
+          <button class="icon-btn" id="btn-copy-selected" title="Copy"><i class="ri-file-copy-line"></i></button>
+          <button class="icon-btn" id="btn-edit-selected" title="Edit"><i class="ri-edit-line"></i></button>
+          <button class="icon-btn" id="btn-delete-selected" title="Delete"><i class="ri-delete-bin-6-line"></i></button>
+        </div>
       </div>
+    </div>
+
+    <!-- Telegram-Style Pinned Message Banner -->
+    <div id="pinned-bar">
+      <div class="pinned-indicator"></div>
+      <div class="pinned-text-wrap" id="pinned-click-target">
+        <span class="pinned-label">Pinned Message</span>
+        <span class="pinned-snippet" id="pinned-snippet-text">No pinned message</span>
+      </div>
+      <button class="icon-btn" id="btn-unpin-top" title="Unpin"><i class="ri-close-line"></i></button>
     </div>
 
     <!-- Search Bar -->
     <div id="search-bar-container">
-      <input type="text" id="search-input" placeholder="Search clipboard messages & links..." />
+      <div id="search-input-wrap">
+        <i class="ri-search-line" style="color: var(--wa-text-secondary); margin-left: 6px;"></i>
+        <input type="text" id="search-input" placeholder="Search in chat..." />
+        <button class="icon-btn" id="btn-close-search" style="width: 32px; height: 32px;"><i class="ri-close-line"></i></button>
+      </div>
     </div>
 
-    <!-- Message Bubble Stream -->
+    <!-- Messages Container -->
     <div id="messages-container"></div>
 
-    <!-- Bottom WhatsApp Bar -->
+    <!-- Bottom Input Bar & Reply Preview -->
     <footer>
-      <div class="input-pill">
-        <button class="icon-btn" id="btn-attach" style="margin-right: 4px;" title="Attach photo, video or document">
-          <i class="ri-attachment-2"></i>
-        </button>
-        <textarea id="text-input" rows="1" placeholder="Type a message or paste link..."></textarea>
+      <div id="reply-preview-bar">
+        <div class="reply-preview-content" id="reply-preview-text">Replying to message...</div>
+        <button class="icon-btn" id="btn-cancel-reply" style="width: 28px; height: 28px;"><i class="ri-close-line"></i></button>
       </div>
-      <button class="send-fab" id="btn-send" title="Send message">
-        <i class="ri-send-plane-2-fill"></i>
-      </button>
+      <div class="input-row">
+        <div class="input-pill">
+          <button class="icon-btn" id="btn-attach" style="margin-right: 4px;" title="Attach photo, video or document">
+            <i class="ri-attachment-2"></i>
+          </button>
+          <textarea id="text-input" rows="1" placeholder="Type a message or paste link..."></textarea>
+        </div>
+        <button class="send-fab" id="btn-send" title="Send">
+          <i class="ri-send-plane-2-fill"></i>
+        </button>
+      </div>
     </footer>
 
     <!-- File Inputs -->
     <input type="file" id="media-file-input" />
     <input type="file" id="profile-img-input" accept="image/*" />
 
-    <!-- Full WhatsApp Group Info Modal -->
+    <!-- In-App Inline Editor Sheet (Replaces window.prompt/popups) -->
+    <div id="inline-editor-sheet">
+      <div class="inline-editor-box">
+        <div class="inline-editor-header">
+          <span id="inline-editor-title">Edit Message</span>
+          <button class="icon-btn" id="btn-close-inline-editor" style="width: 32px; height: 32px;"><i class="ri-close-line"></i></button>
+        </div>
+        <div id="inline-editor-body"></div>
+        <div class="inline-editor-actions">
+          <button class="btn-secondary" id="btn-cancel-inline-editor">Cancel</button>
+          <button class="btn-primary" id="btn-save-inline-editor">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group Info Modal -->
     <div id="group-modal">
       <div class="modal-nav">
         <button class="icon-btn" id="btn-close-modal"><i class="ri-arrow-left-line"></i></button>
@@ -895,80 +1132,110 @@
         <div class="profile-avatar-wrap" id="change-profile-btn" title="Tap to change group photo">
           <img id="modal-profile-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=120" alt="Avatar" />
           <div class="camera-overlay">
-            <i class="ri-camera-fill" style="font-size: 24px; margin-bottom: 2px;"></i>
-            <span style="font-size: 11px; font-weight: 500;">CHANGE</span>
+            <i class="ri-camera-fill" style="font-size: 22px; margin-bottom: 2px;"></i>
+            <span style="font-size: 10px; font-weight: 500;">CHANGE</span>
           </div>
         </div>
         <div class="info-editable-title">
           <span id="group-title-label">Clipboard</span>
-          <i class="ri-pencil-line" id="edit-title-btn" title="Edit Name"></i>
+          <button class="icon-btn" id="edit-title-btn" style="width: 30px; height: 30px; font-size: 17px;"><i class="ri-pencil-line"></i></button>
         </div>
-        <span style="font-size: 13px; color: var(--wa-text-secondary); margin-top: 4px;">Universal Cross-Device Vault</span>
+        <span style="font-size: 12.5px; color: var(--wa-text-secondary); margin-top: 4px;">Universal Cross-Device Workspace</span>
       </div>
 
       <!-- Description Block -->
       <div class="info-card">
         <div class="desc-header">Description</div>
         <div class="desc-content">
-          <span id="group-desc-label">Share text snippets, code, images, and links instantly between your devices.</span>
-          <button class="icon-btn" id="edit-desc-btn" style="width: 28px; height: 28px; font-size: 16px;">
-            <i class="ri-pencil-line"></i>
-          </button>
+          <span id="group-desc-label">Share text snippets, code, images, and links instantly across devices.</span>
+          <button class="icon-btn" id="edit-desc-btn" style="width: 30px; height: 30px; font-size: 17px;"><i class="ri-pencil-line"></i></button>
         </div>
       </div>
 
-      <!-- Media Shelf Button -->
-      <div class="media-shelf-card" id="open-media-drawer-btn">
-        <div class="media-shelf-header">
-          <span>Media, links, and docs</span>
-          <div class="media-shelf-count">
+      <!-- Media Shelf Row -->
+      <div class="info-card" style="padding-top: 10px; padding-bottom: 10px;">
+        <div class="clickable-row" id="open-media-drawer-btn">
+          <div class="row-left">
+            <i class="ri-image-line"></i>
+            <span>Media, links, and docs</span>
+          </div>
+          <div class="row-right">
             <span id="total-media-count">0</span>
-            <i class="ri-arrow-right-s-line" style="font-size: 18px;"></i>
+            <i class="ri-arrow-right-s-line" style="font-size: 20px;"></i>
           </div>
         </div>
         <div class="media-preview-strip" id="media-preview-strip"></div>
       </div>
 
-      <!-- Chat Settings Section -->
-      <div class="info-card">
-        <div class="desc-header" style="margin-bottom: 10px;">Settings</div>
-        
-        <div class="setting-row">
-          <div class="setting-info">
-            <span class="setting-title">Auto-copy on tap</span>
-            <span class="setting-sub">Tapping text message automatically copies to clipboard</span>
+      <!-- Pinned Row -->
+      <div class="info-card" style="padding-top: 10px; padding-bottom: 10px;">
+        <div class="clickable-row" id="open-pinned-modal-btn">
+          <div class="row-left">
+            <i class="ri-pushpin-line"></i>
+            <span>Pinned messages</span>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="setting-autocopy" checked />
-            <span class="slider"></span>
-          </label>
+          <div class="row-right">
+            <span id="total-pinned-count">0</span>
+            <i class="ri-arrow-right-s-line" style="font-size: 20px;"></i>
+          </div>
         </div>
+      </div>
 
-        <div class="setting-row">
-          <div class="setting-info">
-            <span class="setting-title">Auto-scroll to latest</span>
-            <span class="setting-sub">Scroll down automatically when new items arrive</span>
+      <!-- Export Chat Option -->
+      <div class="info-card" style="padding-top: 10px; padding-bottom: 10px;">
+        <div class="clickable-row" id="open-export-sheet-btn">
+          <div class="row-left">
+            <i class="ri-download-2-line"></i>
+            <span>Export chat</span>
           </div>
-          <label class="toggle-switch">
-            <input type="checkbox" id="setting-autoscroll" checked />
-            <span class="slider"></span>
-          </label>
+          <div class="row-right">
+            <i class="ri-arrow-right-s-line" style="font-size: 20px;"></i>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Media Full Screen Drawer -->
+    <!-- Media Full Screen Drawer (Photos, Videos, Docs, Links) -->
     <div id="media-drawer">
       <div class="modal-nav">
         <button class="icon-btn" id="btn-close-drawer"><i class="ri-arrow-left-line"></i></button>
-        <span style="font-size: 17px; font-weight: 600;">Media and Docs</span>
+        <span style="font-size: 17px; font-weight: 600;">Media, links, and docs</span>
       </div>
       <div class="drawer-tabs">
         <button class="drawer-tab active" data-drawer-tab="photos">PHOTOS</button>
         <button class="drawer-tab" data-drawer-tab="videos">VIDEOS</button>
         <button class="drawer-tab" data-drawer-tab="files">DOCS</button>
+        <button class="drawer-tab" data-drawer-tab="links">LINKS</button>
       </div>
       <div class="drawer-grid" id="drawer-grid-content"></div>
+    </div>
+
+    <!-- Pinned Messages Full Modal -->
+    <div id="pinned-modal">
+      <div class="modal-nav">
+        <button class="icon-btn" id="btn-close-pinned-modal"><i class="ri-arrow-left-line"></i></button>
+        <span style="font-size: 17px; font-weight: 600;">Pinned Messages</span>
+      </div>
+      <div id="pinned-modal-list"></div>
+    </div>
+
+    <!-- Export Chat Option Sheet -->
+    <div id="export-sheet">
+      <div class="export-box">
+        <div class="inline-editor-header">
+          <span>Export Chat</span>
+          <button class="icon-btn" id="btn-close-export" style="width: 32px; height: 32px;"><i class="ri-close-line"></i></button>
+        </div>
+        <p style="font-size: 13.5px; color: var(--wa-text-secondary);">Include media or export plain transcript file?</p>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+          <button class="btn-secondary" id="btn-export-without" style="padding: 12px; text-align: left; display: flex; align-items: center; gap: 10px;">
+            <i class="ri-file-text-line" style="font-size: 18px;"></i> Without Media (.txt)
+          </button>
+          <button class="btn-primary" id="btn-export-with" style="padding: 12px; text-align: left; display: flex; align-items: center; gap: 10px;">
+            <i class="ri-attachment-line" style="font-size: 18px;"></i> With Media Data (.txt)
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Photo Lightbox -->
@@ -1008,11 +1275,13 @@
     // State Variables
     let messages = [];
     let selectedMsgId = null;
+    let replyingToMsg = null;
     let pressTimer = null;
     let photoList = [];
     let currentPhotoIdx = 0;
     let touchStartX = 0;
     let touchEndX = 0;
+    let inlineEditCallback = null;
 
     // Elements
     const msgContainer = document.getElementById("messages-container");
@@ -1023,15 +1292,30 @@
     const dropdownMenu = document.getElementById("dropdown-menu");
     const searchBarContainer = document.getElementById("search-bar-container");
     const searchInput = document.getElementById("search-input");
-    const selectionBar = document.getElementById("selection-bar");
+    const selectionBarContainer = document.getElementById("selection-bar-container");
+    const pinnedBar = document.getElementById("pinned-bar");
+    const pinnedSnippetText = document.getElementById("pinned-snippet-text");
+    const replyPreviewBar = document.getElementById("reply-preview-bar");
+    const replyPreviewText = document.getElementById("reply-preview-text");
     const groupModal = document.getElementById("group-modal");
     const mediaDrawer = document.getElementById("media-drawer");
-    const drawerGridContent = document.getElementById("drawer-grid-content");
+    const pinnedModal = document.getElementById("pinned-modal");
+    const exportSheet = document.getElementById("export-sheet");
+    const inlineEditorSheet = document.getElementById("inline-editor-sheet");
     const lightbox = document.getElementById("lightbox");
     const lbImg = document.getElementById("lb-img");
     const lbCounter = document.getElementById("lb-counter");
 
-    // Metadata Realtime Sync
+    // Haptic Feedback Helper
+    function triggerVibration(pattern = 35) {
+      if ("vibrate" in navigator) {
+        try {
+          navigator.vibrate(pattern);
+        } catch (e) {}
+      }
+    }
+
+    // Realtime Metadata Listener
     metaRef.on("value", (snap) => {
       const data = snap.val() || {};
       if (data.avatar) {
@@ -1047,7 +1331,7 @@
       }
     });
 
-    // Realtime Chat Sync
+    // Realtime Message Stream Listener
     clipRef.on("value", (snapshot) => {
       const data = snapshot.val();
       messages = [];
@@ -1057,10 +1341,23 @@
         });
         messages.sort((a, b) => a.timestamp - b.timestamp);
       }
-      renderMessages();
+      renderMessages(searchInput.value);
       extractPhotos();
-      updateMediaShelfPreview();
+      updateMediaPreviewStrip();
+      updatePinnedBanner();
     });
+
+    // Extract URLs
+    function extractUrls(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.match(urlRegex) || [];
+    }
+
+    // Format Text Links
+    function formatLinks(text) {
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    }
 
     // Render Messages
     function renderMessages(filterText = "") {
@@ -1086,22 +1383,30 @@
           selectMessage(msg.id);
         });
 
-        // Click Message
+        // Bubble Click
         bubble.addEventListener("click", () => {
           if (selectedMsgId) {
             if (selectedMsgId === msg.id) clearSelection();
             else selectMessage(msg.id);
-          } else if (document.getElementById("setting-autocopy").checked && msg.text) {
-            navigator.clipboard.writeText(msg.text);
           }
         });
 
         let bodyHtml = "";
 
+        // Quoted Reply Context
+        if (msg.replyTo) {
+          bodyHtml += `
+            <div class="msg-reply-quote" onclick="scrollToMessage('${msg.replyTo.id}')">
+              <strong>${escapeHtml(msg.replyTo.sender || "Message")}</strong>: ${escapeHtml(msg.replyTo.snippet || "")}
+            </div>`;
+        }
+
+        // Text & Clickable Blue Links
         if (msg.text) {
           bodyHtml += `<div class="msg-content">${formatLinks(escapeHtml(msg.text))}</div>`;
         }
 
+        // Media Types
         if (msg.type === "photo") {
           bodyHtml += `
             <div class="msg-media">
@@ -1120,9 +1425,17 @@
             </a>`;
         }
 
+        // WhatsApp Style Reaction Badge
+        if (msg.reaction) {
+          bodyHtml += `<span class="msg-reaction-badge">${msg.reaction}</span>`;
+        }
+
+        // Footer (Pin icon, Edited status, Time, Checkmarks)
         const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         bodyHtml += `
           <div class="msg-footer">
+            ${msg.isPinned ? '<i class="ri-pushpin-fill pin-icon"></i>' : ''}
+            ${msg.isEdited ? '<span class="edited-badge">edited</span>' : ''}
             <span>${time}</span>
             <i class="ri-check-double-line" style="font-size: 13px; color: #53bdeb;"></i>
           </div>`;
@@ -1132,8 +1445,18 @@
         msgContainer.appendChild(wrap);
       });
 
-      if (!filterText && document.getElementById("setting-autoscroll").checked) {
+      if (!filterText) {
         msgContainer.scrollTop = msgContainer.scrollHeight;
+      }
+    }
+
+    // Scroll to Message
+    function scrollToMessage(msgId) {
+      const el = document.querySelector(`.msg-bubble[data-id="${msgId}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("selected");
+        setTimeout(() => el.classList.remove("selected"), 1200);
       }
     }
 
@@ -1148,15 +1471,26 @@
       const text = textInput.value.trim();
       if (!text) return;
 
-      clipRef.push({
+      const payload = {
         text: text,
         type: "text",
         timestamp: firebase.database.ServerValue.TIMESTAMP
-      });
+      };
 
+      if (replyingToMsg) {
+        payload.replyTo = {
+          id: replyingToMsg.id,
+          snippet: (replyingToMsg.text || replyingToMsg.fileName || "Media").slice(0, 50),
+          sender: "Clipboard"
+        };
+      }
+
+      clipRef.push(payload);
       textInput.value = "";
       textInput.style.height = "auto";
+      cancelReply();
       clearSelection();
+      triggerVibration(25);
     }
 
     btnSend.addEventListener("click", sendMessage);
@@ -1167,7 +1501,22 @@
       }
     });
 
-    // Attachment Handler
+    // Reply Handler
+    function initiateReply(msg) {
+      replyingToMsg = msg;
+      replyPreviewText.innerText = (msg.text || msg.fileName || "Media").slice(0, 45);
+      replyPreviewBar.style.display = "flex";
+      textInput.focus();
+    }
+
+    function cancelReply() {
+      replyingToMsg = null;
+      replyPreviewBar.style.display = "none";
+    }
+
+    document.getElementById("btn-cancel-reply").addEventListener("click", cancelReply);
+
+    // Media & File Attachments
     document.getElementById("btn-attach").addEventListener("click", () => mediaFileInput.click());
 
     mediaFileInput.addEventListener("change", (e) => {
@@ -1186,12 +1535,24 @@
         if (file.type.startsWith("image/")) type = "photo";
         else if (file.type.startsWith("video/")) type = "video";
 
-        clipRef.push({
+        const payload = {
           type: type,
           fileName: file.name,
           fileData: evt.target.result,
           timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
+        };
+
+        if (replyingToMsg) {
+          payload.replyTo = {
+            id: replyingToMsg.id,
+            snippet: (replyingToMsg.text || replyingToMsg.fileName || "Media").slice(0, 50),
+            sender: "Clipboard"
+          };
+        }
+
+        clipRef.push(payload);
+        cancelReply();
+        triggerVibration(30);
       };
       reader.readAsDataURL(file);
       mediaFileInput.value = "";
@@ -1205,15 +1566,15 @@
       const reader = new FileReader();
       reader.onload = (evt) => {
         metaRef.child("avatar").set(evt.target.result);
+        triggerVibration(30);
       };
       reader.readAsDataURL(file);
     });
 
-    // Long Press Handling
+    // Long Press Handler
     function handleTouchStart(e, msgId) {
       pressTimer = setTimeout(() => {
         selectMessage(msgId);
-        if (navigator.vibrate) navigator.vibrate(35);
       }, 450);
     }
 
@@ -1223,35 +1584,55 @@
 
     function selectMessage(msgId) {
       selectedMsgId = msgId;
-      selectionBar.style.display = "flex";
+      triggerVibration(40);
+      selectionBarContainer.style.display = "flex";
       renderMessages(searchInput.value);
     }
 
     function clearSelection() {
       selectedMsgId = null;
-      selectionBar.style.display = "none";
+      selectionBarContainer.style.display = "none";
       renderMessages(searchInput.value);
     }
 
     document.getElementById("btn-close-selection").addEventListener("click", clearSelection);
 
+    // Reactions
+    document.querySelectorAll(".react-pill").forEach((pill) => {
+      pill.addEventListener("click", () => {
+        if (!selectedMsgId) return;
+        const emoji = pill.dataset.emoji;
+        const currentMsg = messages.find((m) => m.id === selectedMsgId);
+        const newReaction = currentMsg && currentMsg.reaction === emoji ? null : emoji;
+        clipRef.child(selectedMsgId).update({ reaction: newReaction });
+        triggerVibration(35);
+        clearSelection();
+      });
+    });
+
     // Selection Bar Actions
+    document.getElementById("btn-reply-selected").addEventListener("click", () => {
+      const target = messages.find((m) => m.id === selectedMsgId);
+      if (target) initiateReply(target);
+      triggerVibration(30);
+      clearSelection();
+    });
+
+    document.getElementById("btn-pin-selected").addEventListener("click", () => {
+      const target = messages.find((m) => m.id === selectedMsgId);
+      if (target) {
+        clipRef.child(selectedMsgId).update({ isPinned: !target.isPinned });
+        triggerVibration(40);
+      }
+      clearSelection();
+    });
+
     document.getElementById("btn-copy-selected").addEventListener("click", () => {
       const target = messages.find((m) => m.id === selectedMsgId);
       if (target) {
         const textToCopy = target.text || target.fileData || "";
         navigator.clipboard.writeText(textToCopy);
-      }
-      clearSelection();
-    });
-
-    document.getElementById("btn-edit-selected").addEventListener("click", () => {
-      const target = messages.find((m) => m.id === selectedMsgId);
-      if (target && target.text) {
-        const updated = prompt("Edit message:", target.text);
-        if (updated !== null && updated.trim()) {
-          clipRef.child(selectedMsgId).update({ text: updated.trim() });
-        }
+        triggerVibration(40);
       }
       clearSelection();
     });
@@ -1259,18 +1640,144 @@
     document.getElementById("btn-delete-selected").addEventListener("click", () => {
       if (selectedMsgId) {
         clipRef.child(selectedMsgId).remove();
+        triggerVibration([30, 50, 30]);
         clearSelection();
       }
     });
 
-    // 3-Dot Menu Options (Search Removed)
+    // In-App Non-Popup Inline Editor Sheet
+    function openInlineEditor(title, initialValue, isTextarea, onSave) {
+      document.getElementById("inline-editor-title").innerText = title;
+      const body = document.getElementById("inline-editor-body");
+      body.innerHTML = "";
+
+      let inputEl;
+      if (isTextarea) {
+        inputEl = document.createElement("textarea");
+        inputEl.rows = 4;
+      } else {
+        inputEl = document.createElement("input");
+        inputEl.type = "text";
+      }
+      inputEl.id = "inline-editor-input";
+      inputEl.value = initialValue;
+      body.appendChild(inputEl);
+
+      inlineEditCallback = onSave;
+      inlineEditorSheet.style.display = "flex";
+      inputEl.focus();
+    }
+
+    function closeInlineEditor() {
+      inlineEditorSheet.style.display = "none";
+      inlineEditCallback = null;
+    }
+
+    document.getElementById("btn-close-inline-editor").addEventListener("click", closeInlineEditor);
+    document.getElementById("btn-cancel-inline-editor").addEventListener("click", closeInlineEditor);
+
+    document.getElementById("btn-save-inline-editor").addEventListener("click", () => {
+      const val = document.getElementById("inline-editor-input").value;
+      if (inlineEditCallback) {
+        inlineEditCallback(val);
+        triggerVibration(35);
+      }
+      closeInlineEditor();
+    });
+
+    // Edit Selected Message
+    document.getElementById("btn-edit-selected").addEventListener("click", () => {
+      const target = messages.find((m) => m.id === selectedMsgId);
+      if (target && target.text) {
+        const targetId = selectedMsgId;
+        openInlineEditor("Edit Message", target.text, true, (newVal) => {
+          if (newVal && newVal.trim() && newVal.trim() !== target.text) {
+            clipRef.child(targetId).update({
+              text: newVal.trim(),
+              isEdited: true
+            });
+          }
+        });
+      }
+      clearSelection();
+    });
+
+    // Edit Group Name & Description In-App
+    document.getElementById("edit-title-btn").addEventListener("click", () => {
+      const current = document.getElementById("group-title-label").innerText;
+      openInlineEditor("Change Group Name", current, false, (val) => {
+        if (val && val.trim()) metaRef.child("name").set(val.trim());
+      });
+    });
+
+    document.getElementById("edit-desc-btn").addEventListener("click", () => {
+      const current = document.getElementById("group-desc-label").innerText;
+      openInlineEditor("Change Description", current, true, (val) => {
+        if (val && val.trim()) metaRef.child("description").set(val.trim());
+      });
+    });
+
+    // 3-Dot Menu Handlers
     document.getElementById("btn-open-menu").addEventListener("click", (e) => {
       e.stopPropagation();
       dropdownMenu.style.display = dropdownMenu.style.display === "flex" ? "none" : "flex";
+      triggerVibration(25);
     });
 
     document.addEventListener("click", () => {
       dropdownMenu.style.display = "none";
+    });
+
+    // Search Toggle from 3-dot Menu
+    document.getElementById("menu-search-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      searchBarContainer.style.display = "block";
+      searchInput.focus();
+    });
+
+    document.getElementById("btn-close-search").addEventListener("click", () => {
+      searchBarContainer.style.display = "none";
+      searchInput.value = "";
+      renderMessages();
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      renderMessages(e.target.value);
+    });
+
+    // Media Menu Option
+    document.getElementById("menu-media-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      openMediaDrawerTab("photos");
+    });
+
+    // Pinned Menu Option
+    document.getElementById("menu-pinned-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      openPinnedModal();
+    });
+
+    // Export Chat Menu Option
+    document.getElementById("menu-export-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      exportSheet.style.display = "flex";
+    });
+
+    document.getElementById("open-export-sheet-btn").addEventListener("click", () => {
+      exportSheet.style.display = "flex";
+    });
+
+    document.getElementById("btn-close-export").addEventListener("click", () => {
+      exportSheet.style.display = "none";
+    });
+
+    // Clear Chat Option
+    document.getElementById("menu-clear-opt").addEventListener("click", () => {
+      dropdownMenu.style.display = "none";
+      if (confirm("Clear all items in Clipboard?")) {
+        clipRef.remove();
+        triggerVibration([50, 50]);
+      }
     });
 
     document.getElementById("menu-info-opt").addEventListener("click", () => {
@@ -1278,28 +1785,6 @@
       groupModal.style.display = "flex";
     });
 
-    document.getElementById("menu-clear-opt").addEventListener("click", () => {
-      if (confirm("Clear all items in Clipboard?")) {
-        clipRef.remove();
-      }
-    });
-
-    // Search Toggle
-    document.getElementById("btn-toggle-search").addEventListener("click", () => {
-      const isVisible = searchBarContainer.style.display === "block";
-      searchBarContainer.style.display = isVisible ? "none" : "block";
-      if (!isVisible) searchInput.focus();
-      else {
-        searchInput.value = "";
-        renderMessages();
-      }
-    });
-
-    searchInput.addEventListener("input", (e) => {
-      renderMessages(e.target.value);
-    });
-
-    // Group Modal & Detail Settings
     document.getElementById("header-open-modal").addEventListener("click", () => {
       groupModal.style.display = "flex";
     });
@@ -1308,26 +1793,65 @@
       groupModal.style.display = "none";
     });
 
-    // Edit Name
-    document.getElementById("edit-title-btn").addEventListener("click", () => {
-      const current = document.getElementById("group-title-label").innerText;
-      const val = prompt("Enter new clipboard name:", current);
-      if (val && val.trim()) {
-        metaRef.child("name").set(val.trim());
-      }
-    });
+    // Telegram-Style Pinned Banner State
+    function updatePinnedBanner() {
+      const pinned = messages.filter((m) => m.isPinned);
+      document.getElementById("total-pinned-count").innerText = pinned.length;
 
-    // Edit Description
-    document.getElementById("edit-desc-btn").addEventListener("click", () => {
-      const current = document.getElementById("group-desc-label").innerText;
-      const val = prompt("Enter group description:", current);
-      if (val && val.trim()) {
-        metaRef.child("description").set(val.trim());
+      if (pinned.length > 0) {
+        const latestPinned = pinned[pinned.length - 1];
+        pinnedSnippetText.innerText = latestPinned.text || latestPinned.fileName || "Media attachment";
+        pinnedBar.style.display = "flex";
+
+        document.getElementById("pinned-click-target").onclick = () => {
+          scrollToMessage(latestPinned.id);
+        };
+
+        document.getElementById("btn-unpin-top").onclick = (e) => {
+          e.stopPropagation();
+          clipRef.child(latestPinned.id).update({ isPinned: false });
+          triggerVibration(30);
+        };
+      } else {
+        pinnedBar.style.display = "none";
       }
+    }
+
+    // Pinned Messages Modal
+    function openPinnedModal() {
+      const list = document.getElementById("pinned-modal-list");
+      list.innerHTML = "";
+      const pinned = messages.filter((m) => m.isPinned);
+
+      if (!pinned.length) {
+        list.innerHTML = `<div style="text-align: center; color: var(--wa-text-secondary); padding: 40px; font-size: 14px;">No pinned messages</div>`;
+      } else {
+        pinned.forEach((msg) => {
+          const item = document.createElement("div");
+          item.className = "msg-bubble";
+          item.style.alignSelf = "flex-end";
+          item.style.width = "100%";
+          item.innerHTML = `
+            <div style="font-size: 12px; color: var(--wa-teal); font-weight: 600; margin-bottom: 2px;">Pinned Message</div>
+            <div class="msg-content">${formatLinks(escapeHtml(msg.text || msg.fileName || "Media"))}</div>`;
+          item.onclick = () => {
+            pinnedModal.style.display = "none";
+            groupModal.style.display = "none";
+            scrollToMessage(msg.id);
+          };
+          list.appendChild(item);
+        });
+      }
+      pinnedModal.style.display = "flex";
+    }
+
+    document.getElementById("open-pinned-modal-btn").addEventListener("click", openPinnedModal);
+    document.getElementById("btn-close-pinned-modal").addEventListener("click", () => {
+      pinnedModal.style.display = "none";
     });
 
     // Media Shelf Preview
-    function updateMediaShelfPreview() {
+    function updateMediaPreviewStrip() {
       const mediaItems = messages.filter((m) => m.type === "photo" || m.type === "video" || m.type === "file");
       document.getElementById("total-media-count").innerText = mediaItems.length;
 
@@ -1349,10 +1873,17 @@
       });
     }
 
-    // Media Full Drawer Navigation
-    document.getElementById("open-media-drawer-btn").addEventListener("click", () => {
+    // Media Drawer Navigation
+    function openMediaDrawerTab(tabName) {
       mediaDrawer.style.display = "flex";
-      loadDrawerMedia("photos");
+      document.querySelectorAll(".drawer-tab").forEach((t) => {
+        t.classList.toggle("active", t.dataset.drawerTab === tabName);
+      });
+      loadDrawerMedia(tabName);
+    }
+
+    document.getElementById("open-media-drawer-btn").addEventListener("click", () => {
+      openMediaDrawerTab("photos");
     });
 
     document.getElementById("btn-close-drawer").addEventListener("click", () => {
@@ -1368,9 +1899,37 @@
     });
 
     function loadDrawerMedia(type) {
-      drawerGridContent.innerHTML = "";
-      if (type === "files") drawerGridContent.className = "drawer-grid list-view";
-      else drawerGridContent.className = "drawer-grid";
+      const grid = document.getElementById("drawer-grid-content");
+      grid.innerHTML = "";
+
+      if (type === "files" || type === "links") grid.className = "drawer-grid list-view";
+      else grid.className = "drawer-grid";
+
+      if (type === "links") {
+        const linkItems = [];
+        messages.forEach((m) => {
+          if (m.text) {
+            const urls = extractUrls(m.text);
+            urls.forEach((url) => linkItems.push({ url, timestamp: m.timestamp }));
+          }
+        });
+
+        if (!linkItems.length) {
+          grid.innerHTML = `<div style="text-align: center; color: var(--wa-text-secondary); padding: 40px; font-size: 14px;">No links found</div>`;
+          return;
+        }
+
+        linkItems.forEach((item) => {
+          const a = document.createElement("a");
+          a.className = "msg-file";
+          a.href = item.url;
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+          a.innerHTML = `<i class="ri-links-line"></i><div class="msg-file-name">${escapeHtml(item.url)}</div>`;
+          grid.appendChild(a);
+        });
+        return;
+      }
 
       const matched = messages.filter((m) => {
         if (type === "photos") return m.type === "photo";
@@ -1380,7 +1939,7 @@
       });
 
       if (!matched.length) {
-        drawerGridContent.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #8696a0; padding: 40px; font-size: 14px;">No ${type} available</div>`;
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--wa-text-secondary); padding: 40px; font-size: 14px;">No ${type} available</div>`;
         return;
       }
 
@@ -1390,25 +1949,56 @@
           div.className = "grid-tile";
           div.innerHTML = `<img src="${item.fileData}" alt="Photo" />`;
           div.onclick = () => openLightboxByUrl(item.fileData);
-          drawerGridContent.appendChild(div);
+          grid.appendChild(div);
         } else if (type === "videos") {
           const div = document.createElement("div");
           div.className = "grid-tile";
           div.innerHTML = `<video src="${item.fileData}"></video>`;
           div.onclick = () => window.open(item.fileData, "_blank");
-          drawerGridContent.appendChild(div);
+          grid.appendChild(div);
         } else if (type === "files") {
           const a = document.createElement("a");
           a.className = "msg-file";
           a.href = item.fileData;
           a.download = item.fileName || "file";
           a.innerHTML = `<i class="ri-file-text-fill"></i><div class="msg-file-name">${escapeHtml(item.fileName || "File")}</div>`;
-          drawerGridContent.appendChild(a);
+          grid.appendChild(a);
         }
       });
     }
 
-    // Photo Lightbox & Gestures
+    // Export Chat (Without & With Media Options)
+    function exportChat(withMedia) {
+      let output = `--- WhatsApp / Clipboard Chat Export ---\nGenerated: ${new Date().toLocaleString()}\n\n`;
+
+      messages.forEach((m) => {
+        const time = new Date(m.timestamp).toLocaleString();
+        const editedStr = m.isEdited ? " (edited)" : "";
+        const reactStr = m.reaction ? ` [Reaction: ${m.reaction}]` : "";
+
+        if (m.type === "text") {
+          output += `[${time}] Clipboard: ${m.text}${editedStr}${reactStr}\n`;
+        } else {
+          output += `[${time}] Clipboard: <Attached ${m.type.toUpperCase()}: ${m.fileName || "attachment"}>${reactStr}\n`;
+          if (withMedia && m.fileData) {
+            output += `Data URL: ${m.fileData}\n`;
+          }
+        }
+      });
+
+      const blob = new Blob([output], { type: "text/plain;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `Clipboard_Chat_${withMedia ? "WithMedia" : "WithoutMedia"}_${Date.now()}.txt`;
+      a.click();
+      exportSheet.style.display = "none";
+      triggerVibration(40);
+    }
+
+    document.getElementById("btn-export-without").addEventListener("click", () => exportChat(false));
+    document.getElementById("btn-export-with").addEventListener("click", () => exportChat(true));
+
+    // Photo Lightbox & Swipe Gestures
     function extractPhotos() {
       photoList = messages.filter((m) => m.type === "photo").map((m) => m.fileData);
     }
@@ -1454,7 +2044,6 @@
       lightbox.style.display = "none";
     });
 
-    // Touch Swipe Gestures
     const stage = document.getElementById("lightbox-stage");
     stage.addEventListener("touchstart", (e) => {
       touchStartX = e.changedTouches[0].screenX;
@@ -1491,16 +2080,11 @@
       }
     });
 
-    // Utilities
+    // Helper: Escape HTML
     function escapeHtml(text) {
       const div = document.createElement("div");
       div.innerText = text;
       return div.innerHTML;
-    }
-
-    function formatLinks(text) {
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
     }
   </script>
 </body>
