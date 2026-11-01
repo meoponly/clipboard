@@ -68,6 +68,63 @@
       overflow: hidden;
     }
 
+    /* WhatsApp Style Loading / Splash Screen */
+    #splash-screen {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 20px 40px;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .splash-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .splash-logo {
+      width: 86px;
+      height: 86px;
+      border-radius: 20px;
+      object-fit: contain;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      animation: splashPulse 1.8s infinite ease-in-out;
+    }
+
+    .splash-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .splash-from {
+      font-size: 12px;
+      color: #8696a0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .splash-brand {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--wa-teal);
+    }
+
+    @keyframes splashPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.96); opacity: 0.85; }
+    }
+
     /* Header */
     header {
       height: 60px;
@@ -188,19 +245,22 @@
       gap: 2px;
     }
 
-    /* Floating WhatsApp Reaction Pill (Right next to target message) */
+    /* Clamped Floating Reaction Pill (Cannot exceed screen bounds) */
     #floating-reaction-pill {
       position: absolute;
       display: none;
       background: #ffffff;
       border-radius: 28px;
-      padding: 5px 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      padding: 6px 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.22);
       z-index: 40;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
       animation: popIn 0.15s cubic-bezier(0.18, 0.89, 0.32, 1.28);
       border: 1px solid var(--wa-border);
+      max-width: calc(100% - 24px);
+      box-sizing: border-box;
+      white-space: nowrap;
     }
 
     .react-pill-item {
@@ -213,6 +273,41 @@
 
     .react-pill-item:hover, .react-pill-item:active {
       transform: scale(1.35);
+    }
+
+    /* Telegram Style Mini Floating Formatting Bar */
+    #floating-format-bar {
+      position: absolute;
+      display: none;
+      background: #1f2c34;
+      border-radius: 20px;
+      padding: 4px 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      z-index: 90;
+      gap: 6px;
+      align-items: center;
+      animation: popIn 0.12s ease-out;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      max-width: calc(100% - 24px);
+    }
+
+    .tg-format-btn {
+      background: none;
+      border: none;
+      color: #e9edef;
+      font-size: 14px;
+      padding: 4px 6px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+    }
+
+    .tg-format-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
     }
 
     /* Pinned Message Top Banner */
@@ -261,7 +356,7 @@
       text-overflow: ellipsis;
     }
 
-    /* Search Dropdown Input */
+    /* Search Input */
     #search-bar-container {
       display: none;
       padding: 8px 12px;
@@ -350,7 +445,6 @@
       transition: background 0.15s ease;
     }
 
-    /* WhatsApp Green Multi-Selection Row Highlight */
     .msg-row.selected {
       background-color: var(--wa-selection-highlight) !important;
     }
@@ -374,7 +468,6 @@
       transition: opacity 0.15s ease;
     }
 
-    /* WhatsApp Authentic Message Bubble */
     .msg-bubble {
       max-width: 82%;
       background: var(--wa-bubble-green);
@@ -423,7 +516,6 @@
       cursor: pointer;
     }
 
-    /* Seamless WhatsApp Media Container */
     .msg-media {
       margin: 0;
       padding: 0;
@@ -448,6 +540,15 @@
       border-radius: 6px;
       display: block;
       background: #000;
+    }
+
+    .msg-media-caption {
+      padding: 6px 6px 2px;
+      font-size: 14.2px;
+      line-height: 1.38;
+      color: var(--wa-text-primary);
+      user-select: text;
+      white-space: pre-wrap;
     }
 
     .msg-file {
@@ -475,7 +576,6 @@
       white-space: nowrap;
     }
 
-    /* Reaction Badge on Message */
     .msg-reaction-badge {
       position: absolute;
       bottom: -7px;
@@ -516,7 +616,6 @@
       margin-right: 2px;
     }
 
-    /* Precise WhatsApp Blue Double Check */
     .wa-checks {
       display: inline-flex;
       align-items: center;
@@ -529,37 +628,6 @@
       fill: #53bdeb;
     }
 
-    /* Format Toolbar Strip */
-    #formatting-bar {
-      display: none;
-      background: #ffffff;
-      border-top: 1px solid var(--wa-border);
-      padding: 4px 10px;
-      gap: 4px;
-      align-items: center;
-      overflow-x: auto;
-      flex-shrink: 0;
-    }
-
-    .format-btn {
-      background: none;
-      border: 1px solid transparent;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-family: inherit;
-      color: var(--wa-text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 3px;
-    }
-
-    .format-btn:hover {
-      background-color: var(--wa-bg-gray);
-      color: var(--wa-text-primary);
-    }
-
     /* WhatsApp Footer */
     footer {
       display: flex;
@@ -567,6 +635,7 @@
       background: transparent;
       z-index: 10;
       flex-shrink: 0;
+      position: relative;
     }
 
     #reply-preview-bar {
@@ -641,6 +710,82 @@
 
     .send-fab:active {
       transform: scale(0.94);
+    }
+
+    /* WhatsApp Media Caption & Send Modal */
+    #media-preview-dialog {
+      position: absolute;
+      inset: 0;
+      background: #0b141a;
+      z-index: 95;
+      display: none;
+      flex-direction: column;
+      animation: fadeIn 0.15s ease-out;
+    }
+
+    .media-dialog-top {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      justify-content: space-between;
+    }
+
+    .media-dialog-body {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .media-dialog-body img, .media-dialog-body video {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .media-dialog-file-info {
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+    }
+
+    .media-dialog-bottom {
+      padding: 10px 14px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .caption-pill {
+      flex: 1;
+      background: #1f2c34;
+      border-radius: 24px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+    }
+
+    .caption-pill input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: #ffffff;
+      font-size: 14.5px;
+      font-family: inherit;
+      user-select: text;
+    }
+
+    .caption-pill input::placeholder {
+      color: #8696a0;
     }
 
     /* Group Info Full Modal */
@@ -761,7 +906,6 @@
       object-fit: cover;
     }
 
-    /* Red Danger Row for Clear Chat */
     .danger-row {
       color: #ea3943 !important;
     }
@@ -984,6 +1128,17 @@
 <body>
 
   <div id="app">
+    <!-- WhatsApp-Style Splash Screen -->
+    <div id="splash-screen">
+      <div class="splash-center">
+        <img class="splash-logo" src="slipboard.png" alt="Slipboard" />
+      </div>
+      <div class="splash-footer">
+        <span class="splash-from">from</span>
+        <span class="splash-brand">SLIPBOARD</span>
+      </div>
+    </div>
+
     <!-- Top Bar -->
     <header>
       <div class="header-left" id="header-open-modal">
@@ -996,7 +1151,6 @@
         </div>
       </div>
       <div class="header-actions">
-        <button class="icon-btn" id="btn-toggle-formatting" title="Formatting options"><i class="ri-font-size-2"></i></button>
         <button class="icon-btn" id="btn-open-menu" title="Menu"><i class="ri-more-2-fill"></i></button>
       </div>
 
@@ -1027,7 +1181,7 @@
       </div>
     </div>
 
-    <!-- Floating WhatsApp Single-Click Reaction Pill -->
+    <!-- Clamped WhatsApp Reaction Pill (Zero Screen Overflow) -->
     <div id="floating-reaction-pill">
       <span class="react-pill-item" data-emoji="👍">👍</span>
       <span class="react-pill-item" data-emoji="❤️">❤️</span>
@@ -1037,7 +1191,18 @@
       <span class="react-pill-item" data-emoji="🙏">🙏</span>
     </div>
 
-    <!-- Telegram-Style Pinned Top Banner -->
+    <!-- Telegram-Style Floating Text Selection Bar (Bold, Italic, Link, etc.) -->
+    <div id="floating-format-bar">
+      <button class="tg-format-btn" onclick="applyFormat('bold')" title="Bold"><i class="ri-bold"></i></button>
+      <button class="tg-format-btn" onclick="applyFormat('italic')" title="Italic"><i class="ri-italic"></i></button>
+      <button class="tg-format-btn" onclick="applyFormat('underline')" title="Underline"><i class="ri-underline"></i></button>
+      <button class="tg-format-btn" onclick="applyFormat('strike')" title="Strikethrough"><i class="ri-strikethrough"></i></button>
+      <button class="tg-format-btn" onclick="applyFormat('code')" title="Monospace"><i class="ri-code-line"></i></button>
+      <button class="tg-format-btn" onclick="applyFormat('quote')" title="Quote"><i class="ri-double-quotes-l"></i></button>
+      <button class="tg-format-btn" onclick="applyFormat('link')" title="Add Link"><i class="ri-link"></i></button>
+    </div>
+
+    <!-- Pinned Top Banner -->
     <div id="pinned-bar">
       <div class="pinned-indicator"></div>
       <div class="pinned-text-wrap" id="pinned-click-target">
@@ -1059,18 +1224,7 @@
     <!-- Messages Container -->
     <div id="messages-container"></div>
 
-    <!-- Formatting Strip (Bold, Italic, Strikethrough, Underline, Link, Code, Quote) -->
-    <div id="formatting-bar">
-      <button class="format-btn" onclick="applyFormat('bold')"><i class="ri-bold"></i> Bold</button>
-      <button class="format-btn" onclick="applyFormat('italic')"><i class="ri-italic"></i> Italic</button>
-      <button class="format-btn" onclick="applyFormat('underline')"><i class="ri-underline"></i> Underline</button>
-      <button class="format-btn" onclick="applyFormat('strike')"><i class="ri-strikethrough"></i> Strike</button>
-      <button class="format-btn" onclick="applyFormat('code')"><i class="ri-code-line"></i> Mono</button>
-      <button class="format-btn" onclick="applyFormat('quote')"><i class="ri-double-quotes-l"></i> Quote</button>
-      <button class="format-btn" onclick="applyFormat('link')"><i class="ri-link"></i> Link</button>
-    </div>
-
-    <!-- Bottom Bar -->
+    <!-- Bottom Input Bar -->
     <footer>
       <div id="reply-preview-bar">
         <div class="reply-preview-content" id="reply-preview-text">Replying...</div>
@@ -1088,6 +1242,24 @@
         </button>
       </div>
     </footer>
+
+    <!-- WhatsApp Media Preview & Caption Modal -->
+    <div id="media-preview-dialog">
+      <div class="media-dialog-top">
+        <button class="icon-btn" id="btn-close-media-dialog" style="color: #fff;"><i class="ri-close-line"></i></button>
+        <span id="media-dialog-title" style="color: #fff; font-size: 15px; font-weight: 500;">Preview</span>
+        <div style="width: 40px;"></div>
+      </div>
+      <div class="media-dialog-body" id="media-dialog-body"></div>
+      <div class="media-dialog-bottom">
+        <div class="caption-pill">
+          <input type="text" id="media-caption-input" placeholder="Add a caption..." />
+        </div>
+        <button class="send-fab" id="btn-send-media-dialog" title="Send Media">
+          <i class="ri-send-plane-2-fill"></i>
+        </button>
+      </div>
+    </div>
 
     <!-- Hidden Attachment Input -->
     <input type="file" id="media-file-input" />
@@ -1198,7 +1370,7 @@
       } else {
         const img = new Image();
         img.crossOrigin = "Anonymous";
-        img.src = "backgrounf.png";
+        img.src = "background.png";
         img.onload = function () {
           try {
             const canvas = document.createElement("canvas");
@@ -1210,11 +1382,11 @@
             localStorage.setItem("slipboard_bg_cached", dataURL);
             appEl.style.backgroundImage = `url(${dataURL})`;
           } catch (e) {
-            appEl.style.backgroundImage = "url(backgrounf.png)";
+            appEl.style.backgroundImage = "url(background.png)";
           }
         };
         img.onerror = function() {
-          appEl.style.backgroundImage = "url(backgrounf.png)";
+          appEl.style.backgroundImage = "url(background.png)";
         };
       }
     })();
@@ -1247,8 +1419,11 @@
     let touchEndX = 0;
     let inlineEditCallback = null;
     let activePillMsgId = null;
+    let pendingMediaPayload = null;
+    let isInitialLoadDone = false;
 
     // Elements
+    const splashScreen = document.getElementById("splash-screen");
     const msgContainer = document.getElementById("messages-container");
     const textInput = document.getElementById("text-input");
     const btnSend = document.getElementById("btn-send");
@@ -1259,6 +1434,7 @@
     const selectionBarContainer = document.getElementById("selection-bar-container");
     const selectionCount = document.getElementById("selection-count");
     const floatingReactionPill = document.getElementById("floating-reaction-pill");
+    const floatingFormatBar = document.getElementById("floating-format-bar");
     const pinnedBar = document.getElementById("pinned-bar");
     const pinnedSnippetText = document.getElementById("pinned-snippet-text");
     const replyPreviewBar = document.getElementById("reply-preview-bar");
@@ -1266,7 +1442,9 @@
     const groupModal = document.getElementById("group-modal");
     const mediaDrawer = document.getElementById("media-drawer");
     const inlineEditorSheet = document.getElementById("inline-editor-sheet");
-    const formattingBar = document.getElementById("formatting-bar");
+    const mediaPreviewDialog = document.getElementById("media-preview-dialog");
+    const mediaDialogBody = document.getElementById("media-dialog-body");
+    const mediaCaptionInput = document.getElementById("media-caption-input");
     const lightbox = document.getElementById("lightbox");
     const lbImg = document.getElementById("lb-img");
     const lbCounter = document.getElementById("lb-counter");
@@ -1277,6 +1455,22 @@
         try { navigator.vibrate(pattern); } catch (e) {}
       }
     }
+
+    // Dismiss Splash Screen
+    function dismissSplashScreen() {
+      if (!isInitialLoadDone) {
+        isInitialLoadDone = true;
+        setTimeout(() => {
+          splashScreen.style.opacity = "0";
+          setTimeout(() => {
+            splashScreen.style.display = "none";
+          }, 400);
+        }, 500);
+      }
+    }
+
+    // Fallback timer if DB is slow or empty
+    setTimeout(dismissSplashScreen, 2500);
 
     // Meta Description Listener
     metaRef.on("value", (snap) => {
@@ -1300,40 +1494,25 @@
       extractPhotos();
       updateMediaPreviewStrip();
       updatePinnedBanner();
+      dismissSplashScreen();
     });
 
-    // Text & Custom Markdown Parser (Bold, Italic, Underline, Strike, Code, Quote, Links)
+    // Custom Markdown & Text Formatter
     function parseMessageText(text) {
       if (!text) return "";
       let html = escapeHtml(text);
 
-      // Code blocks & Monospace
       html = html.replace(/```([\s\S]*?)```/g, '<pre style="background: rgba(0,0,0,0.06); padding: 4px 6px; border-radius: 4px; font-family: monospace; font-size: 13px;">$1</pre>');
       html = html.replace(/`([^`]+)`/g, '<code style="background: rgba(0,0,0,0.06); padding: 1px 4px; border-radius: 3px; font-family: monospace; font-size: 13px;">$1</code>');
-
-      // Bold: *text*
       html = html.replace(/\*([^\*]+)\*/g, '<strong>$1</strong>');
-
-      // Italic: _text_
       html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
-
-      // Strikethrough: ~text~
       html = html.replace(/~([^~]+)~/g, '<del>$1</del>');
-
-      // Underline: __text__
       html = html.replace(/__([^_]+)__/g, '<u>$1</u>');
-
-      // Quotes: > quote
       html = html.replace(/^(&gt;|>)\s?(.*)$/gm, '<blockquote style="border-left: 3px solid var(--wa-teal); padding-left: 8px; margin: 4px 0; color: #54656f;">$2</blockquote>');
-
-      // Named Markdown Links: [label](url)
       html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
 
-      // Raw URLs: https://...
       const urlRegex = /(https?:\/\/[^\s<]+)/g;
-      html = html.replace(urlRegex, (url) => {
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-      });
+      html = html.replace(urlRegex, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
 
       return html;
     }
@@ -1361,7 +1540,7 @@
         bubble.className = `msg-bubble ${msg.type === "photo" || msg.type === "video" ? "is-media" : ""}`;
         bubble.dataset.id = msg.id;
 
-        // Long Press Handler (Multi-Select)
+        // Long Press Handler
         bubble.addEventListener("touchstart", (e) => startLongPress(e, msg.id), { passive: true });
         bubble.addEventListener("touchend", clearLongPress);
         bubble.addEventListener("touchmove", clearLongPress);
@@ -1370,7 +1549,7 @@
           toggleSelect(msg.id);
         });
 
-        // Click Handler: Single Click Opens WhatsApp Reaction Pill; if selecting, toggles select
+        // Click Handler (Single Click Opens Reaction Pill)
         bubble.addEventListener("click", (e) => {
           if (selectedMsgIds.size > 0) {
             toggleSelect(msg.id);
@@ -1380,12 +1559,10 @@
           }
         });
 
-        // Swipe-to-Reply Logic
         setupSwipeToReply(row, swipeBox, swipeReplyIcon, msg);
 
         let bodyHtml = "";
 
-        // Quoted Context
         if (msg.replyTo) {
           bodyHtml += `
             <div class="msg-reply-quote" onclick="scrollToMessage('${msg.replyTo.id}')">
@@ -1393,36 +1570,43 @@
             </div>`;
         }
 
-        // Formatted Text
-        if (msg.text) {
-          bodyHtml += `<div class="msg-content">${parseMessageText(msg.text)}</div>`;
-        }
-
-        // Photos & Videos (Seamless Zero-Border Fit)
+        // Photos & Videos with zero border gap
         if (msg.type === "photo") {
           bodyHtml += `
             <div class="msg-media">
               <img src="${msg.fileData}" alt="Photo" onclick="openLightboxByUrl('${msg.fileData}')" />
             </div>`;
+          if (msg.text) {
+            bodyHtml += `<div class="msg-media-caption">${parseMessageText(msg.text)}</div>`;
+          }
         } else if (msg.type === "video") {
           bodyHtml += `
             <div class="msg-media">
               <video src="${msg.fileData}" controls playsinline></video>
             </div>`;
+          if (msg.text) {
+            bodyHtml += `<div class="msg-media-caption">${parseMessageText(msg.text)}</div>`;
+          }
         } else if (msg.type === "file") {
           bodyHtml += `
             <a class="msg-file" href="${msg.fileData}" download="${msg.fileName || 'file'}">
               <i class="ri-file-text-fill"></i>
               <div class="msg-file-name">${escapeHtml(msg.fileName || "File")}</div>
             </a>`;
+          if (msg.text) {
+            bodyHtml += `<div class="msg-content" style="margin-top: 4px;">${parseMessageText(msg.text)}</div>`;
+          }
+        } else {
+          // Plain Text
+          if (msg.text) {
+            bodyHtml += `<div class="msg-content">${parseMessageText(msg.text)}</div>`;
+          }
         }
 
-        // Reaction Badge
         if (msg.reaction) {
           bodyHtml += `<span class="msg-reaction-badge">${msg.reaction}</span>`;
         }
 
-        // Footer with WhatsApp Blue Ticks
         const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         bodyHtml += `
           <div class="msg-footer">
@@ -1445,7 +1629,7 @@
       }
     }
 
-    // Swipe To Reply Implementation
+    // Swipe To Reply
     function setupSwipeToReply(row, swipeBox, icon, msg) {
       let startX = 0;
       let diffX = 0;
@@ -1479,17 +1663,28 @@
       });
     }
 
-    // Floating Reaction Pill Positioned right around target bubble
+    // Reaction Pill (Clamped within viewport boundaries)
     function openFloatingReactionPill(bubble, msgId) {
       activePillMsgId = msgId;
       const rect = bubble.getBoundingClientRect();
       const appRect = document.getElementById("app").getBoundingClientRect();
 
       floatingReactionPill.style.display = "flex";
-      let topPos = (rect.top - appRect.top) - 48;
-      if (topPos < 10) topPos = (rect.bottom - appRect.top) + 8;
-      let leftPos = (rect.right - appRect.left) - 220;
+      const pillWidth = floatingReactionPill.offsetWidth || 230;
+      const pillHeight = floatingReactionPill.offsetHeight || 44;
+
+      // Vertical calculation
+      let topPos = (rect.top - appRect.top) - (pillHeight + 8);
+      if (topPos < 10) {
+        topPos = (rect.bottom - appRect.top) + 8;
+      }
+
+      // Horizontal calculation
+      let leftPos = (rect.right - appRect.left) - pillWidth;
       if (leftPos < 10) leftPos = 10;
+      if (leftPos + pillWidth > appRect.width - 10) {
+        leftPos = appRect.width - pillWidth - 10;
+      }
 
       floatingReactionPill.style.top = topPos + "px";
       floatingReactionPill.style.left = leftPos + "px";
@@ -1513,6 +1708,72 @@
         floatingReactionPill.style.display = "none";
       });
     });
+
+    // Telegram-Style Floating Formatting on Text Selection in Textarea
+    textInput.addEventListener("select", handleTextSelection);
+    textInput.addEventListener("keyup", handleTextSelection);
+    textInput.addEventListener("mouseup", handleTextSelection);
+
+    function handleTextSelection() {
+      const start = textInput.selectionStart;
+      const end = textInput.selectionEnd;
+      if (start !== end && textInput.value.substring(start, end).trim().length > 0) {
+        const appRect = document.getElementById("app").getBoundingClientRect();
+        const inputRect = textInput.getBoundingClientRect();
+
+        floatingFormatBar.style.display = "flex";
+        const barWidth = floatingFormatBar.offsetWidth || 260;
+        const barHeight = floatingFormatBar.offsetHeight || 38;
+
+        let topPos = (inputRect.top - appRect.top) - (barHeight + 8);
+        let leftPos = (inputRect.left - appRect.left) + ((inputRect.width - barWidth) / 2);
+
+        if (leftPos < 10) leftPos = 10;
+        if (leftPos + barWidth > appRect.width - 10) {
+          leftPos = appRect.width - barWidth - 10;
+        }
+
+        floatingFormatBar.style.top = topPos + "px";
+        floatingFormatBar.style.left = leftPos + "px";
+      } else {
+        floatingFormatBar.style.display = "none";
+      }
+    }
+
+    document.addEventListener("selectionchange", () => {
+      if (document.activeElement !== textInput) {
+        floatingFormatBar.style.display = "none";
+      }
+    });
+
+    function applyFormat(type) {
+      const start = textInput.selectionStart;
+      const end = textInput.selectionEnd;
+      const text = textInput.value;
+      const selected = text.substring(start, end);
+      if (!selected) return;
+
+      let replacement = "";
+      if (type === "bold") replacement = `*${selected}*`;
+      else if (type === "italic") replacement = `_${selected}_`;
+      else if (type === "underline") replacement = `__${selected}__`;
+      else if (type === "strike") replacement = `~${selected}~`;
+      else if (type === "code") replacement = `\`${selected}\``;
+      else if (type === "quote") replacement = `> ${selected}`;
+      else if (type === "link") {
+        const linkUrl = prompt("Enter link URL (https://...):", "https://");
+        if (linkUrl) {
+          replacement = `[${selected}](${linkUrl})`;
+        } else {
+          return;
+        }
+      }
+
+      textInput.value = text.substring(0, start) + replacement + text.substring(end);
+      floatingFormatBar.style.display = "none";
+      textInput.focus();
+      triggerVibration(20);
+    }
 
     // Multi-Selection Logic
     function startLongPress(e, id) {
@@ -1556,7 +1817,6 @@
 
     document.getElementById("btn-close-selection").addEventListener("click", clearAllSelection);
 
-    // Multi-Delete
     document.getElementById("btn-delete-selected").addEventListener("click", () => {
       if (!selectedMsgIds.size) return;
       selectedMsgIds.forEach((id) => clipRef.child(id).remove());
@@ -1564,7 +1824,6 @@
       clearAllSelection();
     });
 
-    // Multi-Copy
     document.getElementById("btn-copy-selected").addEventListener("click", () => {
       const copyArr = [];
       messages.forEach((m) => {
@@ -1579,7 +1838,6 @@
       clearAllSelection();
     });
 
-    // Reply Selected
     document.getElementById("btn-reply-selected").addEventListener("click", () => {
       const id = Array.from(selectedMsgIds)[0];
       const target = messages.find((m) => m.id === id);
@@ -1587,7 +1845,6 @@
       clearAllSelection();
     });
 
-    // Pin Selected
     document.getElementById("btn-pin-selected").addEventListener("click", () => {
       selectedMsgIds.forEach((id) => {
         const target = messages.find((m) => m.id === id);
@@ -1597,7 +1854,6 @@
       clearAllSelection();
     });
 
-    // Edit Selected
     document.getElementById("btn-edit-selected").addEventListener("click", () => {
       const id = Array.from(selectedMsgIds)[0];
       const target = messages.find((m) => m.id === id);
@@ -1651,15 +1907,15 @@
       }
     });
 
-    // Attachment Button
+    // Attachment Button & Media Dialog with Caption
     document.getElementById("btn-attach").addEventListener("click", () => mediaFileInput.click());
 
     mediaFileInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (!file) return;
 
-      if (file.size > 10 * 1024 * 1024) {
-        alert("File size exceeds 10MB limit.");
+      if (file.size > 15 * 1024 * 1024) {
+        alert("File size exceeds 15MB limit.");
         mediaFileInput.value = "";
         return;
       }
@@ -1670,64 +1926,70 @@
         if (file.type.startsWith("image/")) type = "photo";
         else if (file.type.startsWith("video/")) type = "video";
 
-        const payload = {
+        pendingMediaPayload = {
           type: type,
           fileName: file.name,
           fileData: evt.target.result,
           timestamp: firebase.database.ServerValue.TIMESTAMP
         };
 
-        if (replyingToMsg) {
-          payload.replyTo = {
-            id: replyingToMsg.id,
-            snippet: (replyingToMsg.text || replyingToMsg.fileName || "Media").slice(0, 50),
-            sender: "Slipboard"
-          };
+        // Open WhatsApp Media Caption Modal
+        mediaDialogBody.innerHTML = "";
+        if (type === "photo") {
+          mediaDialogBody.innerHTML = `<img src="${evt.target.result}" alt="Preview" />`;
+        } else if (type === "video") {
+          mediaDialogBody.innerHTML = `<video src="${evt.target.result}" controls playsinline></video>`;
+        } else {
+          mediaDialogBody.innerHTML = `
+            <div class="media-dialog-file-info">
+              <i class="ri-file-text-line" style="font-size: 54px; color: var(--wa-teal);"></i>
+              <span>${escapeHtml(file.name)}</span>
+            </div>`;
         }
 
-        clipRef.push(payload);
-        cancelReply();
-        triggerVibration(30);
+        mediaCaptionInput.value = "";
+        mediaPreviewDialog.style.display = "flex";
+        mediaCaptionInput.focus();
       };
       reader.readAsDataURL(file);
       mediaFileInput.value = "";
     });
 
-    // Formatting Toolbar Handlers
-    document.getElementById("btn-toggle-formatting").addEventListener("click", () => {
-      const isVisible = formattingBar.style.display === "flex";
-      formattingBar.style.display = isVisible ? "none" : "flex";
-      triggerVibration(20);
+    document.getElementById("btn-close-media-dialog").addEventListener("click", () => {
+      mediaPreviewDialog.style.display = "none";
+      pendingMediaPayload = null;
     });
 
-    function applyFormat(type) {
-      const start = textInput.selectionStart;
-      const end = textInput.selectionEnd;
-      const text = textInput.value;
-      const selected = text.substring(start, end);
-
-      let replacement = "";
-      if (type === "bold") replacement = `*${selected || "bold text"}*`;
-      else if (type === "italic") replacement = `_${selected || "italic text"}_`;
-      else if (type === "underline") replacement = `__${selected || "underlined"}__`;
-      else if (type === "strike") replacement = `~${selected || "strikethrough"}~`;
-      else if (type === "code") replacement = `\`${selected || "monospace"}\``;
-      else if (type === "quote") replacement = `> ${selected || "quote"}`;
-      else if (type === "link") {
-        const linkUrl = prompt("Enter web URL (https://...):", "https://");
-        if (linkUrl) {
-          replacement = `[${selected || "link"}](${linkUrl})`;
-        } else {
-          return;
-        }
+    document.getElementById("btn-send-media-dialog").addEventListener("click", () => {
+      if (!pendingMediaPayload) return;
+      const caption = mediaCaptionInput.value.trim();
+      if (caption) {
+        pendingMediaPayload.text = caption;
       }
 
-      textInput.value = text.substring(0, start) + replacement + text.substring(end);
-      textInput.focus();
-      triggerVibration(20);
-    }
+      if (replyingToMsg) {
+        pendingMediaPayload.replyTo = {
+          id: replyingToMsg.id,
+          snippet: (replyingToMsg.text || replyingToMsg.fileName || "Media").slice(0, 50),
+          sender: "Slipboard"
+        };
+      }
 
-    // Reply Preview Handlers
+      clipRef.push(pendingMediaPayload);
+      cancelReply();
+      triggerVibration(30);
+
+      mediaPreviewDialog.style.display = "none";
+      pendingMediaPayload = null;
+    });
+
+    mediaCaptionInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        document.getElementById("btn-send-media-dialog").click();
+      }
+    });
+
+    // Reply Handlers
     function initiateReply(msg) {
       replyingToMsg = msg;
       replyPreviewText.innerText = (msg.text || msg.fileName || "Media").slice(0, 45);
@@ -1742,7 +2004,6 @@
 
     document.getElementById("btn-cancel-reply").addEventListener("click", cancelReply);
 
-    // Scroll to Message
     function scrollToMessage(msgId) {
       const el = document.querySelector(`.msg-row[data-id="${msgId}"]`);
       if (el) {
@@ -1752,7 +2013,7 @@
       }
     }
 
-    // Pinned Banner Handlers
+    // Pinned Top Banner
     function updatePinnedBanner() {
       const pinned = messages.filter((m) => m.isPinned);
       if (pinned.length > 0) {
@@ -1774,7 +2035,7 @@
       }
     }
 
-    // 3-Dot Dropdown Handlers
+    // 3-Dot Dropdown
     document.getElementById("btn-open-menu").addEventListener("click", (e) => {
       e.stopPropagation();
       dropdownMenu.style.display = dropdownMenu.style.display === "flex" ? "none" : "flex";
@@ -1822,7 +2083,7 @@
       groupModal.style.display = "flex";
     });
 
-    // Group Modal & Red Clear Chat Button
+    // Group Modal & Red Clear Chat
     document.getElementById("header-open-modal").addEventListener("click", () => {
       groupModal.style.display = "flex";
     });
@@ -1839,7 +2100,7 @@
       }
     });
 
-    // In-App Sheet Editor for Descriptions and Edits
+    // In-App Sheet Editor
     function openInlineEditor(title, initialValue, isTextarea, onSave) {
       document.getElementById("inline-editor-title").innerText = title;
       const body = document.getElementById("inline-editor-body");
@@ -2012,7 +2273,7 @@
         if (m.type === "text") {
           output += `[${time}] Slipboard: ${m.text}${editedStr}${reactStr}\n`;
         } else {
-          output += `[${time}] Slipboard: <Attached ${m.type.toUpperCase()}: ${m.fileName || "file"}>${reactStr}\n`;
+          output += `[${time}] Slipboard: <Attached ${m.type.toUpperCase()}: ${m.fileName || "file"}> ${m.text ? `"${m.text}" ` : ""}${reactStr}\n`;
         }
       });
 
@@ -2070,7 +2331,6 @@
       lightbox.style.display = "none";
     });
 
-    // Lightbox Swipe Gestures
     const stage = document.getElementById("lightbox-stage");
     stage.addEventListener("touchstart", (e) => {
       touchStartX = e.changedTouches[0].screenX;
@@ -2087,7 +2347,6 @@
       }
     }, { passive: true });
 
-    // Keyboard Shortcuts
     window.addEventListener("keydown", (e) => {
       if (lightbox.style.display === "flex") {
         if (e.key === "ArrowLeft" && currentPhotoIdx > 0) {
@@ -2102,7 +2361,6 @@
       }
     });
 
-    // HTML Escape Helper
     function escapeHtml(text) {
       const div = document.createElement("div");
       div.innerText = text;
