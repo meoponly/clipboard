@@ -9,8 +9,9 @@
   <title>Slipboard</title>
   <link rel="icon" type="image/png" href="favicon.png" />
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDKs with Auth Compat -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
   <style>
@@ -81,7 +82,7 @@
       vertical-align: middle;
     }
 
-    /* Landing / Login Screen */
+    /* Landing & OTP Screen */
     #auth-screen {
       position: absolute;
       inset: 0;
@@ -98,7 +99,7 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      margin-top: 20px;
+      margin-top: 16px;
     }
 
     .auth-badge {
@@ -132,7 +133,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      margin: 32px 0 auto;
+      margin: 28px 0 auto;
       width: 100%;
     }
 
@@ -176,6 +177,14 @@
       -webkit-user-select: text;
     }
 
+    .otp-field {
+      letter-spacing: 6px;
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      padding-left: 0;
+    }
+
     .btn-auth-primary {
       height: 50px;
       background: var(--wa-teal);
@@ -194,6 +203,22 @@
 
     .btn-auth-primary:active {
       background: var(--wa-teal-hover);
+    }
+
+    .btn-auth-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .auth-secondary-btn {
+      background: none;
+      border: none;
+      color: var(--wa-teal);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      padding: 6px;
     }
 
     .auth-footer {
@@ -980,10 +1005,9 @@
     }
 
     .clickable-row:last-child { border-bottom: none; }
-
     .danger-row { color: #ea3943 !important; }
 
-    #dialog-overlay, #file-sheet, #inline-editor-sheet, #media-preview-dialog {
+    #dialog-overlay, #file-sheet, #media-preview-dialog {
       position: absolute;
       inset: 0;
       background: rgba(11,20,26,.5);
@@ -1240,38 +1264,54 @@
     <symbol id="ri-send-plane-2-fill" viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></symbol>
     <symbol id="ri-arrow-left-line" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol>
     <symbol id="ri-arrow-right-s-line" viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol>
-    <symbol id="ri-arrow-left-s-line" viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></symbol>
     <symbol id="ri-file-text-line" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol>
     <symbol id="ri-done-all" viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></symbol>
     <symbol id="ri-down" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></symbol>
     <symbol id="ri-logout-box-r-line" viewBox="0 0 24 24"><path d="M5 22a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v3h-2V4H6v16h7v-2h2v3a1 1 0 0 1-1 1H5zm14-7.5l3.5-3.5L19 7.5V10h-8v2h8v2.5z"/></symbol>
     <symbol id="ri-smartphone-line" viewBox="0 0 24 24"><path d="M6 2h12a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm1 2v16h10V4H7zm5 12a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></symbol>
+    <symbol id="ri-shield-check-line" viewBox="0 0 24 24"><path d="M12 2 4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm6 9.09c0 4-2.55 7.7-6 8.83-3.45-1.13-6-4.82-6-8.83V6.31l6-2.25 6 2.25v4.78zm-8.29.61 5.7-5.7 1.41 1.41-7.11 7.12-3.54-3.54 1.41-1.41 2.13 2.12z"/></symbol>
   </defs></svg>
 
   <div id="app">
-    <!-- Landing / Phone Login Screen -->
+    <!-- Invisible reCAPTCHA Anchor -->
+    <div id="recaptcha-container"></div>
+
+    <!-- Landing & Phone Login / OTP Screen -->
     <div id="auth-screen">
       <div class="auth-hero">
-        <div class="auth-badge">
+        <div class="auth-badge" id="auth-badge-icon">
           <svg class="ic"><use href="#ri-smartphone-line"/></svg>
         </div>
-        <h1 class="auth-title">Welcome to Slipboard</h1>
-        <p class="auth-desc">Enter your mobile number to sync clipboard and media across all your devices in real time.</p>
+        <h1 class="auth-title" id="auth-step-title">Welcome to Slipboard</h1>
+        <p class="auth-desc" id="auth-step-desc">Enter your mobile number to receive a secure SMS OTP and pair all your devices.</p>
       </div>
 
-      <div class="auth-form">
+      <!-- Step 1: Phone Input -->
+      <div class="auth-form" id="phone-entry-step">
         <div class="phone-input-wrap">
           <span class="country-code">+91</span>
-          <input type="tel" id="login-phone" class="phone-field" placeholder="Enter mobile number" maxlength="10" autocomplete="tel" />
+          <input type="tel" id="login-phone" class="phone-field" placeholder="10-digit mobile number" maxlength="10" autocomplete="tel" />
         </div>
-        <button id="btn-login-submit" class="btn-auth-primary">
-          <span>Continue to Chat</span>
+        <button id="btn-send-otp" class="btn-auth-primary">
+          <span>Send Verification Code</span>
           <svg class="ic" style="font-size: 18px;"><use href="#ri-arrow-right-s-line"/></svg>
         </button>
       </div>
 
+      <!-- Step 2: OTP Verification -->
+      <div class="auth-form" id="otp-entry-step" style="display:none;">
+        <div class="phone-input-wrap">
+          <input type="tel" id="otp-code-input" class="phone-field otp-field" placeholder="••••••" maxlength="6" autocomplete="one-time-code" />
+        </div>
+        <button id="btn-verify-otp" class="btn-auth-primary">
+          <span>Verify & Connect</span>
+          <svg class="ic" style="font-size: 18px;"><use href="#ri-arrow-right-s-line"/></svg>
+        </button>
+        <button id="btn-edit-number" class="auth-secondary-btn">Entered wrong number? Change</button>
+      </div>
+
       <div class="auth-footer">
-        Logging in with the same mobile number on your PC, tablet, or secondary phone will share the exact same clipboard instantly.
+        Logging in with the same mobile number across your mobile, tablet, or PC joins the exact same clipboard instantly.
       </div>
     </div>
 
@@ -1302,7 +1342,7 @@
         </div>
         <div class="header-info">
           <h1 id="chat-header-title">Slipboard</h1>
-          <span id="chat-header-status">Synced via Mobile</span>
+          <span id="chat-header-status">Connecting...</span>
         </div>
       </div>
       <div class="header-actions">
@@ -1316,7 +1356,7 @@
         <button id="menu-pinned-opt"><svg class="ic"><use href="#ri-pushpin-line"/></svg> Pinned</button>
         <button id="menu-export-opt"><svg class="ic"><use href="#ri-download-2-line"/></svg> Export transcript</button>
         <button id="menu-info-opt"><svg class="ic"><use href="#ri-information-line"/></svg> Settings & info</button>
-        <button id="menu-logout-opt" style="color: #ea3943;"><svg class="ic" style="color: #ea3943;"><use href="#ri-logout-box-r-line"/></svg> Switch number</button>
+        <button id="menu-logout-opt" style="color: #ea3943;"><svg class="ic" style="color: #ea3943;"><use href="#ri-logout-box-r-line"/></svg> Sign out</button>
       </div>
     </header>
 
@@ -1439,7 +1479,7 @@
           <div><svg class="ic" style="margin-right:8px"><use href="#ri-delete-bin-6-line"/></svg>Clear all messages</div>
         </div>
         <div class="clickable-row danger-row" id="btn-logout-modal">
-          <div><svg class="ic" style="margin-right:8px"><use href="#ri-logout-box-r-line"/></svg>Log out / Change phone number</div>
+          <div><svg class="ic" style="margin-right:8px"><use href="#ri-logout-box-r-line"/></svg>Sign out from this device</div>
         </div>
       </div>
     </div>
@@ -1458,7 +1498,7 @@
       <div class="drawer-grid" id="drawer-grid-content"></div>
     </div>
 
-    <!-- Generic List Sheet (For Pinned) -->
+    <!-- Pinned List Sheet -->
     <div id="list-sheet">
       <div class="modal-nav">
         <button class="icon-btn" id="btn-close-list"><svg class="ic"><use href="#ri-arrow-left-line"/></svg></button>
@@ -1524,12 +1564,14 @@
     };
 
     firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
     const db = firebase.database();
 
     // App State
-    let userMobile = localStorage.getItem("slipboard_user_mobile") || null;
     let clipRef = null;
     let metaRef = null;
+    let confirmationResult = null;
+    let pendingPhoneNumber = "";
 
     let messages = [];
     let selectedMsgIds = new Set();
@@ -1548,8 +1590,17 @@
     // Elements
     const authScreen = document.getElementById("auth-screen");
     const skeletonScreen = document.getElementById("skeleton-screen");
+    const phoneEntryStep = document.getElementById("phone-entry-step");
+    const otpEntryStep = document.getElementById("otp-entry-step");
     const loginPhoneInput = document.getElementById("login-phone");
-    const btnLoginSubmit = document.getElementById("btn-login-submit");
+    const otpCodeInput = document.getElementById("otp-code-input");
+    const btnSendOtp = document.getElementById("btn-send-otp");
+    const btnVerifyOtp = document.getElementById("btn-verify-otp");
+    const btnEditNumber = document.getElementById("btn-edit-number");
+    const authStepTitle = document.getElementById("auth-step-title");
+    const authStepDesc = document.getElementById("auth-step-desc");
+    const authBadgeIcon = document.getElementById("auth-badge-icon");
+
     const msgContainer = document.getElementById("messages-container");
     const textInput = document.getElementById("text-input");
     const btnSend = document.getElementById("btn-send");
@@ -1575,53 +1626,153 @@
     const lbCounter = document.getElementById("lb-counter");
     const scrollFab = document.getElementById("scroll-down");
 
-    // Init & Auth Handling
-    function initApp() {
-      if (!userMobile) {
-        authScreen.style.display = "flex";
-        skeletonScreen.style.display = "none";
-      } else {
-        authScreen.style.display = "none";
-        skeletonScreen.style.display = "flex";
-        document.getElementById("active-phone-number-display").textContent = "+91 " + userMobile;
-        document.getElementById("chat-header-status").textContent = "+91 " + userMobile;
-        connectDatabase(userMobile);
+    // Initialize Invisible reCAPTCHA Verifier
+    function setupRecaptcha() {
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+          size: 'invisible',
+          callback: () => {
+            // reCAPTCHA solved
+          },
+          'expired-callback': () => {
+            showToast("reCAPTCHA expired. Please retry.");
+            resetRecaptcha();
+          }
+        });
       }
     }
 
-    btnLoginSubmit.addEventListener("click", handleLogin);
+    function resetRecaptcha() {
+      if (window.recaptchaVerifier && window.recaptchaVerifier.render) {
+        try {
+          window.recaptchaVerifier.clear();
+        } catch(e) {}
+        window.recaptchaVerifier = null;
+      }
+      setupRecaptcha();
+    }
+
+    // Step 1: Send OTP
+    btnSendOtp.addEventListener("click", handleSendOtp);
     loginPhoneInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") handleLogin();
+      if (e.key === "Enter") handleSendOtp();
     });
 
-    function handleLogin() {
+    async function handleSendOtp() {
       const raw = loginPhoneInput.value.replace(/\D/g, "");
       if (raw.length !== 10) {
-        showToast("Please enter a valid 10-digit mobile number");
+        showToast("Enter a valid 10-digit mobile number");
         loginPhoneInput.focus();
         return;
       }
-      userMobile = raw;
-      localStorage.setItem("slipboard_user_mobile", userMobile);
-      initApp();
+
+      pendingPhoneNumber = "+91" + raw;
+      btnSendOtp.disabled = true;
+      btnSendOtp.innerText = "Sending OTP...";
+
+      setupRecaptcha();
+
+      try {
+        confirmationResult = await auth.signInWithPhoneNumber(pendingPhoneNumber, window.recaptchaVerifier);
+        showToast("OTP sent successfully");
+        phoneEntryStep.style.display = "none";
+        otpEntryStep.style.display = "flex";
+        authStepTitle.innerText = "Enter Verification Code";
+        authStepDesc.innerText = `We have sent a 6-digit verification code to ${pendingPhoneNumber}`;
+        authBadgeIcon.innerHTML = '<svg class="ic"><use href="#ri-shield-check-line"/></svg>';
+        otpCodeInput.value = "";
+        otpCodeInput.focus();
+      } catch (err) {
+        console.error(err);
+        showToast(err.message || "Failed to send OTP. Please try again.");
+        resetRecaptcha();
+      } finally {
+        btnSendOtp.disabled = false;
+        btnSendOtp.innerHTML = '<span>Send Verification Code</span><svg class="ic" style="font-size:18px;"><use href="#ri-arrow-right-s-line"/></svg>';
+      }
     }
+
+    // Step 2: Verify OTP
+    btnVerifyOtp.addEventListener("click", handleVerifyOtp);
+    otpCodeInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleVerifyOtp();
+    });
+
+    async function handleVerifyOtp() {
+      const code = otpCodeInput.value.trim();
+      if (code.length !== 6) {
+        showToast("Enter the 6-digit code");
+        otpCodeInput.focus();
+        return;
+      }
+
+      if (!confirmationResult) {
+        showToast("Session expired. Please request a new OTP.");
+        btnEditNumber.click();
+        return;
+      }
+
+      btnVerifyOtp.disabled = true;
+      btnVerifyOtp.innerText = "Verifying...";
+
+      try {
+        await confirmationResult.confirm(code);
+        // Successful verification automatically triggers onAuthStateChanged!
+      } catch (err) {
+        console.error(err);
+        showToast("Invalid OTP code. Please check and retry.");
+        btnVerifyOtp.disabled = false;
+        btnVerifyOtp.innerHTML = '<span>Verify & Connect</span><svg class="ic" style="font-size:18px;"><use href="#ri-arrow-right-s-line"/></svg>';
+      }
+    }
+
+    btnEditNumber.addEventListener("click", () => {
+      otpEntryStep.style.display = "none";
+      phoneEntryStep.style.display = "flex";
+      authStepTitle.innerText = "Welcome to Slipboard";
+      authStepDesc.innerText = "Enter your mobile number to receive a secure SMS OTP and pair all your devices.";
+      authBadgeIcon.innerHTML = '<svg class="ic"><use href="#ri-smartphone-line"/></svg>';
+      confirmationResult = null;
+      btnVerifyOtp.disabled = false;
+      btnVerifyOtp.innerHTML = '<span>Verify & Connect</span><svg class="ic" style="font-size:18px;"><use href="#ri-arrow-right-s-line"/></svg>';
+      loginPhoneInput.focus();
+    });
+
+    // Firebase Auth State Listener
+    auth.onAuthStateChanged((user) => {
+      if (user && user.phoneNumber) {
+        authScreen.style.display = "none";
+        skeletonScreen.style.display = "flex";
+
+        const cleanPhone = user.phoneNumber.replace(/\D/g, "");
+        document.getElementById("active-phone-number-display").textContent = user.phoneNumber;
+        document.getElementById("chat-header-status").textContent = user.phoneNumber;
+        connectDatabase(cleanPhone);
+      } else {
+        // Logged out
+        if (clipRef) clipRef.off();
+        if (metaRef) metaRef.off();
+        clipRef = null;
+        metaRef = null;
+        messages = [];
+        msgContainer.innerHTML = "";
+        skeletonScreen.style.display = "none";
+        authScreen.style.display = "flex";
+        btnEditNumber.click();
+      }
+    });
 
     function handleLogout() {
       showDialog({
-        title: "Log out?",
+        title: "Sign out?",
         body: "You will be disconnected from this chat room on this device.",
-        okLabel: "Log out",
+        okLabel: "Sign out",
         danger: true,
-        onOk: () => {
-          if (clipRef) clipRef.off();
-          if (metaRef) metaRef.off();
-          localStorage.removeItem("slipboard_user_mobile");
-          userMobile = null;
-          messages = [];
-          msgContainer.innerHTML = "";
+        onOk: async () => {
           groupModal.style.display = "none";
           dropdownMenu.style.display = "none";
-          initApp();
+          await auth.signOut();
+          showToast("Signed out");
         }
       });
     }
@@ -1630,13 +1781,13 @@
     document.getElementById("btn-logout-modal").addEventListener("click", handleLogout);
 
     // Database Sync per Mobile Number
-    function connectDatabase(mobile) {
+    function connectDatabase(cleanPhone) {
       if (clipRef) clipRef.off();
       if (metaRef) metaRef.off();
 
-      // Scoped database path ensures two devices sharing the phone number see the exact same sync
-      clipRef = db.ref(`users/${mobile}/messages`);
-      metaRef = db.ref(`users/${mobile}/meta`);
+      // Scoped database path: both devices logging in with the same number access this exact tree
+      clipRef = db.ref(`users/${cleanPhone}/messages`);
+      metaRef = db.ref(`users/${cleanPhone}/meta`);
 
       let initialLoadHandled = false;
 
@@ -1655,7 +1806,7 @@
 
         if (!initialLoadHandled) {
           initialLoadHandled = true;
-          // Smooth fadeout of YouTube-style skeleton loading
+          // Smooth fadeout of YouTube-style skeleton loader
           setTimeout(() => {
             skeletonScreen.style.opacity = "0";
             skeletonScreen.style.transition = "opacity 0.25s ease";
@@ -1668,11 +1819,10 @@
       });
     }
 
-    // Plain Text Message Parser (Strictly NO Markdown & NO Stars)
+    // Plain Text Message Parser (No Markdown Formatting)
     function parseMessageText(text) {
       if (!text) return "";
       let safe = escapeHtml(text);
-      // Auto-linkify valid URLs cleanly without markdown
       const urlRegex = /(https?:\/\/[^\s]+)/g;
       return safe.replace(urlRegex, (url) => {
         return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
@@ -2100,7 +2250,7 @@
       }
     }
 
-    // Top Dropdown
+    // Dropdown Navigation
     document.getElementById("btn-open-menu").addEventListener("click", (e) => {
       e.stopPropagation();
       dropdownMenu.style.display = dropdownMenu.style.display === "flex" ? "none" : "flex";
@@ -2364,9 +2514,10 @@
     }
     document.getElementById("btn-close-list").addEventListener("click", () => { document.getElementById("list-sheet").style.display = "none"; });
 
-    // Export Chat
+    // Export Chat Transcript
     function exportChatText() {
-      let output = `--- Slipboard Sync Transcript (${userMobile}) ---\nExported: ${new Date().toLocaleString()}\n\n`;
+      const curUser = auth.currentUser ? auth.currentUser.phoneNumber : "Sync";
+      let output = `--- Slipboard Sync Transcript (${curUser}) ---\nExported: ${new Date().toLocaleString()}\n\n`;
       messages.forEach((m) => {
         const time = new Date(m.timestamp).toLocaleString();
         output += `[${time}] ${m.type === 'text' ? m.text : `[Attachment: ${m.fileName || m.type}] ${m.text || ''}`}\n`;
@@ -2374,7 +2525,7 @@
       const blob = new Blob([output], { type: "text/plain;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `Slipboard_${userMobile}_${Date.now()}.txt`;
+      a.download = `Slipboard_${Date.now()}.txt`;
       a.click();
     }
 
@@ -2395,8 +2546,8 @@
     }, { passive: true });
     scrollFab.addEventListener("click", () => msgContainer.scrollTo({ top: msgContainer.scrollHeight, behavior: "smooth" }));
 
-    // Start App
-    initApp();
+    // Initialize invisible reCAPTCHA on startup
+    setupRecaptcha();
   </script>
 </body>
 </html>
