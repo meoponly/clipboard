@@ -1242,9 +1242,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
 @keyframes splashBar{0%{transform:translateX(-110%)}100%{transform:translateX(280%)}}
 .splash-sub{margin-top:12px;font-size:13.5px;color:#667781}
 .splash-brand{font-weight:700;letter-spacing:3px;font-size:16px}
-</style>
-<style id="wa-refine3">
-.grecaptcha-badge{visibility:hidden}
 .acct-sub{font-size:13px;color:#667781;font-weight:400;margin-top:1px}
 #skeleton{position:absolute;inset:0;z-index:1000;background:#efeae2;transition:opacity .3s ease;overflow:hidden}
 .sk{background:linear-gradient(90deg,#e4e8ea 25%,#f4f5f6 37%,#e4e8ea 63%);background-size:400% 100%;animation:skShimmer 1.4s ease infinite}
@@ -1282,25 +1279,28 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
 .wl-feat{display:flex;gap:14px;align-items:flex-start}
 .wl-feat>.ic{font-size:24px;color:#00a884;margin-top:1px}
 .wl-feat b{display:block;font-size:15.5px;font-weight:600;color:#111b21}.wl-feat span{display:block;font-size:14px;line-height:19px;color:#667781;margin-top:1px}
-.auth-btn{height:52px;border:0;border-radius:26px;background:#00a884;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer;margin-top:auto;width:100%;transition:background .15s,opacity .15s}
-.auth-btn:active{background:#029072}.auth-btn:disabled{background:#c5ced3;cursor:default}
-.auth-form .auth-btn{margin-top:20px}
 .auth-fine{margin-top:12px;font-size:12.5px;line-height:17px;color:#8696a0;text-align:center}
-.auth-from{margin-top:18px;text-align:center;font-size:13px;color:#8696a0}.auth-from b{color:#00a884;letter-spacing:2px;font-size:13.5px;margin-left:2px}
-.auth-top{padding:calc(6px + env(safe-area-inset-top,0px)) 6px 0}
-.auth-form{padding:12px 24px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
-.auth-form h2{font-size:24px;line-height:30px;font-weight:600;color:#111b21}
-.auth-help{margin-top:8px;font-size:15px;line-height:21px;color:#667781}.auth-help a{color:#027eb5;text-decoration:none;font-weight:500}
-.phone-field{display:flex;align-items:center;margin-top:26px;border:1.5px solid #d1d7db;border-radius:12px;overflow:hidden;transition:border-color .15s}
-.phone-field:focus-within{border-color:#00a884}
-.phone-field select{appearance:none;-webkit-appearance:none;border:0;background:transparent;font:inherit;font-size:17px;padding:16px 4px 16px 14px;width:104px;color:#111b21;border-right:1px solid #e9edef;border-radius:0;outline:0}
-.phone-field input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:18px;letter-spacing:.5px;padding:16px 14px;background:transparent;color:#111b21}
-.otp-row{display:flex;gap:8px;margin-top:26px;justify-content:space-between}
-.otp-box{flex:1;min-width:0;height:56px;text-align:center;font:inherit;font-size:24px;font-weight:600;border:1.5px solid #d1d7db;border-radius:12px;outline:0;background:#fff;color:#111b21;padding:0;transition:border-color .15s,background .15s}
-.otp-box:focus{border-color:#00a884;background:#f2fbf8}
 .auth-error{min-height:20px;margin-top:10px;font-size:13.5px;line-height:18px;color:#ea3943}
-.auth-link{margin-top:10px;background:none;border:0;font:inherit;font-size:14.5px;font-weight:600;color:#00a884;padding:10px;cursor:pointer;align-self:center}
-.auth-link:disabled{color:#8696a0;cursor:default;font-weight:500}
+</style>
+<style id="wa-refine4">
+.wl-hero{height:270px;position:relative}
+.wl-hero::before,.wl-hero::after{content:"";position:absolute;border-radius:50%;background:rgba(0,168,132,.08)}
+.wl-hero::before{width:260px;height:260px;left:-90px;top:-70px}.wl-hero::after{width:200px;height:200px;right:-60px;bottom:-60px}
+.wl-art{z-index:1}
+.wl-body{padding:6px 24px 8px}
+.wl-body h1{font-size:28px;line-height:34px;letter-spacing:-.2px}
+.wl-spacer{flex:1;min-height:18px}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;height:54px;border:1.5px solid #d1d7db;border-radius:27px;background:#fff;color:#1f2933;font:inherit;font-size:16.5px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(11,20,26,.08);transition:background .15s,box-shadow .15s}
+.google-btn:active{background:#f5f6f6}.google-btn:disabled{opacity:.7;cursor:default}
+.g-logo{width:22px;height:22px;flex-shrink:0}
+.auth-error{text-align:center;min-height:18px}
+.auth-fine{margin-top:6px;margin-bottom:6px}
+.auth-footer{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 24px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid #eef0f1;margin-top:10px}
+.af-from{font-size:12.5px;color:#8696a0}
+.af-brand{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;letter-spacing:3.5px;color:#111b21}
+.af-mark{width:22px;height:22px}
+.af-copy{font-size:11.5px;color:#a6b1b7;margin-top:2px}
+@media (max-height:720px){.wl-hero{height:200px}.wl-art{transform:scale(.8)}.wl-feats{gap:12px;margin:18px 0 14px}}
 </style>
 </head>
 <body>
@@ -1318,54 +1318,32 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
       <div class="sk-input"><div class="sk sk-pill"></div><div class="sk sk-circle lg"></div></div>
     </div>
 
-    <div id="auth-screen" data-step="welcome">
-      <div class="auth-panel active" data-panel="welcome">
+    <div id="auth-screen">
+      <div class="auth-panel active">
         <div class="wl-hero"><div class="wl-art">
           <div class="dev laptop"><div class="dev-bar"></div><div class="b b1"></div><div class="b b2 out"></div><div class="b b3"></div></div>
           <div class="dev phone"><div class="b b1"></div><div class="b b2 out"></div><div class="b b3 out"></div></div>
           <div class="sync-badge"><svg class="ic "><use href="#ri-sync"/></svg></div>
         </div></div>
         <div class="wl-body">
-          <h1>Your clipboard, on every device</h1>
-          <p class="wl-sub">Send text, links, photos and files between your phone and laptop in one private chat.</p>
+          <h1>Welcome to Slipboard</h1>
+          <p class="wl-sub">Your private clipboard that follows you across phone, tablet and laptop.</p>
           <div class="wl-feats">
-            <div class="wl-feat"><svg class="ic "><use href="#ri-sync"/></svg><div><b>Instant sync</b><span>Every device signed in with your number shows the same chat.</span></div></div>
-            <div class="wl-feat"><svg class="ic "><use href="#ri-image-line"/></svg><div><b>Photos, videos and files</b><span>Share anything up to 7 MB.</span></div></div>
-            <div class="wl-feat"><svg class="ic "><use href="#ri-lock"/></svg><div><b>Private to your number</b><span>Only you can open your chat.</span></div></div>
+            <div class="wl-feat"><svg class="ic "><use href="#ri-sync"/></svg><div><b>Instant sync</b><span>Send once, see it on every device you're signed in to.</span></div></div>
+            <div class="wl-feat"><svg class="ic "><use href="#ri-image-line"/></svg><div><b>Text, photos, videos and files</b><span>Share links, snippets and media up to 7 MB each.</span></div></div>
+            <div class="wl-feat"><svg class="ic "><use href="#ri-lock"/></svg><div><b>Only yours</b><span>Your chat is tied to your Google account and nobody else can open it.</span></div></div>
           </div>
-          <button class="auth-btn" id="btn-get-started">Continue with phone number</button>
-          <div class="auth-fine">Standard SMS rates may apply.</div>
-          <div class="auth-from">from <b>MEOPONLY</b></div>
+          <div class="wl-spacer"></div>
+          <button class="google-btn" id="btn-google"><svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span id="google-label">Continue with Google</span></button>
+          <div class="auth-error" id="auth-error" role="alert"></div>
+          <div class="auth-fine">Use the same Google account on every device to share one chat.</div>
         </div>
+        <footer class="auth-footer">
+          <span class="af-from">from</span>
+          <span class="af-brand"><svg class="af-mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="7" fill="#00a884"/><path d="M7 16.5v-9l5 5 5-5v9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>MEOPONLY</span>
+          <span class="af-copy">© 2026 MEOPONLY · All rights reserved</span>
+        </footer>
       </div>
-
-      <div class="auth-panel" data-panel="phone">
-        <div class="auth-top"><button class="icon-btn" id="auth-back-1" aria-label="Back"><svg class="ic "><use href="#ri-arrow-left-line"/></svg></button></div>
-        <div class="auth-form">
-          <h2>Enter your phone number</h2>
-          <p class="auth-help">We'll text you a 6-digit code. Use the same number on every device to share one chat.</p>
-          <div class="phone-field">
-            <select id="cc-select" aria-label="Country code"><option value="+91" selected>🇮🇳 +91</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option><option value="+971">🇦🇪 +971</option><option value="+92">🇵🇰 +92</option><option value="+880">🇧🇩 +880</option><option value="+94">🇱🇰 +94</option><option value="+977">🇳🇵 +977</option><option value="+65">🇸🇬 +65</option><option value="+61">🇦🇺 +61</option><option value="+1">🇨🇦 +1</option><option value="+49">🇩🇪 +49</option><option value="+33">🇫🇷 +33</option><option value="+966">🇸🇦 +966</option><option value="+974">🇶🇦 +974</option><option value="+965">🇰🇼 +965</option><option value="+60">🇲🇾 +60</option><option value="+62">🇮🇩 +62</option><option value="+63">🇵🇭 +63</option><option value="+81">🇯🇵 +81</option><option value="+27">🇿🇦 +27</option><option value="+234">🇳🇬 +234</option><option value="+55">🇧🇷 +55</option></select>
-            <input id="phone-input" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Phone number" />
-          </div>
-          <div class="auth-error" id="phone-error"></div>
-          <button class="auth-btn" id="btn-send-code" disabled>Send code</button>
-          <div class="auth-fine">Protected by reCAPTCHA. Google's Privacy Policy and Terms apply.</div>
-        </div>
-      </div>
-
-      <div class="auth-panel" data-panel="otp">
-        <div class="auth-top"><button class="icon-btn" id="auth-back-2" aria-label="Back"><svg class="ic "><use href="#ri-arrow-left-line"/></svg></button></div>
-        <div class="auth-form">
-          <h2>Verify <span id="otp-num"></span></h2>
-          <p class="auth-help">Enter the 6-digit code we sent. <a href="#" id="wrong-number">Wrong number?</a></p>
-          <div class="otp-row"><input class="otp-box" id="otp-0" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 1" /><input class="otp-box" id="otp-1" inputmode="numeric" autocomplete="off" aria-label="Digit 2" /><input class="otp-box" id="otp-2" inputmode="numeric" autocomplete="off" aria-label="Digit 3" /><input class="otp-box" id="otp-3" inputmode="numeric" autocomplete="off" aria-label="Digit 4" /><input class="otp-box" id="otp-4" inputmode="numeric" autocomplete="off" aria-label="Digit 5" /><input class="otp-box" id="otp-5" inputmode="numeric" autocomplete="off" aria-label="Digit 6" /></div>
-          <div class="auth-error" id="otp-error"></div>
-          <button class="auth-btn" id="btn-verify" disabled>Verify</button>
-          <button class="auth-link" id="btn-resend" disabled>Resend code</button>
-        </div>
-      </div>
-      <div id="recaptcha-container"></div>
     </div>
 
     <!-- Top Bar -->
@@ -2865,104 +2843,39 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
     });
 
     
-    // ===== Phone login + per-number chat =====
+    // ===== Google login + per-account chat =====
     const auth = firebase.auth();
     const $ = (id) => document.getElementById(id);
     const authScreen = $("auth-screen");
     const DEFAULT_DESC = "Share text snippets, code, images, and links instantly across devices.";
-    let confirmation = null, recaptcha = null, resendTimer = null, signingIn = false;
-
-    function setAuthStep(s) {
-      authScreen.dataset.step = s;
-      document.querySelectorAll(".auth-panel").forEach((p) => p.classList.toggle("active", p.dataset.panel === s));
-      $("phone-error").textContent = ""; $("otp-error").textContent = "";
-      if (s === "phone") setTimeout(() => $("phone-input").focus(), 250);
-      if (s === "otp") setTimeout(() => otpBoxes[0].focus(), 250);
-    }
+    let signingIn = false;
     const AUTH_ERR = {
-      "auth/invalid-phone-number": "That phone number doesn't look right.",
-      "auth/missing-phone-number": "Enter your phone number.",
-      "auth/too-many-requests": "Too many attempts. Please try again later.",
-      "auth/quota-exceeded": "SMS limit reached. Please try again later.",
-      "auth/invalid-verification-code": "Wrong code. Check it and try again.",
-      "auth/code-expired": "That code expired. Request a new one.",
-      "auth/captcha-check-failed": "Verification failed. Reload the page and try again.",
-      "auth/operation-not-allowed": "Phone sign-in isn't enabled in Firebase yet.",
+      "auth/popup-closed-by-user": "Sign-in was cancelled.",
+      "auth/cancelled-popup-request": "",
+      "auth/operation-not-allowed": "Google sign-in isn't enabled in Firebase yet.",
       "auth/unauthorized-domain": "This website isn't authorised in Firebase (Authentication → Settings → Authorized domains).",
-      "auth/network-request-failed": "No connection. Check your internet."
+      "auth/network-request-failed": "No connection. Check your internet.",
+      "auth/too-many-requests": "Too many attempts. Please try again later.",
+      "auth/user-disabled": "This account has been disabled."
     };
-    const authMsg = (e) => AUTH_ERR[e && e.code] || "Something went wrong. Please try again.";
-
-    const ccSelect = $("cc-select"), phoneInput = $("phone-input");
-    const getDigits = () => phoneInput.value.replace(/\D/g, "").replace(/^0+/, "");
-    const e164 = () => ccSelect.value + getDigits();
-    const phoneValid = () => getDigits().length >= 6 && getDigits().length <= 14;
-    phoneInput.addEventListener("input", () => { $("btn-send-code").disabled = !phoneValid(); $("phone-error").textContent = ""; });
-    phoneInput.addEventListener("keydown", (e) => { if (e.key === "Enter" && phoneValid()) sendCode(); });
-    $("btn-get-started").addEventListener("click", () => setAuthStep("phone"));
-    $("auth-back-1").addEventListener("click", () => setAuthStep("welcome"));
-    $("auth-back-2").addEventListener("click", () => setAuthStep("phone"));
-    $("wrong-number").addEventListener("click", (e) => { e.preventDefault(); setAuthStep("phone"); });
-    $("btn-send-code").addEventListener("click", () => sendCode());
-    $("btn-resend").addEventListener("click", () => sendCode());
-
-    function freshRecaptcha() {
-      try { if (recaptcha) recaptcha.clear(); } catch (e) {}
-      const old = $("recaptcha-container"), n = document.createElement("div");
-      n.id = "recaptcha-container"; old.replaceWith(n);
-      recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha-container", { size: "invisible" });
-    }
-    function startResend() {
-      let s = 30; const b = $("btn-resend");
-      clearInterval(resendTimer); b.disabled = true; b.textContent = "Resend code in " + s + "s";
-      resendTimer = setInterval(() => {
-        s--;
-        if (s <= 0) { clearInterval(resendTimer); b.disabled = false; b.textContent = "Resend code"; }
-        else b.textContent = "Resend code in " + s + "s";
-      }, 1000);
-    }
-    async function sendCode() {
-      if (!phoneValid() || signingIn) return;
-      const onOtp = authScreen.dataset.step === "otp";
-      const btn = $("btn-send-code"); signingIn = true; btn.disabled = true; btn.textContent = "Sending…";
-      try {
-        freshRecaptcha();
-        confirmation = await auth.signInWithPhoneNumber(e164(), recaptcha);
-        $("otp-num").textContent = ccSelect.value + " " + getDigits();
-        otpBoxes.forEach((b) => (b.value = ""));
-        $("btn-verify").disabled = true;
-        if (!onOtp) setAuthStep("otp"); else otpBoxes[0].focus();
-        startResend();
-      } catch (e) {
-        (onOtp ? $("otp-error") : $("phone-error")).textContent = authMsg(e);
-      } finally { signingIn = false; btn.textContent = "Send code"; btn.disabled = !phoneValid(); }
-    }
-
-    const otpBoxes = Array.from(document.querySelectorAll(".otp-box"));
-    const otpCode = () => otpBoxes.map((b) => b.value).join("");
-    otpBoxes.forEach((b, i) => {
-      b.addEventListener("input", () => {
-        const d = b.value.replace(/\D/g, "");
-        if (d.length > 1) { d.slice(0, 6 - i).split("").forEach((c, k) => (otpBoxes[i + k].value = c)); otpBoxes[Math.min(i + d.length, 5)].focus(); }
-        else { b.value = d; if (d && i < 5) otpBoxes[i + 1].focus(); }
-        $("btn-verify").disabled = otpCode().length < 6; $("otp-error").textContent = "";
-        if (otpCode().length === 6) verifyCode();
-      });
-      b.addEventListener("keydown", (e) => {
-        if (e.key === "Backspace" && !b.value && i > 0) { otpBoxes[i - 1].value = ""; otpBoxes[i - 1].focus(); }
-        if (e.key === "Enter" && otpCode().length === 6) verifyCode();
-      });
-      b.addEventListener("focus", () => b.select());
+    const authMsg = (e) => (e && e.code in AUTH_ERR ? AUTH_ERR[e.code] : "Something went wrong. Please try again.");
+    const googleBtn = $("btn-google");
+    function setGoogleBusy(b) { signingIn = b; googleBtn.disabled = b; $("google-label").textContent = b ? "Signing in…" : "Continue with Google"; }
+    googleBtn.addEventListener("click", async () => {
+      if (signingIn) return;
+      $("auth-error").textContent = "";
+      setGoogleBusy(true);
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: "select_account" });
+      try { await auth.signInWithPopup(provider); }
+      catch (e) {
+        if (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment") {
+          try { await auth.signInWithRedirect(provider); return; } catch (e2) { e = e2; }
+        }
+        $("auth-error").textContent = authMsg(e);
+      } finally { setGoogleBusy(false); }
     });
-    $("btn-verify").addEventListener("click", () => verifyCode());
-    async function verifyCode() {
-      const code = otpCode();
-      if (code.length < 6 || !confirmation || signingIn) return;
-      const btn = $("btn-verify"); signingIn = true; btn.disabled = true; btn.textContent = "Verifying…";
-      try { await confirmation.confirm(code); }
-      catch (e) { $("otp-error").textContent = authMsg(e); otpBoxes.forEach((x) => (x.value = "")); otpBoxes[0].focus(); }
-      finally { signingIn = false; btn.textContent = "Verify"; btn.disabled = otpCode().length < 6; }
-    }
+    auth.getRedirectResult().catch((e) => { $("auth-error").textContent = authMsg(e); });
 
     function startChat(user) {
       clipRef = db.ref("users/" + user.uid + "/messages");
@@ -2981,11 +2894,10 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
     auth.onAuthStateChanged((user) => {
       if (user) {
         authScreen.classList.remove("show");
-        $("account-phone").textContent = user.phoneNumber || "";
+        $("account-phone").textContent = user.email || user.displayName || "";
         showSkeleton(); startChat(user);
       } else {
-        stopChat(); clearInterval(resendTimer);
-        phoneInput.value = ""; $("btn-send-code").disabled = true; setAuthStep("welcome");
+        stopChat();
         authScreen.classList.add("show"); hideSkeleton();
       }
     });
