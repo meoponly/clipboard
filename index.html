@@ -14,6 +14,7 @@
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 
   <style>
     :root {
@@ -275,42 +276,11 @@
     }
 
     /* Telegram Style Floating Formatting Bar (Positioned Above Input Pill to Avoid System Menu Clashing) */
-    #floating-format-bar {
-      position: absolute;
-      display: none;
-      background: #1f2c34;
-      border-radius: 22px;
-      padding: 5px 10px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-      z-index: 90;
-      gap: 6px;
-      align-items: center;
-      animation: popIn 0.12s ease-out;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      max-width: calc(100% - 24px);
-      left: 50%;
-      transform: translateX(-50%);
-    }
 
-    .tg-format-btn {
-      background: none;
-      border: none;
-      color: #e9edef;
-      font-size: 15px;
-      padding: 4px 7px;
-      border-radius: 12px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 500;
-      transition: background 0.12s ease;
-    }
 
-    .tg-format-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-    }
+
+
+
 
     /* Pinned Top Banner */
     #pinned-bar {
@@ -1190,9 +1160,9 @@ header{position:relative;z-index:10;padding-left:6px;padding-right:4px;border-bo
 .msg-reply-quote strong{display:block;color:var(--wa-teal);font-weight:600}
 .msg-file{background:rgba(11,20,26,.06)}
 .swipe-reply-icon{left:-44px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.85);color:#54656f;display:flex;align-items:center;justify-content:center;font-size:18px}
-.fmt-pre,.fmt-code{background:rgba(11,20,26,.07);border-radius:4px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
-.fmt-code{padding:1px 4px}.fmt-pre{display:block;padding:4px 6px;white-space:pre-wrap}
-.fmt-quote{border-left:3px solid var(--wa-teal);padding-left:8px;margin:2px 0;color:#54656f}
+
+
+
 footer{padding-bottom:env(safe-area-inset-bottom,0px)}
 html.kb-open footer{padding-bottom:0}
 .input-row{position:relative;padding:4px 8px 8px;gap:6px}
@@ -1202,8 +1172,8 @@ html.kb-open footer{padding-bottom:0}
 .send-fab{width:48px;height:48px;font-size:24px;box-shadow:0 1px 2px rgba(11,20,26,.3)}
 #reply-preview-bar{margin:0 8px 2px;border:0;border-left:4px solid var(--wa-teal);border-radius:10px;background:#f5f6f6;padding:6px 4px 6px 10px}
 .reply-preview-content{font-size:14px}
-#floating-format-bar{left:12px;bottom:calc(100% + 6px);top:auto;transform:none}
-.tg-format-btn{min-width:34px;height:34px;font-size:17px;font-family:inherit}
+
+
 #floating-reaction-pill{background:#fff;border:0;border-radius:28px;padding:6px 14px;gap:12px;box-shadow:0 2px 12px rgba(11,20,26,.28)}
 .react-pill-item{font-size:26px}
 #scroll-down{position:absolute;right:12px;bottom:calc(100% + 8px);width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:#54656f;font-size:26px;display:none;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(11,20,26,.3);z-index:5}
@@ -1230,10 +1200,9 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
 .rp-body{flex:1;min-width:0}.rp-name{color:var(--wa-teal);font-weight:600;font-size:13.5px}
 .rp-text{display:flex;align-items:center;gap:4px;font-size:14px;color:#54656f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rp-thumb{width:44px;height:44px;object-fit:cover;border-radius:6px}
-#floating-format-bar{position:static;transform:none;left:auto;bottom:auto;top:auto;background:transparent;border:0;box-shadow:none;border-radius:0;padding:0 8px 8px;gap:6px;max-width:none;animation:none;overflow-x:auto;z-index:auto}
-.tg-format-btn{background:#fff;color:#54656f;min-width:42px;height:36px;border-radius:18px;box-shadow:0 1px 1px rgba(11,20,26,.12);padding:0 10px;flex-shrink:0}
-.tg-format-btn:hover{background:#fff;color:#111b21}.tg-format-btn:active{background:#e9edef}
-.star-icon{color:#667781}
+
+
+
 #unread-badge{display:none;position:absolute;top:-6px;right:-2px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--wa-teal);color:#fff;font-size:12px;font-weight:600;align-items:center;justify-content:center}
 .msg-file{cursor:pointer}.msg-file-info{min-width:0;flex:1}.msg-file-size{font-size:12px;color:#667781}
 #dialog-overlay,#file-sheet{position:absolute;inset:0;background:rgba(11,20,26,.5);z-index:150;display:none;animation:fadeIn .15s}
@@ -1274,23 +1243,129 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
 .splash-sub{margin-top:12px;font-size:13.5px;color:#667781}
 .splash-brand{font-weight:700;letter-spacing:3px;font-size:16px}
 </style>
+<style id="wa-refine3">
+.grecaptcha-badge{visibility:hidden}
+.acct-sub{font-size:13px;color:#667781;font-weight:400;margin-top:1px}
+#skeleton{position:absolute;inset:0;z-index:1000;background:#efeae2;transition:opacity .3s ease;overflow:hidden}
+.sk{background:linear-gradient(90deg,#e4e8ea 25%,#f4f5f6 37%,#e4e8ea 63%);background-size:400% 100%;animation:skShimmer 1.4s ease infinite}
+@keyframes skShimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
+.sk-header{display:flex;align-items:center;gap:12px;height:calc(56px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 14px 0 10px;background:#fff;box-shadow:0 1px 0 rgba(11,20,26,.1)}
+.sk-circle{width:40px;height:40px;border-radius:50%;flex-shrink:0}.sk-circle.lg{width:48px;height:48px}
+.sk-lines{flex:1;display:flex;flex-direction:column;gap:8px}
+.sk-line{height:13px;border-radius:7px}.sk-line.sm{height:10px}
+.sk-dot{width:6px;height:22px;border-radius:3px}
+.sk-body{display:flex;flex-direction:column;gap:10px;padding:14px 10px}
+.sk-chip{align-self:center;width:84px;height:24px;border-radius:8px;margin-bottom:4px}
+.sk-row{display:flex;justify-content:flex-end}.sk-bubble{border-radius:10px}
+.sk-input{position:absolute;left:0;right:0;bottom:0;display:flex;gap:6px;padding:4px 8px calc(8px + env(safe-area-inset-bottom,0px))}
+.sk-pill{flex:1;height:48px;border-radius:24px}
+#auth-screen{position:absolute;inset:0;z-index:900;background:#fff;display:none;flex-direction:column;overflow-y:auto;overscroll-behavior:contain}
+#auth-screen.show{display:flex}
+#auth-screen input,#auth-screen select{user-select:text;-webkit-user-select:text}
+.auth-panel{display:none;flex:1;flex-direction:column;min-height:min-content}
+.auth-panel.active{display:flex;animation:fadeIn .25s ease-out}
+.wl-hero{flex-shrink:0;height:286px;padding-top:env(safe-area-inset-top,0px);background:radial-gradient(120% 90% at 50% 0%,#d9f3ea 0%,#eef8f4 55%,#fff 100%);display:flex;align-items:center;justify-content:center}
+.wl-art{position:relative;width:290px;height:200px}
+.dev{position:absolute;background:#fff;border-radius:14px;box-shadow:0 8px 24px rgba(11,20,26,.12);padding:12px;display:flex;flex-direction:column;gap:8px}
+.dev.laptop{left:0;top:12px;width:210px;height:140px;transform:rotate(-3deg)}
+.dev.phone{right:0;top:34px;width:112px;height:176px;border-radius:20px;border:4px solid #202c33;padding:14px 8px;transform:rotate(4deg)}
+.dev-bar{height:8px;width:40%;border-radius:4px;background:#e1e6e8;margin-bottom:4px}
+.dev .b{height:22px;width:62%;border-radius:8px;background:#eceff0}
+.dev .b.out{align-self:flex-end;background:#d9fdd3}.dev .b2{width:72%}.dev .b3{width:48%}
+.dev.phone .b{height:20px}
+.sync-badge{position:absolute;left:50%;bottom:-2px;width:46px;height:46px;margin-left:-23px;border-radius:50%;background:#00a884;color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;border:4px solid #fff;box-shadow:0 4px 12px rgba(0,168,132,.4);animation:syncSpin 6s linear infinite}
+@keyframes syncSpin{to{transform:rotate(360deg)}}
+.wl-body{display:flex;flex-direction:column;padding:8px 24px calc(20px + env(safe-area-inset-bottom,0px));flex:1}
+.wl-body h1{font-size:27px;line-height:33px;font-weight:600;text-align:center;color:#111b21}
+.wl-sub{margin-top:10px;font-size:15.5px;line-height:22px;color:#667781;text-align:center}
+.wl-feats{display:flex;flex-direction:column;gap:16px;margin:26px 0 24px}
+.wl-feat{display:flex;gap:14px;align-items:flex-start}
+.wl-feat>.ic{font-size:24px;color:#00a884;margin-top:1px}
+.wl-feat b{display:block;font-size:15.5px;font-weight:600;color:#111b21}.wl-feat span{display:block;font-size:14px;line-height:19px;color:#667781;margin-top:1px}
+.auth-btn{height:52px;border:0;border-radius:26px;background:#00a884;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer;margin-top:auto;width:100%;transition:background .15s,opacity .15s}
+.auth-btn:active{background:#029072}.auth-btn:disabled{background:#c5ced3;cursor:default}
+.auth-form .auth-btn{margin-top:20px}
+.auth-fine{margin-top:12px;font-size:12.5px;line-height:17px;color:#8696a0;text-align:center}
+.auth-from{margin-top:18px;text-align:center;font-size:13px;color:#8696a0}.auth-from b{color:#00a884;letter-spacing:2px;font-size:13.5px;margin-left:2px}
+.auth-top{padding:calc(6px + env(safe-area-inset-top,0px)) 6px 0}
+.auth-form{padding:12px 24px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
+.auth-form h2{font-size:24px;line-height:30px;font-weight:600;color:#111b21}
+.auth-help{margin-top:8px;font-size:15px;line-height:21px;color:#667781}.auth-help a{color:#027eb5;text-decoration:none;font-weight:500}
+.phone-field{display:flex;align-items:center;margin-top:26px;border:1.5px solid #d1d7db;border-radius:12px;overflow:hidden;transition:border-color .15s}
+.phone-field:focus-within{border-color:#00a884}
+.phone-field select{appearance:none;-webkit-appearance:none;border:0;background:transparent;font:inherit;font-size:17px;padding:16px 4px 16px 14px;width:104px;color:#111b21;border-right:1px solid #e9edef;border-radius:0;outline:0}
+.phone-field input{flex:1;min-width:0;border:0;outline:0;font:inherit;font-size:18px;letter-spacing:.5px;padding:16px 14px;background:transparent;color:#111b21}
+.otp-row{display:flex;gap:8px;margin-top:26px;justify-content:space-between}
+.otp-box{flex:1;min-width:0;height:56px;text-align:center;font:inherit;font-size:24px;font-weight:600;border:1.5px solid #d1d7db;border-radius:12px;outline:0;background:#fff;color:#111b21;padding:0;transition:border-color .15s,background .15s}
+.otp-box:focus{border-color:#00a884;background:#f2fbf8}
+.auth-error{min-height:20px;margin-top:10px;font-size:13.5px;line-height:18px;color:#ea3943}
+.auth-link{margin-top:10px;background:none;border:0;font:inherit;font-size:14.5px;font-weight:600;color:#00a884;padding:10px;cursor:pointer;align-self:center}
+.auth-link:disabled{color:#8696a0;cursor:default;font-weight:500}
+</style>
 </head>
 <body>
 
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="ri-more-2-fill" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></symbol><symbol id="ri-search-line" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol><symbol id="ri-image-line" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></symbol><symbol id="ri-pushpin-line" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></symbol><symbol id="ri-download-2-line" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></symbol><symbol id="ri-information-line" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol><symbol id="ri-close-line" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol><symbol id="ri-reply-line" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol><symbol id="ri-file-copy-line" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></symbol><symbol id="ri-edit-line" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol><symbol id="ri-delete-bin-6-line" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol><symbol id="ri-code-line" viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></symbol><symbol id="ri-double-quotes-l" viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></symbol><symbol id="ri-link" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol><symbol id="ri-attachment-2" viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></symbol><symbol id="ri-send-plane-2-fill" viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></symbol><symbol id="ri-arrow-left-line" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol><symbol id="ri-arrow-right-s-line" viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol><symbol id="ri-arrow-left-s-line" viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></symbol><symbol id="ri-file-text-line" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol><symbol id="ri-done-all" viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></symbol><symbol id="ri-down" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></symbol><symbol id="ri-pushpin-fill" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></symbol><symbol id="ri-reply-fill" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol><symbol id="ri-pencil-line" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol><symbol id="ri-delete-bin-line" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol><symbol id="ri-links-line" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol><symbol id="ri-file-text-fill" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol><symbol id="ri-star" viewBox="0 0 24 24"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></symbol><symbol id="ri-star-fill" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></symbol><symbol id="ri-volume" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></symbol></defs></svg>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="ri-more-2-fill" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></symbol><symbol id="ri-search-line" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol><symbol id="ri-image-line" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></symbol><symbol id="ri-pushpin-line" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></symbol><symbol id="ri-download-2-line" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></symbol><symbol id="ri-information-line" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol><symbol id="ri-close-line" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol><symbol id="ri-reply-line" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol><symbol id="ri-file-copy-line" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></symbol><symbol id="ri-edit-line" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol><symbol id="ri-delete-bin-6-line" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol><symbol id="ri-code-line" viewBox="0 0 24 24"><path d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></symbol><symbol id="ri-double-quotes-l" viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></symbol><symbol id="ri-link" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol><symbol id="ri-attachment-2" viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></symbol><symbol id="ri-send-plane-2-fill" viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></symbol><symbol id="ri-arrow-left-line" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol><symbol id="ri-arrow-right-s-line" viewBox="0 0 24 24"><path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></symbol><symbol id="ri-arrow-left-s-line" viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></symbol><symbol id="ri-file-text-line" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol><symbol id="ri-done-all" viewBox="0 0 24 24"><path d="M18 7l-1.41-1.41-6.34 6.34 1.41 1.41L18 7zm4.24-1.41L11.66 16.17 7.48 12l-1.41 1.41L11.66 19l12-12-1.42-1.41zM.41 13.41L6 19l1.41-1.41L1.83 12 .41 13.41z"/></symbol><symbol id="ri-down" viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></symbol><symbol id="ri-pushpin-fill" viewBox="0 0 24 24"><path d="M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z"/></symbol><symbol id="ri-reply-fill" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol><symbol id="ri-pencil-line" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol><symbol id="ri-delete-bin-line" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol><symbol id="ri-links-line" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol><symbol id="ri-file-text-fill" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol><symbol id="ri-star" viewBox="0 0 24 24"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></symbol><symbol id="ri-star-fill" viewBox="0 0 24 24"><path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></symbol><symbol id="ri-volume" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></symbol><symbol id="ri-sync" viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0 0 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 0 0 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></symbol><symbol id="ri-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></symbol><symbol id="ri-logout" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></symbol></defs></svg>
   <div id="app">
     <!-- WhatsApp-Style Splash Screen -->
-    <div id="splash-screen">
-      <div class="splash-center">
-        <img class="splash-logo" src="slipboard.png" alt="Slipboard" />
-        <div class="splash-title">Slipboard</div>
-        <div class="splash-progress"><span></span></div>
-        <div class="splash-sub">Loading your clipboard…</div>
+    <div id="skeleton" aria-hidden="true">
+      <div class="sk-header"><div class="sk sk-circle"></div><div class="sk-lines"><div class="sk sk-line" style="width:34%"></div><div class="sk sk-line sm" style="width:52%"></div></div><div class="sk sk-dot"></div></div>
+      <div class="sk-body">
+        <div class="sk sk-chip"></div><div class="sk-row"><div class="sk sk-bubble" style="width:58%;height:56px"></div></div><div class="sk-row"><div class="sk sk-bubble" style="width:70%;height:84px"></div></div><div class="sk-row"><div class="sk sk-bubble" style="width:44%;height:44px"></div></div><div class="sk-row"><div class="sk sk-bubble" style="width:64%;height:70px"></div></div>
+        <div class="sk-row"><div class="sk sk-bubble" style="width:66%;height:190px"></div></div>
+        <div class="sk-row"><div class="sk sk-bubble" style="width:48%;height:48px"></div></div>
       </div>
-      <div class="splash-footer">
-        <span class="splash-from">from</span>
-        <span class="splash-brand">MEOPONLY</span>
+      <div class="sk-input"><div class="sk sk-pill"></div><div class="sk sk-circle lg"></div></div>
+    </div>
+
+    <div id="auth-screen" data-step="welcome">
+      <div class="auth-panel active" data-panel="welcome">
+        <div class="wl-hero"><div class="wl-art">
+          <div class="dev laptop"><div class="dev-bar"></div><div class="b b1"></div><div class="b b2 out"></div><div class="b b3"></div></div>
+          <div class="dev phone"><div class="b b1"></div><div class="b b2 out"></div><div class="b b3 out"></div></div>
+          <div class="sync-badge"><svg class="ic "><use href="#ri-sync"/></svg></div>
+        </div></div>
+        <div class="wl-body">
+          <h1>Your clipboard, on every device</h1>
+          <p class="wl-sub">Send text, links, photos and files between your phone and laptop in one private chat.</p>
+          <div class="wl-feats">
+            <div class="wl-feat"><svg class="ic "><use href="#ri-sync"/></svg><div><b>Instant sync</b><span>Every device signed in with your number shows the same chat.</span></div></div>
+            <div class="wl-feat"><svg class="ic "><use href="#ri-image-line"/></svg><div><b>Photos, videos and files</b><span>Share anything up to 7 MB.</span></div></div>
+            <div class="wl-feat"><svg class="ic "><use href="#ri-lock"/></svg><div><b>Private to your number</b><span>Only you can open your chat.</span></div></div>
+          </div>
+          <button class="auth-btn" id="btn-get-started">Continue with phone number</button>
+          <div class="auth-fine">Standard SMS rates may apply.</div>
+          <div class="auth-from">from <b>MEOPONLY</b></div>
+        </div>
       </div>
+
+      <div class="auth-panel" data-panel="phone">
+        <div class="auth-top"><button class="icon-btn" id="auth-back-1" aria-label="Back"><svg class="ic "><use href="#ri-arrow-left-line"/></svg></button></div>
+        <div class="auth-form">
+          <h2>Enter your phone number</h2>
+          <p class="auth-help">We'll text you a 6-digit code. Use the same number on every device to share one chat.</p>
+          <div class="phone-field">
+            <select id="cc-select" aria-label="Country code"><option value="+91" selected>🇮🇳 +91</option><option value="+1">🇺🇸 +1</option><option value="+44">🇬🇧 +44</option><option value="+971">🇦🇪 +971</option><option value="+92">🇵🇰 +92</option><option value="+880">🇧🇩 +880</option><option value="+94">🇱🇰 +94</option><option value="+977">🇳🇵 +977</option><option value="+65">🇸🇬 +65</option><option value="+61">🇦🇺 +61</option><option value="+1">🇨🇦 +1</option><option value="+49">🇩🇪 +49</option><option value="+33">🇫🇷 +33</option><option value="+966">🇸🇦 +966</option><option value="+974">🇶🇦 +974</option><option value="+965">🇰🇼 +965</option><option value="+60">🇲🇾 +60</option><option value="+62">🇮🇩 +62</option><option value="+63">🇵🇭 +63</option><option value="+81">🇯🇵 +81</option><option value="+27">🇿🇦 +27</option><option value="+234">🇳🇬 +234</option><option value="+55">🇧🇷 +55</option></select>
+            <input id="phone-input" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Phone number" />
+          </div>
+          <div class="auth-error" id="phone-error"></div>
+          <button class="auth-btn" id="btn-send-code" disabled>Send code</button>
+          <div class="auth-fine">Protected by reCAPTCHA. Google's Privacy Policy and Terms apply.</div>
+        </div>
+      </div>
+
+      <div class="auth-panel" data-panel="otp">
+        <div class="auth-top"><button class="icon-btn" id="auth-back-2" aria-label="Back"><svg class="ic "><use href="#ri-arrow-left-line"/></svg></button></div>
+        <div class="auth-form">
+          <h2>Verify <span id="otp-num"></span></h2>
+          <p class="auth-help">Enter the 6-digit code we sent. <a href="#" id="wrong-number">Wrong number?</a></p>
+          <div class="otp-row"><input class="otp-box" id="otp-0" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 1" /><input class="otp-box" id="otp-1" inputmode="numeric" autocomplete="off" aria-label="Digit 2" /><input class="otp-box" id="otp-2" inputmode="numeric" autocomplete="off" aria-label="Digit 3" /><input class="otp-box" id="otp-3" inputmode="numeric" autocomplete="off" aria-label="Digit 4" /><input class="otp-box" id="otp-4" inputmode="numeric" autocomplete="off" aria-label="Digit 5" /><input class="otp-box" id="otp-5" inputmode="numeric" autocomplete="off" aria-label="Digit 6" /></div>
+          <div class="auth-error" id="otp-error"></div>
+          <button class="auth-btn" id="btn-verify" disabled>Verify</button>
+          <button class="auth-link" id="btn-resend" disabled>Resend code</button>
+        </div>
+      </div>
+      <div id="recaptcha-container"></div>
     </div>
 
     <!-- Top Bar -->
@@ -1313,7 +1388,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
         <button id="menu-search-opt"><svg class="ic "><use href="#ri-search-line"/></svg> Search</button>
         <button id="menu-media-opt"><svg class="ic "><use href="#ri-image-line"/></svg> Media, links, and docs</button>
         <button id="menu-pinned-opt"><svg class="ic "><use href="#ri-pushpin-line"/></svg> Pinned messages</button>
-        <button id="menu-starred-opt">Starred messages</button>
         <button id="menu-export-opt"><svg class="ic "><use href="#ri-download-2-line"/></svg> Export chat</button>
         <button id="menu-info-opt"><svg class="ic "><use href="#ri-information-line"/></svg> Group info</button>
       </div>
@@ -1329,7 +1403,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
         <div class="selection-actions">
           <button class="icon-btn" id="btn-reply-selected" title="Reply"><svg class="ic "><use href="#ri-reply-line"/></svg></button>
           <button class="icon-btn" id="btn-pin-selected" title="Pin"><svg class="ic "><use href="#ri-pushpin-line"/></svg></button>
-          <button class="icon-btn" id="btn-star-selected" title="Star"><svg class="ic "><use href="#ri-star"/></svg></button>
           <button class="icon-btn" id="btn-copy-selected" title="Copy"><svg class="ic "><use href="#ri-file-copy-line"/></svg></button>
           <button class="icon-btn" id="btn-edit-selected" title="Edit"><svg class="ic "><use href="#ri-edit-line"/></svg></button>
           <button class="icon-btn" id="btn-delete-selected" title="Delete"><svg class="ic "><use href="#ri-delete-bin-6-line"/></svg></button>
@@ -1373,7 +1446,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
     <!-- Bottom Input Bar Area -->
     <footer>
       <button id="scroll-down" aria-label="Scroll to bottom"><svg class="ic"><use href="#ri-down"/></svg><span id="unread-badge"></span></button>
-      <!-- Telegram-Style Floating Text Formatting Pill (Above Input Bar to prevent OS callout clash) -->
       <div id="reply-preview-bar">
         <div class="rp-body"><div class="rp-name">You</div><div class="rp-text" id="reply-preview-text"></div></div><img id="reply-preview-thumb" class="rp-thumb" alt="" style="display:none" />
         <button class="icon-btn" id="btn-cancel-reply" style="width: 28px; height: 28px;"><svg class="ic "><use href="#ri-close-line"/></svg></button>
@@ -1389,15 +1461,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
         <button class="send-fab" id="btn-send" title="Send">
           <svg class="ic "><use href="#ri-send-plane-2-fill"/></svg>
         </button>
-      </div>
-      <div id="floating-format-bar">
-        <button class="tg-format-btn" onclick="applyFormat('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
-        <button class="tg-format-btn" onclick="applyFormat('italic')" title="Italic (Ctrl+I)"><i style="font-family:Georgia,serif">I</i></button>
-        <button class="tg-format-btn" onclick="applyFormat('underline')" title="Underline (Ctrl+U)"><u>U</u></button>
-        <button class="tg-format-btn" onclick="applyFormat('strike')" title="Strikethrough"><s>S</s></button>
-        <button class="tg-format-btn" onclick="applyFormat('code')" title="Monospace"><svg class="ic "><use href="#ri-code-line"/></svg></button>
-        <button class="tg-format-btn" onclick="applyFormat('quote')" title="Quote"><svg class="ic "><use href="#ri-double-quotes-l"/></svg></button>
-        <button class="tg-format-btn" onclick="applyFormat('link')" title="Link (Ctrl+K)"><svg class="ic "><use href="#ri-link"/></svg></button>
       </div>
     </footer>
 
@@ -1468,7 +1531,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
         <div class="media-preview-strip" id="media-preview-strip"></div>
       </div>
       <div class="info-card" style="padding-top:6px;padding-bottom:6px;">
-        <div class="clickable-row" id="open-starred"><div class="row-left"><svg class="ic "><use href="#ri-star"/></svg><span>Starred messages</span></div><div class="row-right"><span id="starred-count">0</span><svg class="ic "><use href="#ri-arrow-right-s-line"/></svg></div></div>
         <div class="clickable-row" id="open-pinned"><div class="row-left"><svg class="ic "><use href="#ri-pushpin-line"/></svg><span>Pinned messages</span></div><div class="row-right"><span id="pinned-count">0</span><svg class="ic "><use href="#ri-arrow-right-s-line"/></svg></div></div>
         <div class="clickable-row" id="sound-row"><div class="row-left"><svg class="ic "><use href="#ri-volume"/></svg><span>Message sounds</span></div><button class="switch" id="sound-toggle" role="switch" aria-checked="true" aria-label="Message sounds"></button></div>
       </div>
@@ -1478,6 +1540,9 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
           <div><b id="stat-docs">0</b><span>Docs</span></div><div><b id="stat-links">0</b><span>Links</span></div>
         </div>
         <div class="stat-foot" id="stat-storage"></div>
+      </div>
+      <div class="info-card" style="padding-top:10px;padding-bottom:10px;">
+        <div class="clickable-row" id="btn-logout"><div class="row-left"><svg class="ic "><use href="#ri-logout"/></svg><div><div>Log out</div><div class="acct-sub" id="account-phone"></div></div></div></div>
       </div>
       <div class="info-card" style="padding-top:10px;padding-bottom:10px;">
         <div class="clickable-row danger-row" id="btn-clear-chat-modal">
@@ -1580,8 +1645,7 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    const clipRef = db.ref("clipboard/messages");
-    const metaRef = db.ref("clipboard/meta");
+    let clipRef = null, metaRef = null;
 
     // State Variables
     let messages = [];
@@ -1598,7 +1662,7 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
     let isInitialLoadDone = false;
 
     // Elements
-    const splashScreen = document.getElementById("splash-screen");
+    const splashScreen = document.getElementById("skeleton");
     const msgContainer = document.getElementById("messages-container");
     const textInput = document.getElementById("text-input");
     const btnSend = document.getElementById("btn-send");
@@ -1609,7 +1673,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
     const selectionBarContainer = document.getElementById("selection-bar-container");
     const selectionCount = document.getElementById("selection-count");
     const floatingReactionPill = document.getElementById("floating-reaction-pill");
-    const floatingFormatBar = document.getElementById("floating-format-bar");
     const pinnedBar = document.getElementById("pinned-bar");
     const pinnedSnippetText = document.getElementById("pinned-snippet-text");
     const replyPreviewBar = document.getElementById("reply-preview-bar");
@@ -1640,23 +1703,22 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
       }
     }
 
-    // Dismiss Splash Screen
-    function dismissSplashScreen() {
-      if (!isInitialLoadDone) {
-        isInitialLoadDone = true;
-        setTimeout(() => {
-          splashScreen.style.opacity = "0";
-          setTimeout(() => {
-            splashScreen.style.display = "none";
-          }, 400);
-        }, 500);
-      }
+    // Skeleton loader
+    function hideSkeleton() {
+      splashScreen.style.opacity = "0";
+      setTimeout(() => { if (splashScreen.style.opacity === "0") splashScreen.style.display = "none"; }, 300);
     }
-
-    setTimeout(dismissSplashScreen, 2500);
+    function showSkeleton() {
+      splashScreen.style.display = "block";
+      void splashScreen.offsetWidth;
+      splashScreen.style.opacity = "1";
+      clearTimeout(showSkeleton._t);
+      showSkeleton._t = setTimeout(hideSkeleton, 10000);
+    }
+    function dismissSplashScreen() { hideSkeleton(); }
 
     // Meta Description Listener
-    metaRef.on("value", (snap) => {
+    const onMetaValue = (snap) => {
       const data = snap.val() || {};
       if (data.name) {
         document.getElementById("group-name-label").innerText = data.name;
@@ -1665,10 +1727,10 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
       if (data.description) {
         document.getElementById("group-desc-label").innerText = data.description;
       }
-    });
+    };
 
     // Realtime Database Sync
-    clipRef.on("value", (snapshot) => {
+    const onClipsValue = (snapshot) => {
       const data = snapshot.val();
       messages = [];
       if (data) {
@@ -1684,30 +1746,21 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
       updatePinnedBanner();
       updateGroupStats();
       dismissSplashScreen();
-    });
+    };
 
     // Message formatter: code/URLs are protected first so *_~ inside them are never mangled
     function parseMessageText(text) {
       if (!text) return "";
       const keep = [];
       const hold = (h) => { keep.push(h); return "\u0000" + (keep.length - 1) + "\u0000"; };
-      let html = escapeHtml(text);
-      html = html.replace(/```([\s\S]*?)```/g, (m, c) => hold('<pre class="fmt-pre">' + c + '</pre>'));
-      html = html.replace(/`([^`\n]+)`/g, (m, c) => hold('<code class="fmt-code">' + c + '</code>'));
-      html = html.replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, (m, l, u) => hold('<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + l + '</a>'));
       const linkTo = (raw, withScheme) => {
         const m = raw.match(/^(.*?)([.,!?;:)\]]*)$/);
-        const u = m[1], tail = m[2];
-        const href = withScheme ? "https://" + u : u;
-        return hold('<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + u + "</a>") + tail;
+        const href = withScheme ? "https://" + m[1] : m[1];
+        return hold('<a href="' + href + '" target="_blank" rel="noopener noreferrer">' + m[1] + "</a>") + m[2];
       };
+      let html = escapeHtml(text);
       html = html.replace(/https?:\/\/(?:(?!&quot;|&#39;|&lt;|&gt;)[^\s<])+/g, (u) => linkTo(u, false));
       html = html.replace(/(^|[\s(])((?:www\.)?[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|io|in|co|app|dev|me|ai|xyz|info|edu|gov|us|uk|ly|gg|tv|to|so|sh|page|site|online)(?:\/(?:(?!&quot;|&#39;|&lt;|&gt;)[^\s<])*)?)/gi, (m, pre, u) => pre + linkTo(u, true));
-      html = html.replace(/__([^_\n]+)__/g, "<u>$1</u>")
-        .replace(/\*([^*\n]+)\*/g, "<strong>$1</strong>")
-        .replace(/_([^_\n]+)_/g, "<em>$1</em>")
-        .replace(/~([^~\n]+)~/g, "<del>$1</del>")
-        .replace(/^&gt;\s?(.*)$/gm, '<blockquote class="fmt-quote">$1</blockquote>');
       return html.replace(/\u0000(\d+)\u0000/g, (m, i) => keep[i]);
     }
 
@@ -1823,7 +1876,7 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
           <div class="msg-footer">
             ${msg.isPinned ? '<svg class="ic pin-icon"><use href="#ri-pushpin-fill"/></svg>' : ''}
             ${msg.isEdited ? '<span class="edited-badge">edited</span>' : ''}
-            ${msg.isStarred ? '<svg class="ic pin-icon star-icon"><use href="#ri-star-fill"/></svg>' : ''}<span>${time}</span>
+            <span>${time}</span>
             <span class="wa-checks">
               <svg class="ic"><use href="#ri-done-all"/></svg>
             </span>
@@ -1922,49 +1975,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
       });
     });
 
-    // Telegram-Style Floating Formatting: Anchored Cleanly Above Text Input Pill
-    textInput.addEventListener("select", handleTextSelection);
-    textInput.addEventListener("keyup", handleTextSelection);
-    textInput.addEventListener("mouseup", handleTextSelection);
-
-    function handleTextSelection() {
-      const on = document.activeElement === textInput;
-      if ((floatingFormatBar.style.display === "flex") !== on) {
-        floatingFormatBar.style.display = on ? "flex" : "none";
-        syncViewport();
-      }
-    }
-
-    document.addEventListener("selectionchange", () => {
-      if (document.activeElement !== textInput) floatingFormatBar.style.display = "none";
-      else handleTextSelection();
-    });
-
-    function applyFormat(type) {
-      const s = textInput.selectionStart, e = textInput.selectionEnd, v = textInput.value, sel = v.slice(s, e);
-      const done = (rep, a, b) => {
-        textInput.value = v.slice(0, s) + rep + v.slice(e);
-        textInput.focus();
-        textInput.setSelectionRange(a, b);
-        textInput.dispatchEvent(new Event("input"));
-        triggerVibration(20);
-      };
-      const wrap = { bold: ["*", "*"], italic: ["_", "_"], underline: ["__", "__"], strike: ["~", "~"], code: ["`", "`"] }[type];
-      if (wrap) {
-        const [o, c] = wrap;
-        if (sel) done(o + sel + c, s, s + o.length + sel.length + c.length);
-        else done(o + c, s + o.length, s + o.length);
-      } else if (type === "quote") {
-        done("> " + sel, s + 2 + sel.length, s + 2 + sel.length);
-      } else if (type === "link") {
-        showDialog({ title: "Add link", input: "https://", okLabel: "Add", onOk: (url) => {
-          if (!url || url === "https://") return;
-          const rep = "[" + (sel || url) + "](" + url + ")";
-          done(rep, s + rep.length, s + rep.length);
-        }});
-      }
-    }
-
     // Multi-Selection Logic
     function startLongPress(e, id) {
       lastTouchAt = Date.now();
@@ -2028,14 +2038,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
         triggerVibration([30, 40, 30]);
         clearAllSelection();
       }});
-    });
-
-    document.getElementById("btn-star-selected").addEventListener("click", () => {
-      const sel = messages.filter((m) => selectedMsgIds.has(m.id));
-      const all = sel.every((m) => m.isStarred);
-      sel.forEach((m) => clipRef.child(m.id).update({ isStarred: !all }));
-      showToast(all ? "Removed from starred" : "Starred");
-      clearAllSelection();
     });
 
     document.getElementById("btn-copy-selected").addEventListener("click", () => {
@@ -2287,10 +2289,6 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
     document.getElementById("menu-pinned-opt").addEventListener("click", () => {
       dropdownMenu.style.display = "none";
       openMessageList("Pinned messages", (m) => m.isPinned);
-    });
-    document.getElementById("menu-starred-opt").addEventListener("click", () => {
-      dropdownMenu.style.display = "none";
-      openMessageList("Starred messages", (m) => m.isStarred);
     });
 
     document.getElementById("menu-export-opt").addEventListener("click", () => {
@@ -2662,7 +2660,7 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
     }, 60));
     // Stop iOS rubber-banding the page when dragging header/footer
     document.addEventListener("touchmove", (e) => {
-      if (!e.target.closest("#messages-container, #group-modal, #media-drawer, .drawer-grid, #lightbox, textarea, input")) e.preventDefault();
+      if (!e.target.closest("#messages-container, #group-modal, #media-drawer, .drawer-grid, #lightbox, #auth-screen, #list-sheet, #list-body, #file-sheet, #fs-preview, textarea, input, select")) e.preventDefault();
     }, { passive: false });
     syncViewport();
 
@@ -2674,8 +2672,7 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
     scrollFab.addEventListener("click", () => msgContainer.scrollTo({ top: msgContainer.scrollHeight, behavior: "smooth" }));
 
     // Keep keyboard open when tapping send / format buttons
-    [btnSend, floatingFormatBar].forEach((el) => el.addEventListener("mousedown", (e) => e.preventDefault()));
-    textInput.addEventListener("touchend", handleTextSelection);
+    [btnSend].forEach((el) => el.addEventListener("mousedown", (e) => e.preventDefault()));
 
     // ===== Added v2: sounds, unread, files, lists, dialogs, group info =====
     let knownIds = null, unread = 0;
@@ -2853,11 +2850,10 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
       const links = messages.reduce((n, m) => n + ((m.text || "").match(/https?:\/\/[^\s]+/g) || []).length, 0);
       const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
       set("stat-msgs", messages.length); set("stat-photos", c("photo")); set("stat-videos", c("video")); set("stat-docs", c("file")); set("stat-links", links);
-      set("starred-count", messages.filter((m) => m.isStarred).length); set("pinned-count", messages.filter((m) => m.isPinned).length);
+      set("pinned-count", messages.filter((m) => m.isPinned).length);
       const bytes = messages.reduce((n, m) => n + dataBytes(m.fileData) + (m.text || "").length, 0);
       set("stat-storage", "Using " + fmtBytes(bytes) + " of shared storage");
     }
-    document.getElementById("open-starred").addEventListener("click", () => openMessageList("Starred messages", (m) => m.isStarred));
     document.getElementById("open-pinned").addEventListener("click", () => openMessageList("Pinned messages", (m) => m.isPinned));
     document.getElementById("qa-search").addEventListener("click", () => { groupModal.style.display = "none"; document.getElementById("menu-search-opt").click(); });
     document.getElementById("qa-media").addEventListener("click", () => openMediaDrawerTab("photos"));
@@ -2868,15 +2864,136 @@ mark{background:#ffe08a;color:inherit;border-radius:2px}
       });
     });
 
-    // Formatting strip: show while typing; desktop shortcuts
-    textInput.addEventListener("focus", handleTextSelection);
-    textInput.addEventListener("blur", () => setTimeout(handleTextSelection, 150));
-    textInput.addEventListener("keydown", (e) => {
-      if (!(e.ctrlKey || e.metaKey)) return;
-      const k = e.key.toLowerCase(), map = { b: "bold", i: "italic", u: "underline", k: "link" };
-      if (map[k]) { e.preventDefault(); applyFormat(map[k]); }
-      else if (k === "x" && e.shiftKey) { e.preventDefault(); applyFormat("strike"); }
+    
+    // ===== Phone login + per-number chat =====
+    const auth = firebase.auth();
+    const $ = (id) => document.getElementById(id);
+    const authScreen = $("auth-screen");
+    const DEFAULT_DESC = "Share text snippets, code, images, and links instantly across devices.";
+    let confirmation = null, recaptcha = null, resendTimer = null, signingIn = false;
+
+    function setAuthStep(s) {
+      authScreen.dataset.step = s;
+      document.querySelectorAll(".auth-panel").forEach((p) => p.classList.toggle("active", p.dataset.panel === s));
+      $("phone-error").textContent = ""; $("otp-error").textContent = "";
+      if (s === "phone") setTimeout(() => $("phone-input").focus(), 250);
+      if (s === "otp") setTimeout(() => otpBoxes[0].focus(), 250);
+    }
+    const AUTH_ERR = {
+      "auth/invalid-phone-number": "That phone number doesn't look right.",
+      "auth/missing-phone-number": "Enter your phone number.",
+      "auth/too-many-requests": "Too many attempts. Please try again later.",
+      "auth/quota-exceeded": "SMS limit reached. Please try again later.",
+      "auth/invalid-verification-code": "Wrong code. Check it and try again.",
+      "auth/code-expired": "That code expired. Request a new one.",
+      "auth/captcha-check-failed": "Verification failed. Reload the page and try again.",
+      "auth/operation-not-allowed": "Phone sign-in isn't enabled in Firebase yet.",
+      "auth/unauthorized-domain": "This website isn't authorised in Firebase (Authentication → Settings → Authorized domains).",
+      "auth/network-request-failed": "No connection. Check your internet."
+    };
+    const authMsg = (e) => AUTH_ERR[e && e.code] || "Something went wrong. Please try again.";
+
+    const ccSelect = $("cc-select"), phoneInput = $("phone-input");
+    const getDigits = () => phoneInput.value.replace(/\D/g, "").replace(/^0+/, "");
+    const e164 = () => ccSelect.value + getDigits();
+    const phoneValid = () => getDigits().length >= 6 && getDigits().length <= 14;
+    phoneInput.addEventListener("input", () => { $("btn-send-code").disabled = !phoneValid(); $("phone-error").textContent = ""; });
+    phoneInput.addEventListener("keydown", (e) => { if (e.key === "Enter" && phoneValid()) sendCode(); });
+    $("btn-get-started").addEventListener("click", () => setAuthStep("phone"));
+    $("auth-back-1").addEventListener("click", () => setAuthStep("welcome"));
+    $("auth-back-2").addEventListener("click", () => setAuthStep("phone"));
+    $("wrong-number").addEventListener("click", (e) => { e.preventDefault(); setAuthStep("phone"); });
+    $("btn-send-code").addEventListener("click", () => sendCode());
+    $("btn-resend").addEventListener("click", () => sendCode());
+
+    function freshRecaptcha() {
+      try { if (recaptcha) recaptcha.clear(); } catch (e) {}
+      const old = $("recaptcha-container"), n = document.createElement("div");
+      n.id = "recaptcha-container"; old.replaceWith(n);
+      recaptcha = new firebase.auth.RecaptchaVerifier("recaptcha-container", { size: "invisible" });
+    }
+    function startResend() {
+      let s = 30; const b = $("btn-resend");
+      clearInterval(resendTimer); b.disabled = true; b.textContent = "Resend code in " + s + "s";
+      resendTimer = setInterval(() => {
+        s--;
+        if (s <= 0) { clearInterval(resendTimer); b.disabled = false; b.textContent = "Resend code"; }
+        else b.textContent = "Resend code in " + s + "s";
+      }, 1000);
+    }
+    async function sendCode() {
+      if (!phoneValid() || signingIn) return;
+      const onOtp = authScreen.dataset.step === "otp";
+      const btn = $("btn-send-code"); signingIn = true; btn.disabled = true; btn.textContent = "Sending…";
+      try {
+        freshRecaptcha();
+        confirmation = await auth.signInWithPhoneNumber(e164(), recaptcha);
+        $("otp-num").textContent = ccSelect.value + " " + getDigits();
+        otpBoxes.forEach((b) => (b.value = ""));
+        $("btn-verify").disabled = true;
+        if (!onOtp) setAuthStep("otp"); else otpBoxes[0].focus();
+        startResend();
+      } catch (e) {
+        (onOtp ? $("otp-error") : $("phone-error")).textContent = authMsg(e);
+      } finally { signingIn = false; btn.textContent = "Send code"; btn.disabled = !phoneValid(); }
+    }
+
+    const otpBoxes = Array.from(document.querySelectorAll(".otp-box"));
+    const otpCode = () => otpBoxes.map((b) => b.value).join("");
+    otpBoxes.forEach((b, i) => {
+      b.addEventListener("input", () => {
+        const d = b.value.replace(/\D/g, "");
+        if (d.length > 1) { d.slice(0, 6 - i).split("").forEach((c, k) => (otpBoxes[i + k].value = c)); otpBoxes[Math.min(i + d.length, 5)].focus(); }
+        else { b.value = d; if (d && i < 5) otpBoxes[i + 1].focus(); }
+        $("btn-verify").disabled = otpCode().length < 6; $("otp-error").textContent = "";
+        if (otpCode().length === 6) verifyCode();
+      });
+      b.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && !b.value && i > 0) { otpBoxes[i - 1].value = ""; otpBoxes[i - 1].focus(); }
+        if (e.key === "Enter" && otpCode().length === 6) verifyCode();
+      });
+      b.addEventListener("focus", () => b.select());
     });
+    $("btn-verify").addEventListener("click", () => verifyCode());
+    async function verifyCode() {
+      const code = otpCode();
+      if (code.length < 6 || !confirmation || signingIn) return;
+      const btn = $("btn-verify"); signingIn = true; btn.disabled = true; btn.textContent = "Verifying…";
+      try { await confirmation.confirm(code); }
+      catch (e) { $("otp-error").textContent = authMsg(e); otpBoxes.forEach((x) => (x.value = "")); otpBoxes[0].focus(); }
+      finally { signingIn = false; btn.textContent = "Verify"; btn.disabled = otpCode().length < 6; }
+    }
+
+    function startChat(user) {
+      clipRef = db.ref("users/" + user.uid + "/messages");
+      metaRef = db.ref("users/" + user.uid + "/meta");
+      const denied = () => { showToast("Couldn't load your chat. Check database rules."); hideSkeleton(); };
+      metaRef.on("value", onMetaValue, denied);
+      clipRef.on("value", onClipsValue, denied);
+    }
+    function stopChat() {
+      if (clipRef) clipRef.off(); if (metaRef) metaRef.off();
+      clipRef = metaRef = null; messages = []; knownIds = null; unread = 0; selectedMsgIds.clear();
+      updateSelectionBar(); renderMessages(""); updatePinnedBanner(); updateMediaPreviewStrip(); updateGroupStats();
+      $("group-desc-label").innerText = DEFAULT_DESC; $("group-name-label").innerText = "Slipboard"; $("chat-header-title").innerText = "Slipboard";
+      [groupModal, mediaDrawer, listSheet, lightbox].forEach((el) => (el.style.display = "none"));
+    }
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        authScreen.classList.remove("show");
+        $("account-phone").textContent = user.phoneNumber || "";
+        showSkeleton(); startChat(user);
+      } else {
+        stopChat(); clearInterval(resendTimer);
+        phoneInput.value = ""; $("btn-send-code").disabled = true; setAuthStep("welcome");
+        authScreen.classList.add("show"); hideSkeleton();
+      }
+    });
+    $("btn-logout").addEventListener("click", () => showDialog({
+      title: "Log out?", body: "Your messages stay saved to your number. Log in again on any device to see them.",
+      okLabel: "Log out", danger: true, onOk: () => auth.signOut()
+    }));
+
   </script>
 </body>
 </html>
